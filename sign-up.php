@@ -1,7 +1,6 @@
 <?php
-  //Connect to Database
   session_start();
-  $erremail = $errpass = $errmobileNo = "";
+  //$erremail = $errpass = $errmobileNo = "";
   $servername = "localhost";
   $username = "root";
   $password = "";
@@ -21,7 +20,13 @@
     $cpass = $_POST['cpassword'];
     $fname = $_POST['firstName'];
     $lname = $_POST['lastName'];
-    //$isDriver = $_POST['isDriver'];
+
+    if ($_POST['isDriver'] == "admin") {
+      $isDriver = 0;
+    }
+    else {
+      $isDriver = 1;
+    }
 
     /*$test = $mobileNo;
 
@@ -71,8 +76,7 @@
     }*/
 
     if ($passed){
-      //$sql2 = "INSERT INTO User (userID, emailAddress, contactNumber, username, password, firstName, lastName, /*isDriver*/) VALUES('0000', '$email', '$mobileNo', '$username', '$pass', '$fname', '$lname', /*'$isDriver'*/)";
-	  $sql2 = "INSERT INTO User (userID, emailAddress, contactNumber, username, password, firstName, lastName, isDriver) VALUES('0000', '$email', '$mobileNo', '$username', '$pass', '$fname', '$lname', '1')";
+      $sql2 = "INSERT INTO User (userID, emailAddress, contactNumber, username, password, firstName, lastName, isDriver) VALUES('0000', '$email', '$mobileNo', '$username', '$pass', '$fname', '$lname', '$isDriver')";
       if (mysqli_query($con, $sql2)){
         header("location: sign-in.html");
       } else {

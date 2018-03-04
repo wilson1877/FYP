@@ -1,5 +1,4 @@
 <?php
-  //Connect to Database
   session_start();
 
   $errorMsg = "";
@@ -33,7 +32,7 @@
       else {
         header("location:index.html");
       }
-      
+
     }
     else{
       echo "Invalid username or password.";
