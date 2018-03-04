@@ -71,7 +71,8 @@
     }*/
 
     if ($passed){
-      $sql2 = "INSERT INTO User (userID, emailAddress, contactNumber, username, password, firstName, lastName, /*isDriver*/) VALUES('0000', '$email', '$mobileNo', '$username', '$pass', '$fname', '$lname', /*'$isDriver'*/)";
+      //$sql2 = "INSERT INTO User (userID, emailAddress, contactNumber, username, password, firstName, lastName, /*isDriver*/) VALUES('0000', '$email', '$mobileNo', '$username', '$pass', '$fname', '$lname', /*'$isDriver'*/)";
+	  $sql2 = "INSERT INTO User (userID, emailAddress, contactNumber, username, password, firstName, lastName, isDriver) VALUES('0000', '$email', '$mobileNo', '$username', '$pass', '$fname', '$lname', '1')";
       if (mysqli_query($con, $sql2)){
         header("location: sign-in.html");
       } else {
