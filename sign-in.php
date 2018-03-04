@@ -33,7 +33,7 @@
       else {
         header("location:index.html");
       }
-
+      
     }
     else{
       echo "Invalid username or password.";

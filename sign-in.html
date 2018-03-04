@@ -50,7 +50,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div id="page-wrapper" class="sign-in-wrapper">
 				<div class="graphs">
 					<div class="sign-in-form">
-						<form action="sign-in.php" method="post">
 						<div class="sign-in-form-top">
 							<p><span>Sign In to IBuzz</span></p>
 						</div>
@@ -64,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="clearfix"> </div>
 							</div>
 						-->
-							<form>
+							<form action="sign-in.php" method="post">
 							<div class="log-input">
 								<div class="log-input-left">
 								   <input type="text" class="user" name="emailAddress" required value="Your email address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email address:';}"/>
@@ -87,7 +86,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							-->
 								<div class="clearfix"> </div>
 							</div>
-							<input type="submit" value="Login to your account">
+							<input type="submit" name="submit" value="Login to your account">
 						</form>
 						</div>
 						<div class="new_people">
@@ -99,7 +98,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<br>
 							<a href="sign-up.html">Register Now!</a>
 						</div>
-					</form>
 					</div>
 				</div>
 			</div>
