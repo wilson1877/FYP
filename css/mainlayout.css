@@ -1,0 +1,246 @@
+@font-face {
+    font-family: Futura2D;
+    src: url('font/FuturaNo2D.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: Overwatch;
+    src: url('font/bignoodletoo.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+body {
+    background-color: #f8f8f8;
+}
+div.topmenu {
+    background-image: url("img/background.png");
+    background-size: cover;
+}
+.resizeLogo {
+    height: auto;
+    width: auto;
+    max-width: 100px;
+    max-height: 400px;
+}
+p {
+    font-family: Tahoma;
+}
+
+.resize {
+    height: auto;
+    width: auto;
+    max-width: 100%;
+}
+.navbar-default {
+    background-color: #2a3753;
+    border-color: #2a3753;
+    font-family: Futura2D, century gothic, arial, sans-serif;
+    font-size: 1.6rem;
+}
+.navbar-nav>li.navLi {
+    float: left;
+    border-right: 1px solid rgba(154, 154, 154, 0.36);
+}
+h1 {
+    font-family: Overwatch;
+	color: #333333;
+}
+
+h2 {
+    font-family: Arial;
+	color: #333333;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #b8c8d4;
+    background-color: transparent;
+    background: -webkit-linear-gradient(top, #294569, #2a668d);
+    /* For Safari 5.1 to 6.0 */
+    
+    background: -o-linear-gradient(top, #294569, #2a668d);
+    /* For Opera 11.1 to 12.0 */
+    
+    background: -moz-linear-gradient(top, #294569, #2a668d);
+    /* For Firefox 3.6 to 15 */
+    
+    background: linear-gradient(top, #294569, #2a668d);
+    /* Standard syntax (must be last) */
+	color: #ffffff;
+    background-color: transparent;
+}
+/* Gradient color1 - color2 - color1 */
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #009ccc;
+    background-image: linear-gradient(to right, #009ccc, #ccc);
+}
+/*Focused Nav Bar Left*/
+
+.custom-nav-pills>li.customLi.active>a {
+    color: #fff;
+    background-color: #ff9c00;
+    transition: background-color .2s, color .2s;
+}
+
+/*Navigation Bar Custom Focused*/
+
+.custom-nav-pills>li.customLi.active>a:hover,
+.custom-nav-pills>li.customLi.active>a:focus {
+    color: #fff;
+    background-color: #ffb033;
+    box-shadow: 1px 1px 10px 1px #efa024 inset;
+}
+
+/*Second Active tab left */
+li.customLi {
+    background-color: #2a3753;
+    border-bottom: 1px solid #fff;
+	font-size:17px;
+}
+li.customLi:last-child {
+    border-bottom: none;
+}
+
+a.torbjorn{
+	color:#fff;
+}
+
+/*"I HAVE BIG PLANS FOR YOU/Let's Get Started!"*/
+.nav > li > a.torbunfoccused:hover,
+.nav > li > a.torbunfoccused:focus {
+	color: #ffffff;
+    text-decoration: none;
+	background-color: #64a3cf;
+    transition: background-color .2s, color .2s;
+	box-shadow: 1px 1px 10px 1px #5b95be inset;
+}
+
+li.customLi2{
+	color: #000;
+    background-color: #009ccc;
+    border-bottom: 1px solid #fff;
+	font-size:17px;
+}
+li.customLi2:last-child {
+    border-bottom: none;
+}
+
+
+a.navbar {
+    color: rgba(247, 251, 255, 0.99);
+    text-decoration: none;
+}
+a.unfocused {
+    color: #ffffff;
+    text-decoration: none;
+    transition: background-color .2s, color .2s;
+}
+/*Navigation Bar Top unfocused*/
+
+.navbar-default .navbar-nav > li > a {
+    color: #bfc1bf;
+    font-weight: bold;
+}
+.navbar-default .navbar-nav > li > a.topfoc2 {
+    color: #bfc1bf;
+    font-weight: bold;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #ffffff;
+    background-color: transparent;
+    font-weight: bold;
+}
+/*Navigation bar Customization, Unfocused*/
+
+.nav > li > a.navbarunfoc:hover,
+.nav > li > a.navbarunfoc:focus {
+    text-decoration: none;
+    background-color: #455475;
+    box-shadow: 1px 1px 10px 1px #304167 inset;
+}
+
+.nav > li > a.login:hover,
+.nav > li > a.login:focus {
+    text-decoration: none;
+    background-color: #f89e35;
+}
+
+a.topfoc {
+    transition: background-color .2s, color .2s;
+    color: #ffffff;
+}
+/*Top Panel Hover, Focused*/
+
+.nav > li > a.topfoc:hover,
+.nav > li > a.topfoc:focus {
+    text-decoration: none;
+    background-color: #384560;
+}
+
+a.topfoc2 {
+	color: #bfc1bf;
+    background-color: #2a3753;
+	text-transform: uppercase;
+}
+
+.navbar-default .navbar-nav > li > a.topfoc2:hover,
+.navbar-default .navbar-nav > li > a.topfoc2:focus {
+    color: #bfc1bf;
+    background-color: transparent;
+    font-weight: bold;
+}
+
+.nav2 > li > a.topfoc:hover,
+.nav2 > li > a.topfoc:focus {
+    text-decoration: none;
+    background-color: #384560;
+}
+
+.navbar-default .navbar2-nav > li > a:hover,
+.navbar-default .navbar2-nav > li > a:focus {
+    background-color: transparent;
+    font-weight: bold;
+}
+
+a.signupthing {
+    color: rgba(0, 0, 0, 0.99);
+    text-decoration: none;
+}
+.carousel-indicators {
+    bottom: -5px;
+}
+.carousel-control.left,
+.carousel-control.right {
+    background-image: none !important;
+    filter: none !important;
+}
+img {
+    vertical-align: text-top;
+}
+p.updates {
+    text-align: center;
+    font-family: "Tahoma";
+}
+p.updates2 {
+    font-family: "Tahoma";
+}
+a.updatesheader {
+    color: 0d0072;
+}
+p.pad{
+	padding:1px
+}
+p.pad2{
+	padding:3px
+}
+.textleft {
+	float: left;
+}
+.textright {
+	float: right;
+}
