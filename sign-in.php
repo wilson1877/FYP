@@ -30,7 +30,7 @@
         header("location:driver.php");
       }
       else {
-        header("location:index.html");
+        header("location:dashboard.php");
       }
 
     }
