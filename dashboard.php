@@ -72,49 +72,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!--sidebar nav start
 				https://linearicons.com/free#cheat-sheet-->
 					<ul class="nav nav-pills nav-stacked custom-nav">
-						<li class="active"><a href="dashboard.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
 						<li class="menu-list">
 							<a href="#"><i class="lnr lnr-user"></i>
 								<span>User Accounts</span></a>
 								<ul class="sub-menu-list">
-									<li><a href="grids.html">View Accounts</a> </li>
-									<li><a href="widgets.html">Add New Account</a></li>
-									<li><a href="widgets.html">Edit Account</a></li>
-									<li><a href="widgets.html">Delete Account</a></li>
+									<li><a href="#">View Accounts</a> </li>
+									<li><a href="#">Add New Account</a></li>
+									<li><a href="#">Edit Account</a></li>
+									<li><a href="#">Delete Account</a></li>
 								</ul>
 						</li>
 						<li class="menu-list">
 							<a href="#"><i class="fa fa-users"></i>
 								<span>Customer Data</span></a>
 								<ul class="sub-menu-list">
-									<li><a href="grids.html">View Data</a> </li>
-									<li><a href="widgets.html">Add New Customer</a></li>
-									<li><a href="widgets.html">Edit Customer</a></li>
-									<li><a href="widgets.html">Delete Customer</a></li>
+									<li><a href="#">View Data</a> </li>
+									<li><a href="#">Add New Customer</a></li>
+									<li><a href="#">Edit Customer</a></li>
+									<li><a href="#">Delete Customer</a></li>
 								</ul>
 						</li>
 						<li class="menu-list">
 							<a href="#"><i class="lnr lnr-book"></i>
 								<span>Invoices</span></a>
 								<ul class="sub-menu-list">
-									<li><a href="grids.html">View Invoices</a> </li>
-									<li><a href="widgets.html">Add New Invoice</a></li>
-									<li><a href="widgets.html">Edit Invoice</a></li>
-									<li><a href="widgets.html">Delete Invoice</a></li>
+									<li><a href="#">View Invoices</a> </li>
+									<li><a href="#">Add New Invoice</a></li>
+									<li><a href="#">Edit Invoice</a></li>
+									<li><a href="#">Delete Invoice</a></li>
 								</ul>
 						</li>
-						<li><a href="tables.html"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
-						<li><a href="tables.html"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
+						<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
+						<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
 						<li class="menu-list"><a href="#"><i class="fa fa-inbox"></i>  <span>Inventory</span></a>
 							<ul class="sub-menu-list">
-								<li><a href="sign-in.html">View Inventory</a> </li>
-								<li><a href="sign-up.html">Add New Item</a></li>
-								<li><a href="blank_page.html">Edit Item</a></li>
-								<li><a href="blank_page.html">Remove Item</a></li>
+								<li><a href="#">View Inventory</a> </li>
+								<li><a href="#">Add New Item</a></li>
+								<li><a href="#">Edit Item</a></li>
+								<li><a href="#">Remove Item</a></li>
 							</ul>
 						</li>
-						<li><a href="codes.html"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
-						<li><a href="tables.html"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>
+						<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
+						<li><a href="#"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>
 					</ul>
 				<!--sidebar nav end-->
 			</div>
