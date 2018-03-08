@@ -8,6 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html>
 <head>
 <title>iBuzz: Book-Keeping System</title>
+<link rel="icon" href="images/Icon.ico" type="image/x-icon">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!--<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -60,10 +61,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 			<!--logo and iconic logo start-->
 			<div class="logo">
-				<h1><a href="dashboard.html">i <span>Buzz</span></a></h1>
+				<h1><a href="dashboard.php">i <span>Buzz</span></a></h1>
 			</div>
 			<div class="logo-icon text-center">
-				<a href="dashboard.html"><i class="lnr lnr-home"></i> </a>
+				<a href="dashboard.php"><i class="lnr lnr-home"></i> </a>
 			</div>
 
 			<!--logo and iconic logo end-->
