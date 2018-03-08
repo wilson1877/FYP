@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2018 at 05:10 PM
+-- Generation Time: Mar 08, 2018 at 03:22 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -103,6 +103,7 @@ CREATE TABLE `Purchase` (
 
 CREATE TABLE `Stock` (
   `stockID` int(100) NOT NULL,
+  `stockImage` varchar(100) NOT NULL,
   `stockName` varchar(50) NOT NULL,
   `price` decimal(50,2) NOT NULL,
   `totalStock` int(100) NOT NULL
@@ -122,6 +123,7 @@ CREATE TABLE `User` (
   `password` varchar(20) NOT NULL,
   `firstName` varchar(20) NOT NULL,
   `lastName` varchar(20) NOT NULL,
+  `userImage` varchar(100) NOT NULL,
   `isDriver` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -129,17 +131,17 @@ CREATE TABLE `User` (
 -- Dumping data for table `User`
 --
 
-INSERT INTO `User` (`userID`, `emailAddress`, `contactNumber`, `username`, `password`, `firstName`, `lastName`, `isDriver`) VALUES
-(1, 'ckm@ckm.com', 125201314, 'ckm5801', 'ckm5801', 'Wilson', 'Ckm', 0),
-(2, 'hs@hs.com', 123456789, 'chs', 'chs', 'Hiap', 'Seng', 0),
-(3, 'test@test.com', 69, 'driver', 'driver', 'driver', 'test', 0),
-(4, 'driver@driver.com', 10, 'driver2', 'driver2', 'driver2', 'test', 0),
-(5, 'admin@admin.com', 648, 'admin', 'admin', 'admin', 'test', 1),
-(6, '3@3.com', 4654, 'driver3', 'driver3', 'driver3', 'test', 1),
-(7, 'dri@dri.com', 6854, '3', '3', 'driver3', 'test', 1),
-(8, '2@2.com', 6451, '2', '2', 'admin2', 'admin', 1),
-(9, 'admin3@3.com', 6415, 'admin3', 'admin3', 'admin3', 'test', 0),
-(10, '4@4.com', 6548, '4', '4', 'driver4', 'test', 1);
+INSERT INTO `User` (`userID`, `emailAddress`, `contactNumber`, `username`, `password`, `firstName`, `lastName`, `userImage`, `isDriver`) VALUES
+(1, 'ckm@ckm.com', 125201314, 'ckm5801', 'ckm5801', 'Wilson', 'Ckm', '', 0),
+(2, 'hs@hs.com', 123456789, 'chs', 'chs', 'Hiap', 'Seng', '', 0),
+(3, 'test@test.com', 69, 'driver', 'driver', 'driver', 'test', '', 0),
+(4, 'driver@driver.com', 10, 'driver2', 'driver2', 'driver2', 'test', '', 0),
+(5, 'admin@admin.com', 648, 'admin', 'admin', 'admin', 'test', '', 1),
+(6, '3@3.com', 4654, 'driver3', 'driver3', 'driver3', 'test', '', 1),
+(7, 'dri@dri.com', 6854, '3', '3', 'driver3', 'test', '', 1),
+(8, '2@2.com', 6451, '2', '2', 'admin2', 'admin', '', 1),
+(9, 'admin3@3.com', 6415, 'admin3', 'admin3', 'admin3', 'test', '', 0),
+(10, '4@4.com', 6548, '4', '4', 'driver4', 'test', '', 1);
 
 --
 -- Indexes for dumped tables
