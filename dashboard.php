@@ -301,6 +301,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												data : [20,35,45,30,10,65,40]
 											}
 										]
+
 									};
 									new Chart(document.getElementById("line").getContext("2d")).Line(lineChartData);
 							</script>
@@ -335,6 +336,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											data : [30,45,55,70,40,25,15,8,5,2]
 										}
 									]
+
 								};
 									new Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);
 							</script>
@@ -359,6 +361,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<!--//graph-->
 							<script>
 								$(document).ready(function () {
+
 									// Graph Data ##############################################
 									var graphData = [{
 											// Returning Visits
@@ -367,6 +370,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											points: { radius: 7, fillColor: '#fff' }
 										}
 									];
+
 									// Lines Graph #############################################
 									$.plot($('#graph-lines'), graphData, {
 										series: {
@@ -393,8 +397,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											tickSize: 1200
 										}
 									});
+
 									// Graph Toggle ############################################
 									$('#graph-bars').hide();
+
 									$('#lines').on('click', function (e) {
 										$('#bars').removeClass('active');
 										$('#graph-bars').fadeOut();
@@ -402,6 +408,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										$('#graph-lines').fadeIn();
 										e.preventDefault();
 									});
+
 									$('#bars').on('click', function (e) {
 										$('#lines').removeClass('active');
 										$('#graph-lines').fadeOut();
@@ -409,6 +416,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										$('#graph-bars').fadeIn().removeClass('hidden');
 										e.preventDefault();
 									});
+
 								});
 							</script>
 							<div id="graph-wrapper">
