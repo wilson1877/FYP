@@ -147,12 +147,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="profile_img">
 										<span style="background:url(images/1.jpg) no-repeat center"> </span>
 										 <div class="user-name">
-											<p><p><?php echo $firstname ;?><span>
+											<p><p><?php echo $username ;?><span>
 											<?php
-											if ($isDriver == 0){
+											if ($userid == 5){
 												echo 'Admin';
-											}else{
-												echo 'Driver';
+											}
+											else {
+												if ($isDriver == 0){
+													echo 'Staff';
+												}
+												else {
+													echo 'Driver';
+												}
 											}
 											?></span></p>
 										 </div>
