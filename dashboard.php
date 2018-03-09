@@ -5,6 +5,16 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE HTML>
+<?php
+session_start();
+if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
+	$userid=$_SESSION['userID'];
+	$username=$_SESSION['username'];
+	$firstName=$_SESSION['firstName'];
+	$isDriver = $_SESSION['isDriver'];
+	$firstname = $_SESSION['firstName'];
+}
+?>
 <html>
 <head>
 <title>iBuzz: Book-Keeping System</title>
@@ -137,7 +147,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="profile_img">
 										<span style="background:url(images/1.jpg) no-repeat center"> </span>
 										 <div class="user-name">
-											<p>[Username]<span>[Admin/Driver]</span></p>
+											<p><?php echo $firstname ;?><span>
+											<?php
+											if ($isDriver == 0){
+												echo 'Admin';
+											}else{
+												echo 'Driver';
+											}
+											?></span></p>
 										 </div>
 										 <i class="lnr lnr-chevron-down"></i>
 										 <i class="lnr lnr-chevron-up"></i>
