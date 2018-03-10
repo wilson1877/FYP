@@ -218,7 +218,7 @@ h1, h2, h3, h4, h5 {
     cursor:pointer;
 }
 .btn-info {
-    padding: 8px 12px;
+    padding: 6px 12px;
 }
 /** error Message **/
 .hint-message {
@@ -2784,7 +2784,7 @@ canvas#doughnut, canvas#line, canvas#polarArea, #bar, #pie, #radar{
   color: #fff;
   background-color:rgb(6, 217, 149);
   border-color:rgb(6, 217, 149);
-  padding:8.5px 12px;
+  padding:6px 12px;
 }
 .tag_01{
   margin-right:5px;
