@@ -24,7 +24,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />-->
 
 	<script type="application/x-javascript">
-	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
+	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
 	</script><!-- Bootstrap Core CSS -->
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
@@ -81,7 +81,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!--sidebar nav start
                 https://linearicons.com/free#cheat-sheet-->
 				<ul class="nav nav-pills nav-stacked custom-nav">
-					<li class="menu-list">
+					<li>
 						<a href="#"><i class="lnr lnr-user"></i> <span>User Accounts</span></a>
 						<ul class="sub-menu-list">
 							<li><a href="#">View Accounts</a></li>
@@ -90,8 +90,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<li><a href="#">Delete Account</a></li>
 						</ul>
 					</li>
-					<li class="menu-list">
-						<a href="#"><i class="fa fa-users"></i> <span>Customer Data</span></a>
+					<li>
+						<a href="customerData.php"><i class="fa fa-users"></i> <span>Customer Data</span></a>
 						<ul class="sub-menu-list">
 							<li><a href="#">View Data</a></li>
 							<li><a href="#">Add New Customer</a></li>
@@ -99,10 +99,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<li><a href="#">Delete Customer</a></li>
 						</ul>
 					</li>
-					<li class="menu-list">
-						<a href="#"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
+					<li>
+						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 						<ul class="sub-menu-list">
-							<li><a href="invoice.php">View Invoices</a></li>
+							<li><a href="#">View Invoices</a></li>
 							<li><a href="#">Add New Invoice</a></li>
 							<li><a href="#">Edit Invoice</a></li>
 							<li><a href="#">Delete Invoice</a></li>
@@ -110,7 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</li>
 					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
-					<li class="menu-list">
+					<li>
 						<a href="#"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
 						<ul class="sub-menu-list">
 							<li><a href="#">View Inventory</a></li>
@@ -131,47 +131,49 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!--toggle button start-->
 				<a class="toggle-btn menu-collapsed"><i class="fa fa-bars"></i></a> <!--toggle button end-->
 				 <!--notification menu start -->
-				<div class="menu-right">
-					<div class="user-panel-top">
-						<div class="profile_details">
-							<ul>
-								<li class="dropdown profile_details_drop">
-									<a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#"></a>
-									<div class="profile_img">
-										<span style="background:url(images/1.jpg) no-repeat center"></span>
-										<div class="user-name">
-											<p></p>
-											<p><?php echo $username ;?> <span><?php
-											                                            if ($userid == 5){
-											                                                echo 'Admin';
-											                                            }
-											                                            else {
-											                                                if ($isDriver == 0){
-											                                                    echo 'Staff';
-											                                                }
-											                                                else {
-											                                                    echo 'Driver';
-											                                                }
-											                                            }
-											                                            ?></span></p>
-										</div><i class="lnr lnr-chevron-down"></i> <i class="lnr lnr-chevron-up"></i>
-										<div class="clearfix"></div>
-									</div>
-									<ul class="dropdown-menu drp-mnu">
-										<li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-										<li><a href="#"><i class="fa fa-user"></i>Profile</a></li>
-										<li><a href="sign-out.php"><i class="fa fa-sign-out"></i> Logout</a></li>
-									</ul>
-								</li>
-								<li style="list-style: none; display: inline">
-									<div class="clearfix"></div>
-								</li>
-							</ul>
-						</div>
-						<div class="social_icons"></div>
-						<div class="clearfix"></div>
-					</div>
-				</div><!--notification menu end -->
+         <div class="menu-right">
+   				<div class="user-panel-top">
+   					<div class="profile_details">
+   						<ul>
+   							<li class="dropdown profile_details_drop">
+   								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+   									<div class="profile_img">
+   										<span style="background:url(images/1.jpg) no-repeat center"> </span>
+   										 <div class="user-name">
+   											<p><p><?php echo $username ;?><span>
+   											<?php
+   											if ($userid == 1){
+   												echo 'Admin';
+   											}
+   											else {
+   												if ($isDriver == 0){
+   													echo 'Staff';
+   												}
+   												else {
+   													echo 'Driver';
+   												}
+   											}
+   											?></span></p>
+   										 </div>
+   										 <i class="lnr lnr-chevron-down"></i>
+   										 <i class="lnr lnr-chevron-up"></i>
+   										<div class="clearfix"></div>
+   									</div>
+   								</a>
+   								<ul class="dropdown-menu drp-mnu">
+   									<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>
+   									<li> <a href="#"><i class="fa fa-user"></i>Profile</a> </li>
+   									<li> <a href="sign-out.php"><i class="fa fa-sign-out"></i> Logout</a> </li>
+   								</ul>
+   							</li>
+   							<div class="clearfix"> </div>
+   						</ul>
+   					</div>
+   					<div class="social_icons">
+   					</div>
+   					<div class="clearfix"></div>
+   				</div>
+   			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
 				<h3 class="blank1">Invoices</h3>
@@ -352,7 +354,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										</div>
 										<div class="panel-body">
 											<div class="row form-group">
-											
+
 											</div>
 											<button class="btn btn-success" contenteditable="false" name="submitRemove" style="margin-left: 43%;" type="submit">Submit</button>
 										</div>
@@ -379,10 +381,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!-- main content end-->
 	</section>
 	<script src="js/jquery.nicescroll.js">
-	</script> 
+	</script>
 	<script src="js/scripts.js">
 	</script> <!-- Bootstrap Core JavaScript -->
-	 
+
 	<script src="js/bootstrap.min.js">
 	</script>
 </body>
