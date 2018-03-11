@@ -17,7 +17,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iBuzz - Main Page</title>
+	<title>iBuzz - Invoices</title>
 	<link href="images/Icon.ico" rel="icon" type="image/x-icon">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><!--<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
