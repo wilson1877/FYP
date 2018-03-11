@@ -21,7 +21,7 @@
     $fname = $_POST['firstName'];
     $lname = $_POST['lastName'];
 
-    if ($_POST['isDriver'] == "admin") {
+    if ($_POST['isDriver'] == "employee") {
       $isDriver = 0;
     }
     else {

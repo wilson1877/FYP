@@ -149,7 +149,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										 <div class="user-name">
 											<p><p><?php echo $username ;?><span>
 											<?php
-											if ($userid == 5){
+											if ($userid == 1){
 												echo 'Admin';
 											}
 											else {

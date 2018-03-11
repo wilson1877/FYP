@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2018 at 07:41 AM
+-- Generation Time: Mar 11, 2018 at 08:02 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -128,6 +128,17 @@ CREATE TABLE `User` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `User`
+--
+
+INSERT INTO `User` (`userID`, `emailAddress`, `contactNumber`, `username`, `password`, `firstName`, `lastName`, `userImage`, `isDriver`) VALUES
+(1, 'admin@admin.com', 0, 'admin', 'admin123', 'Main', 'Admin', '', 0);
+
+--
+-- Indexes for dumped tables
+--
+
+--
 -- Indexes for table `Customer`
 --
 ALTER TABLE `Customer`
@@ -209,7 +220,7 @@ ALTER TABLE `Stock`
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `userID` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `userID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
