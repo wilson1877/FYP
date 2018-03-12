@@ -25,15 +25,32 @@ if (isset($_POST['submitAdd'])) {
 		$purchaseOrderNo = $_POST['purchaseOrderNo'];
 		$miscNotes = $_POST['miscNotes'];
 		
-		//Checking the associated Customer with their ID via Name
+		if (isset($_POST['myCheck'])) {
+			//Checking the associated Customer with their ID via Name
+			$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
+			$runquery = mysqli_query($con, $sqlcheckidnumber);
+
+			if ($runquery -> num_rows <= 0) {
+				//It's a new customer! Adding to the DB!
+				$companyName=$_POST['companyName'];
+				$customerContactNo=$_POST['customerContactNo'];
+				$customerEmail=$_POST['customerEmail'];
+				$customerAddress=$_POST['customerAddress'];
+				
+				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";       
+				$con -> query($sqlnewcustomerinsert);	
+			}
+		}
+		
 		$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
 		$runquery = mysqli_query($con, $sqlcheckidnumber);
-		
 		if ($runquery -> num_rows > 0) {
 			//Name found!
 			$resultArray = mysqli_fetch_assoc($runquery);
 			$customerID = $resultArray["customerID"];
 			$totalPrice = 0;
+			
+			//Adding New Customer
 			
 			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";       
 			$con -> query($sqlinsert);	
@@ -66,8 +83,17 @@ if (isset($_POST['submitAdd'])) {
 			}
 			$sqlUpdate = "UPDATE invoice SET totalPrice= '$totalPrice' WHERE invoiceID = '$invoiceID'";
 			$con -> query($sqlUpdate);
+		}else{
+			
 		}
 	}
+	
+if(isset($_POST['invoiceView'])){
+	$inputtedID = $_POST['inputtedID'];
+
+	$_SESSION['INPUTTEDID'] = $inputtedID;
+	header('location:invoiceview.php');
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -81,6 +107,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<script type="application/x-javascript">
 	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
 	</script><!-- Bootstrap Core CSS -->
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+	
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
 	<link href="css/font-awesome.css" rel="stylesheet"><!-- jQuery -->
@@ -100,7 +132,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			var nextItem = 1;
 			
 			function additem(){
-                document.getElementById("items").innerHTML += "  <label>Item "+ (nextItem+1) +"\ Name:</label> <input type=\"text\" name=\"itemName[" +nextItem+ "]\" id=\"itemName[" +nextItem+ "]\" class=\"form-control1 control3\">  <label>Item "+(nextItem+1)+"\ Quantity:</label> <input type=\"text\" name=\"itemQuantity[" +nextItem+ "]\" id=\"itemQuantity[" +nextItem+ "]\" class=\"form-control1 control3\">"
+                document.getElementById("items").innerHTML += "  <label>Item "+ (nextItem+1) +"\ Name:</label> <input type=\"text\" list=\"itemList\" name=\"itemName[" +nextItem+ "]\" id=\"itemName[" +nextItem+ "]\" class=\"form-control1 control3\">  <label>Item "+(nextItem+1)+"\ Quantity:</label> <input type=\"text\" name=\"itemQuantity[" +nextItem+ "]\" id=\"itemQuantity[" +nextItem+ "]\" class=\"form-control1 control3\">"
                 nextItem += 1;
 				
                 return false;
@@ -268,7 +300,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								$password = "";
 								$dbname = "fyp";
 								$con = new mysqli($servername, $username, $password, $dbname);
-								$sql = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.customerID = b.customerID";
+								$sql = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.customerID = b.customerID ORDER BY a.invoiceID DESC";
 								$result = mysqli_query($con, $sql);
 								if ($result->num_rows > 0) {
 									while ($row = mysqli_fetch_assoc($result)){
@@ -352,11 +384,46 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													<label>Address: </label>
 													<input type="text" class="form-control1 control3">
 													-->
+													<br>
+													<label>Customer is New: <input type="checkbox" name="myCheck" id="myCheck" onclick="myFunction()"> </label>
+													<br>
+													<p class="well" id="text" style="display:none">
+														<label>Company Name:</label>
+														<input type="text" id="companyName" name="companyName" class="form-control1 control3">
+														<label>Customer Contact No:</label>
+														<input type="text" id="customerContactNo" name="customerContactNo" class="form-control1 control3">
+														<label>E-Mail Address:</label>
+														<input type="text" id="customerEmail" name="customerEmail" class="form-control1 control3">
+														<label>Company Address:</label>
+														<input type="text" id="customerAddress" name="customerAddress" class="form-control1 control3">
+													<br>
+													</p>
+													<script>
+													function myFunction() {
+														var checkBox = document.getElementById("myCheck");
+														var text = document.getElementById("text");
+														if (checkBox.checked == true){
+															text.style.display = "block";
+														} else {
+														   text.style.display = "none";
+														}
+													}
+													</script>
+													
 													<label>Purchase Order No:</label>
 													<input type="text" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
 													<div id="items">
 														<label>Item 1 Name:</label>
-														<input type="text" id="itemName[]" name="itemName[]" class="form-control1 control3">
+														<datalist id="itemList">
+															<?php 
+															$sql = "SELECT * FROM stock";
+															$result = mysqli_query($con, $sql);
+													
+															while($row = mysqli_fetch_array($result)) { ?>
+																<option value="<?php echo $row['stockName']; ?>"><?php echo $row['stockName']; ?></option>
+															<?php } ?>
+														</datalist>
+														<input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3">
 														<label>Item 1 Quantity:</label>
 														<input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">
 													</div>
@@ -466,9 +533,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										</div>
 										<div class="panel-body">
 											<div class="row form-group">
-
+												<form action="" method="post">
+													<label>Invoice ID:</label>
+													<input type="text" id="inputtedID" name="inputtedID" class="form-control1 control3">
+													
+													<button class="btn btn-success" contenteditable="false" name="invoiceView" style="margin-left: 43%;" type="submit">Submit</button>
+												</form>
 											</div>
-											<button class="btn btn-success" contenteditable="false" name="submitRemove" style="margin-left: 43%;" type="submit">Submit</button>
 										</div>
 									</div>
 								</div>
