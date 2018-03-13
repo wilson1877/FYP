@@ -24,7 +24,7 @@ if (isset($_POST['submitAdd'])) {
 		$customerName = $_POST['customerName'];
 		$purchaseOrderNo = $_POST['purchaseOrderNo'];
 		$miscNotes = $_POST['miscNotes'];
-		
+
 		if (isset($_POST['myCheck'])) {
 			//Checking the associated Customer with their ID via Name
 			$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
@@ -36,12 +36,12 @@ if (isset($_POST['submitAdd'])) {
 				$customerContactNo=$_POST['customerContactNo'];
 				$customerEmail=$_POST['customerEmail'];
 				$customerAddress=$_POST['customerAddress'];
-				
-				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";       
-				$con -> query($sqlnewcustomerinsert);	
+
+				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";
+				$con -> query($sqlnewcustomerinsert);
 			}
 		}
-		
+
 		$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
 		$runquery = mysqli_query($con, $sqlcheckidnumber);
 		if ($runquery -> num_rows > 0) {
@@ -49,45 +49,45 @@ if (isset($_POST['submitAdd'])) {
 			$resultArray = mysqli_fetch_assoc($runquery);
 			$customerID = $resultArray["customerID"];
 			$totalPrice = 0;
-			
+
 			//Adding New Customer
-			
-			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";       
-			$con -> query($sqlinsert);	
-			
+
+			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";
+			$con -> query($sqlinsert);
+
 			$invoiceID = $con->insert_id;
-			
+
 			foreach($_POST['itemName'] as $index => $itemName ) {
 				if ($itemName){
 					$sqlcheckItemName = "SELECT stockID, price FROM stock WHERE stockName = '$itemName'";
 					$runquery2 = mysqli_query($con, $sqlcheckItemName);
-					
+
 					//if ($runquery2 -> num_rows > 0){
 					if (mysqli_num_rows($runquery2) > 0){
 						$resultArray = mysqli_fetch_assoc($runquery2);
-						
+
 						$stockID = $resultArray["stockID"];
 						$price = $resultArray["price"];
-						
+
 						/*var_dump($stockID);
 						var_dump($price);*/
-							
+
 						$itemQuantity = $_POST["itemQuantity"][$index];
 
 						$totalPrice += $price * $itemQuantity;
-						
+
 						$sqlinsert2 = "INSERT INTO invoiceitemlist(invoiceID, stockID, itemQty) VALUES ('$invoiceID', '$stockID', '$itemQuantity')";
-						$con -> query($sqlinsert2);	
+						$con -> query($sqlinsert2);
 					}
 				}
 			}
 			$sqlUpdate = "UPDATE invoice SET totalPrice= '$totalPrice' WHERE invoiceID = '$invoiceID'";
 			$con -> query($sqlUpdate);
 		}else{
-			
+
 		}
 	}
-	
+
 if(isset($_POST['invoiceView'])){
 	$inputtedID = $_POST['inputtedID'];
 
@@ -112,7 +112,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-	
+
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
 	<link href="css/font-awesome.css" rel="stylesheet"><!-- jQuery -->
@@ -128,15 +128,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<script>
 	        new WOW().init();
-			
+
 			var nextItem = 1;
-			
+
 			function additem(){
                 document.getElementById("items").innerHTML += "  <label>Item "+ (nextItem+1) +"\ Name:</label> <input type=\"text\" list=\"itemList\" name=\"itemName[" +nextItem+ "]\" id=\"itemName[" +nextItem+ "]\" class=\"form-control1 control3\">  <label>Item "+(nextItem+1)+"\ Quantity:</label> <input type=\"text\" name=\"itemQuantity[" +nextItem+ "]\" id=\"itemQuantity[" +nextItem+ "]\" class=\"form-control1 control3\">"
                 nextItem += 1;
-				
+
                 return false;
-            }; 
+            };
 	</script>
 	<style>
 	   .activity_box{
@@ -182,41 +182,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<ul class="nav nav-pills nav-stacked custom-nav">
 					<li>
 						<a href="#"><i class="lnr lnr-user"></i> <span>User Accounts</span></a>
-						<ul class="sub-menu-list">
-							<li><a href="#">View Accounts</a></li>
-							<li><a href="#">Add New Account</a></li>
-							<li><a href="#">Edit Account</a></li>
-							<li><a href="#">Delete Account</a></li>
-						</ul>
 					</li>
 					<li class="menu-list">
 						<a href="customerData.php"><i class="fa fa-users"></i> <span>Customer Data</span></a>
-						<ul class="sub-menu-list">
-							<li><a href="#">View Data</a></li>
-							<li><a href="#">Add New Customer</a></li>
-							<li><a href="#">Edit Customer</a></li>
-							<li><a href="#">Delete Customer</a></li>
-						</ul>
 					</li>
-					<li class="menu-list">
+					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
-						<ul class="sub-menu-list">
-							<li><a href="invoice.php">View Invoices</a></li>
-							<li><a href="#">Add New Invoice</a></li>
-							<li><a href="#">Edit Invoice</a></li>
-							<li><a href="#">Delete Invoice</a></li>
-						</ul>
 					</li>
 					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
 					<li class="menu-list">
 						<a href="#"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
-						<ul class="sub-menu-list">
-							<li><a href="#">View Inventory</a></li>
-							<li><a href="#">Add New Item</a></li>
-							<li><a href="#">Edit Item</a></li>
-							<li><a href="#">Remove Item</a></li>
-						</ul>
 					</li>
 					<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
 					<li><a href="#"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>
@@ -368,7 +344,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													$password = "";
 													$dbname = "fyp";
 													$con = new mysqli($servername, $username, $password, $dbname);
-													
+
 													$sql = "SELECT * FROM customer";
 													$result = mysqli_query($con, $sql);
 													?>
@@ -377,7 +353,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 															<option value="<?php echo $row['customerName']; ?>"><?php echo $row['customerName']; ?></option>
 														<?php } ?>
 													</datalist>
-													
+
 													<input type="text" id="customerName" name="customerName" list="customerList" class="form-control1 control3">
 													<!-- Button to Add New Customer Here if doesn't exist-->
 													<!--More Customer Details
@@ -409,16 +385,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														}
 													}
 													</script>
-													
+
 													<label>Purchase Order No:</label>
 													<input type="text" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
 													<div id="items">
 														<label>Item 1 Name:</label>
 														<datalist id="itemList">
-															<?php 
+															<?php
 															$sql = "SELECT * FROM stock";
 															$result = mysqli_query($con, $sql);
-													
+
 															while($row = mysqli_fetch_array($result)) { ?>
 																<option value="<?php echo $row['stockName']; ?>"><?php echo $row['stockName']; ?></option>
 															<?php } ?>
@@ -536,7 +512,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<form action="" method="post">
 													<label>Invoice ID:</label>
 													<input type="text" id="inputtedID" name="inputtedID" class="form-control1 control3">
-													
+
 													<button class="btn btn-success" contenteditable="false" name="invoiceView" style="margin-left: 43%;" type="submit">Submit</button>
 												</form>
 											</div>
