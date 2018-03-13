@@ -183,7 +183,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<a href="#"><i class="lnr lnr-user"></i> <span>User Accounts</span></a>
 					</li>
-					<li class="menu-list">
+					<li>
 						<a href="customerData.php"><i class="fa fa-users"></i> <span>Customer Data</span></a>
 					</li>
 					<li>
