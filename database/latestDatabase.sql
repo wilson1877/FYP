@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2018 at 07:10 AM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 5.6.33
+-- Generation Time: Mar 13, 2018 at 10:55 AM
+-- Server version: 10.1.26-MariaDB
+-- PHP Version: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -42,7 +42,8 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customerID`, `customerName`, `companyName`, `contactNumber`, `emailAddress`, `address`) VALUES
-(1, 'Test Customer', 'CompanyTest', 111111111, 'qwerty@test.com', '123');
+(1, 'Test Customer', 'CompanyTest', 1123411, 'qwerty@test.com', 'No 10 asdf'),
+(2, 'MonikaCorp', 'Just Monika', 11412311, '123@fas.com', '1231');
 
 -- --------------------------------------------------------
 
@@ -82,40 +83,40 @@ CREATE TABLE `invoice` (
   `invoiceID` int(100) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `totalPrice` decimal(50,2) NOT NULL,
+  `itemQuantity` int(100) NOT NULL,
   `customerID` int(100) NOT NULL,
-  `itemQuantity01` int(100) NOT NULL,
-  `stockID01` int(100) NOT NULL,
-  `itemQuantity02` int(100) NOT NULL,
-  `stockID02` int(100) NOT NULL,
-  `itemQuantity03` int(100) NOT NULL,
-  `stockID03` int(100) NOT NULL,
-  `itemQuantity04` int(100) NOT NULL,
-  `stockID04` int(100) NOT NULL,
-  `itemQuantity05` int(100) NOT NULL,
-  `stockID05` int(100) NOT NULL
+  `miscNotes` varchar(500) NOT NULL,
+  `purchaseOrderNo` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `invoice`
 --
 
-INSERT INTO `invoice` (`invoiceID`, `date`, `totalPrice`, `customerID`, `itemQuantity01`, `stockID01`, `itemQuantity02`, `stockID02`, `itemQuantity03`, `stockID03`, `itemQuantity04`, `stockID04`, `itemQuantity05`, `stockID05`) VALUES
-(1, '2018-03-10 04:18:56', '10.00', 1, 10, 1, 10, 20, 0, 0, 0, 0, 0, 0);
+INSERT INTO `invoice` (`invoiceID`, `date`, `totalPrice`, `itemQuantity`, `customerID`, `miscNotes`, `purchaseOrderNo`) VALUES
+(1, '2018-03-12 04:08:31', '307.50', 0, 2, 'NotesTest', 'PO-12345');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `purchase`
+-- Table structure for table `invoiceitemlist`
 --
 
-CREATE TABLE `purchase` (
-  `purchaseID` int(100) NOT NULL,
-  `purchaseItem` varchar(100) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `issueReceipt` tinyint(1) NOT NULL,
-  `customerID` int(100) NOT NULL,
-  `stockID` int(100) NOT NULL
+CREATE TABLE `invoiceitemlist` (
+  `itemListID` int(100) NOT NULL,
+  `invoiceID` int(100) NOT NULL,
+  `stockID` int(100) NOT NULL,
+  `itemQty` int(100) NOT NULL,
+  `notes` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invoiceitemlist`
+--
+
+INSERT INTO `invoiceitemlist` (`itemListID`, `invoiceID`, `stockID`, `itemQty`, `notes`) VALUES
+(1, 1, 1, 10, ''),
+(2, 1, 2, 5, '');
 
 -- --------------------------------------------------------
 
@@ -136,8 +137,8 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`stockID`, `stockImage`, `stockName`, `price`, `totalStock`) VALUES
-(1, 'StockImage', 'StockName', '12.11', 100),
-(2, 'null', 'StockName 2', '50.00', 5);
+(1, 'null', 'StockName', '5.50', 100),
+(2, 'null', 'StockName 2', '50.50', 10);
 
 -- --------------------------------------------------------
 
@@ -162,17 +163,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `emailAddress`, `contactNumber`, `username`, `password`, `firstName`, `lastName`, `userImage`, `isDriver`) VALUES
-(1, 'ckm@ckm.com', 125201314, 'ckm5801', 'ckm5801', 'Wilson', 'Ckm', '', 0),
-(2, 'admin', 123456789, 'admin', 'password', 'FirstName', 'LastName', '', 0),
-(3, 'test@test.com', 69, 'driver', 'driver', 'driver', 'test', '', 0),
-(4, 'driver@driver.com', 10, 'driver2', 'driver2', 'driver2', 'test', '', 0),
-(5, 'admin@admin.com', 0, 'admin', '123', 'Main', 'Admin', '', 0),
-(6, '3@3.com', 4654, 'driver3', 'driver3', 'driver3', 'test', '', 1),
-(7, 'dri@dri.com', 6854, '3', '3', 'driver3', 'test', '', 1),
-(8, '2@2.com', 6451, '2', '2', 'admin2', 'admin', '', 1),
-(9, 'admin3@3.com', 6415, 'admin3', 'admin3', 'admin3', 'test', '', 0),
-(10, '4@4.com', 6548, '4', '4', 'driver4', 'test', '', 1),
-(11, 'hs@hs.com', 123, 'CHS', 'chs', 'Hiap', 'Seng', '', 0);
+(1, 'admin@admin.com', 0, 'admin', 'admin123', 'Main', 'Admin', '', 0),
+(2, 'admin', 12, 'admin', 'password', 'Second Admin', 'LastName', '', 0),
+(3, 'ckm@ckm.com', 125201314, 'wilson', 'ckm', 'Wilson', 'Chang', '', 0),
+(4, 'chs@chs.com', 999, 'chschs', 'chs', 'Hiap Seng', 'Chuah', '', 1);
 
 --
 -- Indexes for dumped tables
@@ -204,19 +198,14 @@ ALTER TABLE `delivery`
 --
 ALTER TABLE `invoice`
   ADD PRIMARY KEY (`invoiceID`),
-  ADD KEY `customerID` (`customerID`),
-  ADD KEY `stockID01` (`stockID01`),
-  ADD KEY `stockID02` (`stockID02`),
-  ADD KEY `stockID03` (`stockID03`),
-  ADD KEY `stockID04` (`stockID04`),
-  ADD KEY `stockID05` (`stockID05`);
+  ADD KEY `customerID` (`customerID`);
 
 --
--- Indexes for table `purchase`
+-- Indexes for table `invoiceitemlist`
 --
-ALTER TABLE `purchase`
-  ADD PRIMARY KEY (`purchaseID`),
-  ADD KEY `customerID` (`customerID`),
+ALTER TABLE `invoiceitemlist`
+  ADD PRIMARY KEY (`itemListID`),
+  ADD KEY `invoiceID` (`invoiceID`),
   ADD KEY `stockID` (`stockID`);
 
 --
@@ -239,38 +228,32 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
   MODIFY `deliveryID` int(100) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
   MODIFY `invoiceID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
--- AUTO_INCREMENT for table `purchase`
+-- AUTO_INCREMENT for table `invoiceitemlist`
 --
-ALTER TABLE `purchase`
-  MODIFY `purchaseID` int(100) NOT NULL AUTO_INCREMENT;
-
+ALTER TABLE `invoiceitemlist`
+  MODIFY `itemListID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
   MODIFY `stockID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
+  MODIFY `userID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --
@@ -293,15 +276,14 @@ ALTER TABLE `delivery`
 -- Constraints for table `invoice`
 --
 ALTER TABLE `invoice`
-  ADD CONSTRAINT `invoice_ibfk_1` FOREIGN KEY (`stockID01`) REFERENCES `stock` (`stockID`),
   ADD CONSTRAINT `invoice_ibfk_2` FOREIGN KEY (`customerID`) REFERENCES `customer` (`customerID`);
 
 --
--- Constraints for table `purchase`
+-- Constraints for table `invoiceitemlist`
 --
-ALTER TABLE `purchase`
-  ADD CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `customer` (`customerID`),
-  ADD CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`stockID`) REFERENCES `stock` (`stockID`);
+ALTER TABLE `invoiceitemlist`
+  ADD CONSTRAINT `invoiceitemlist_ibfk_1` FOREIGN KEY (`invoiceID`) REFERENCES `invoice` (`invoiceID`),
+  ADD CONSTRAINT `invoiceitemlist_ibfk_2` FOREIGN KEY (`stockID`) REFERENCES `stock` (`stockID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

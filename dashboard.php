@@ -85,42 +85,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li>
 							<a href="#"><i class="lnr lnr-user"></i>
 								<span>User Accounts</span></a>
-								<ul class="sub-menu-list">
-									<li><a href="#">View Accounts</a> </li>
-									<li><a href="#">Add New Account</a></li>
-									<li><a href="#">Edit Account</a></li>
-									<li><a href="#">Delete Account</a></li>
-								</ul>
 						</li>
 						<li>
 							<a href="customerData.php"><i class="fa fa-users"></i>
 								<span>Customer Data</span></a>
-								<ul class="sub-menu-list">
-									<li><a href="#">View Data</a> </li>
-									<li><a href="#">Add New Customer</a></li>
-									<li><a href="#">Edit Customer</a></li>
-									<li><a href="#">Delete Customer</a></li>
-								</ul>
 						</li>
 						<li>
 							<a href="invoice.php"><i class="lnr lnr-book"></i>
 								<span>Invoices</span></a>
-								<ul class="sub-menu-list">
-									<li><a href="#">View Invoices</a> </li>
-									<li><a href="#">Add New Invoice</a></li>
-									<li><a href="#">Edit Invoice</a></li>
-									<li><a href="#">Delete Invoice</a></li>
-								</ul>
 						</li>
 						<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 						<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
 						<li><a href="#"><i class="fa fa-inbox"></i>  <span>Inventory</span></a>
-							<ul class="sub-menu-list">
-								<li><a href="#">View Inventory</a> </li>
-								<li><a href="#">Add New Item</a></li>
-								<li><a href="#">Edit Item</a></li>
-								<li><a href="#">Remove Item</a></li>
-							</ul>
 						</li>
 						<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
 						<li><a href="#"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>

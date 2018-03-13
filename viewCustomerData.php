@@ -18,7 +18,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iBuzz - Invoices</title>
+	<title>iBuzz - Customer Information</title>
 	<link href="images/Icon.ico" rel="icon" type="image/x-icon">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><!--<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -171,7 +171,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Invoice View #<?php echo $inputtedID ?></h3>
+				<h3 class="blank1">Customer View #<?php echo $inputtedID ?></h3>
 				<hr>
 				<?php
 				$servername = "localhost";
@@ -180,7 +180,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$dbname = "fyp";
 				$con = new mysqli($servername, $username, $password, $dbname);
 
-				$sql = "SELECT a.*, b.* FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID' AND a.customerID = b.customerID";
+				$sql = "SELECT * FROM customer WHERE customerID = '$inputtedID'";
 
 				$result = mysqli_query($con, $sql);
 
@@ -188,39 +188,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					$resultArray = mysqli_fetch_assoc($result);
 				?>
 					<div class="grid_3 grid_4">
-					<p><h2><b><?php echo $resultArray["companyName"] ?></b></h2></p>
-					<p><h3><b>Contact:</b> <?php echo $resultArray["customerName"] ?></h3></p>
-					<p><h3><b>Purchase Order No.:</b> <?php echo $resultArray["purchaseOrderNo"] ?></h3></p>
-					<hr>
-					<p><h4><b>Tel.No:</b> <?php echo $resultArray["contactNumber"] ?></h4></p>
-					<p><h4><b>Invoice Date:</b> <?php echo $resultArray["date"] ?></h4></p>
-					<hr>
-					<p><h2>Items Ordered: </h2></p>
-					<?php
-					$itemssql = "SELECT a.itemQty, b.stockName, b.price FROM invoiceitemlist a INNER JOIN stock b ON a.stockID = b.stockID WHERE a.invoiceID = '$inputtedID'";
-					$itemsresult = mysqli_query($con, $itemssql);
-
-					while($row = mysqli_fetch_array($itemsresult)) {
-						$itemQty = $row["itemQty"];
-						$itemPrice = $row["price"];
-						$individualPrice = $itemQty * $itemPrice
-						?>
-						<p><h4><b>Item:</b> <?php echo $row["stockName"] ?></h4></p>
-						<p><h4><b>Quantity:</b> <?php echo $row["itemQty"] ?></h4></p>
-						<p><h4><b>Total Price:</b> $<?php echo $individualPrice ?></h4></p>
-						<hr>
-					<?php } ?>
-					<p><h2><b>Grand Total:</b> $<?php echo $resultArray["totalPrice"] ?></h2></p>
-					<p><h4><b>Misc.Notes:</b> <?php echo $resultArray["miscNotes"] ?></h4></p>
+					<p><h2><b>Customer Name: <?php echo $resultArray["customerName"] ?></b></h2></p>
+					<p><h4><b>Company Name: </b> <?php echo $resultArray["companyName"] ?></h4></p>
+					<p><h4><b>Contact Number: </b> <?php echo $resultArray["contactNumber"] ?></h4></p>
+					<p><h4><b>Email Address: </b> <?php echo $resultArray["emailAddress"] ?></h4></p>
+					<p><h4><b>Delivery Address: </b> <?php echo $resultArray["address"] ?></h4></p>
 					</div>
 				<?php
 				}else{ ?>
-					<h1>Invoice not found!!</h1>
+					<h1>Customer not found!!</h1>
 					<hr>
-					<p>Ensure that you wrote the ID properly!</p>
-				<?php } ?>
+					<p>Ensure that you wrote the Customer ID properly!</p>
+				<?php }
+         ?>
 				<center>
-					<a href="invoice.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
+					<a href="customerData.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
+          <a href="deleteCustomer.php" class="btn btn-default"><span class="glyphicon glyphicon-forward"></span> Delete Record</a>
 				</center>
 			</div>
 		</div>
