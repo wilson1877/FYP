@@ -22,8 +22,12 @@ $con = new mysqli($servername, $username, $password, $dbname);
 
 if (isset($_POST['submitAdd'])) {
 		$customerName = $_POST['customerName'];
-
-		if (isset($_POST['myCheck'])) {
+		$companyName=$_POST['companyName'];
+		$customerContactNo=$_POST['contactNumber'];
+		$customerEmail=$_POST['emailAddress'];
+		$customerAddress=$_POST['address'];
+		
+		/*if (isset($_POST['myCheck'])) {
 			//Checking the associated Customer with their ID via Name
 			$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
 			$runquery = mysqli_query($con, $sqlcheckidnumber);
@@ -38,18 +42,20 @@ if (isset($_POST['submitAdd'])) {
 				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";
 				$con -> query($sqlnewcustomerinsert);
 			}
-		}
+		}*/
 
 		$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
 		$runquery = mysqli_query($con, $sqlcheckidnumber);
-		if ($runquery -> num_rows > 0) {
-			//Name found!
+		
+		if ($runquery -> num_rows <= 0) {
+			//Customer not found, proceed with adding
 			$resultArray = mysqli_fetch_assoc($runquery);
 			$customerID = $resultArray["customerID"];
-      //Adding New Customer
 
+			$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";
+			$con -> query($sqlnewcustomerinsert);
 		}else{
-
+			//Customer found, throw error
 		}
 	}
 
