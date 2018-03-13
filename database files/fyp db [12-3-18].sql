@@ -86,7 +86,7 @@ CREATE TABLE `invoice` (
   `itemQuantity` int(100) NOT NULL,
   `customerID` int(100) NOT NULL,
   `miscNotes` varchar(500) NOT NULL,
-  `purchaseOrderNo` varchar(50) NOT NULL
+  `purchaseID` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -179,7 +179,9 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`userID`, `emailAddress`, `contactNumber`, `username`, `password`, `firstName`, `lastName`, `userImage`, `isDriver`) VALUES
 (1, 'admin@admin.com', 0, 'admin', 'admin123', 'Main', 'Admin', '', 0),
-(2, 'admin', 12, 'admin', 'password', 'Second Admin', 'LastName', '', 0);
+(2, 'admin', 12, 'admin', 'password', 'Second Admin', 'LastName', '', 0),
+(3, 'ckm@ckm.com', '0125201314', 'wilson', 'ckm', 'Wilson', 'Chang', '', 0),
+(4, 'chs@chs.com', '0', 'chschs', 'chs', 'Hiap Seng', 'Chuah', '', 1);
 
 --
 -- Indexes for dumped tables
@@ -308,6 +310,14 @@ ALTER TABLE `delivery`
 --
 ALTER TABLE `invoice`
   ADD CONSTRAINT `invoice_ibfk_2` FOREIGN KEY (`customerID`) REFERENCES `customer` (`customerID`);
+  ADD CONSTRAINT `invoice_ibfk_2` FOREIGN KEY (`purchaseID`) REFERENCES `purchase` (`purchaseID`);
+
+  --
+  -- Constraints for table `invoiceitemlist`
+  --
+  ALTER TABLE `invoiceitemlist`
+    ADD CONSTRAINT `invoice_ibfk_2` FOREIGN KEY (`invoiceID`) REFERENCES `invoice` (`invoiceID`);
+    ADD CONSTRAINT `invoice_ibfk_2` FOREIGN KEY (`stockID`) REFERENCES `stock` (`stockID`);
 
 --
 -- Constraints for table `purchase`
