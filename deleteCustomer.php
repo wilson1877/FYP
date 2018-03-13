@@ -16,10 +16,10 @@
 
   // Create connection
   $con = new mysqli($servername, $username, $password, $dbname);
-  
+
   $sql = "DELETE FROM customer WHERE customerID = '$inputtedID'";
   $con -> query($sql);
-  header('location: viewCustomerData.php');
+  header('location: customerData.php');
 
   mysqli_close($con);
 ?>
