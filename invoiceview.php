@@ -32,7 +32,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-	
+
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
 	<link href="css/font-awesome.css" rel="stylesheet"><!-- jQuery -->
@@ -48,15 +48,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<script>
 	        new WOW().init();
-			
+
 			var nextItem = 1;
-			
+
 			function additem(){
                 document.getElementById("items").innerHTML += "  <label>Item "+ (nextItem+1) +"\ Name:</label> <input type=\"text\" list=\"itemList\" name=\"itemName[" +nextItem+ "]\" id=\"itemName[" +nextItem+ "]\" class=\"form-control1 control3\">  <label>Item "+(nextItem+1)+"\ Quantity:</label> <input type=\"text\" name=\"itemQuantity[" +nextItem+ "]\" id=\"itemQuantity[" +nextItem+ "]\" class=\"form-control1 control3\">"
                 nextItem += 1;
-				
+
                 return false;
-            }; 
+            };
 	</script>
 	<style>
 	   .activity_box{
@@ -102,41 +102,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<ul class="nav nav-pills nav-stacked custom-nav">
 					<li>
 						<a href="#"><i class="lnr lnr-user"></i> <span>User Accounts</span></a>
-						<ul class="sub-menu-list">
-							<li><a href="#">View Accounts</a></li>
-							<li><a href="#">Add New Account</a></li>
-							<li><a href="#">Edit Account</a></li>
-							<li><a href="#">Delete Account</a></li>
-						</ul>
 					</li>
-					<li class="menu-list">
+					<li>
 						<a href="customerData.php"><i class="fa fa-users"></i> <span>Customer Data</span></a>
-						<ul class="sub-menu-list">
-							<li><a href="#">View Data</a></li>
-							<li><a href="#">Add New Customer</a></li>
-							<li><a href="#">Edit Customer</a></li>
-							<li><a href="#">Delete Customer</a></li>
-						</ul>
 					</li>
-					<li class="menu-list">
+					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
-						<ul class="sub-menu-list">
-							<li><a href="invoice.php">View Invoices</a></li>
-							<li><a href="#">Add New Invoice</a></li>
-							<li><a href="#">Edit Invoice</a></li>
-							<li><a href="#">Delete Invoice</a></li>
-						</ul>
 					</li>
 					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
-					<li class="menu-list">
+					<li>
 						<a href="#"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
-						<ul class="sub-menu-list">
-							<li><a href="#">View Inventory</a></li>
-							<li><a href="#">Add New Item</a></li>
-							<li><a href="#">Edit Item</a></li>
-							<li><a href="#">Remove Item</a></li>
-						</ul>
 					</li>
 					<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
 					<li><a href="#"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>
@@ -203,11 +179,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$password = "";
 				$dbname = "fyp";
 				$con = new mysqli($servername, $username, $password, $dbname);
-						
+
 				$sql = "SELECT a.*, b.* FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID' AND a.customerID = b.customerID";
-						
+
 				$result = mysqli_query($con, $sql);
-						
+
 				if (mysqli_num_rows($result) > 0){
 					$resultArray = mysqli_fetch_assoc($result);
 				?>
@@ -220,10 +196,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<p><h4><b>Invoice Date:</b> <?php echo $resultArray["date"] ?></h4></p>
 					<hr>
 					<p><h2>Items Ordered: </h2></p>
-					<?php 
+					<?php
 					$itemssql = "SELECT a.itemQty, b.stockName, b.price FROM invoiceitemlist a INNER JOIN stock b ON a.stockID = b.stockID WHERE a.invoiceID = '$inputtedID'";
 					$itemsresult = mysqli_query($con, $itemssql);
-					
+
 					while($row = mysqli_fetch_array($itemsresult)) {
 						$itemQty = $row["itemQty"];
 						$itemPrice = $row["price"];
