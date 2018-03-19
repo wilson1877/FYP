@@ -19,7 +19,25 @@
 
   $sql = "DELETE FROM customer WHERE customerID = '$inputtedID'";
   $con -> query($sql);
-  header('location: customerData.php');
+
+  $passed = true;
+
+  if ($passed) {
+    echo
+    "<script>
+        alert('Successfully delete customer');
+        location.href='customerData.php';
+    </script>";
+    exit();
+  }
+  else {
+    echo
+    "<script>
+        alert('Delete unsuccessful as the customer have invoice record');
+        location.href='customerData.php';
+    </script>";
+    exit();
+  }
 
   mysqli_close($con);
 ?>
