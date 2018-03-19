@@ -269,12 +269,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<th>Misc. Notes</th>
 								</tr>
 							</thead>
-<<<<<<< HEAD
 							<form id="actionSender">
 								<input id="selectedID" name="selectedID" value="0"/>
 							</form>
-=======
->>>>>>> parent of 30f0ec2... Rearranging Website Layouts
 							<tbody>
 								<?php
 								$servername = "localhost";
