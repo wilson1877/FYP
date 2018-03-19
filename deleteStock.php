@@ -17,27 +17,12 @@
   // Create connection
   $con = new mysqli($servername, $username, $password, $dbname);
 
-  $sql = "DELETE FROM customer WHERE customerID = '$inputtedID'";
+  $sql = "DELETE FROM stock WHERE stockID = '$inputtedID'";
   $con -> query($sql);
 
   $passed = true;
 
-  if ($passed) {
-    echo
-    "<script>
-        alert('Successfully delete customer');
-        location.href='customerData.php';
-    </script>";
-    exit();
-  }
-  else {
-    echo
-    "<script>
-        alert('Delete unsuccessful as the customer have invoice record');
-        location.href='customerData.php';
-    </script>";
-    exit();
-  }
+  header("location:inventory.php");
 
   mysqli_close($con);
 ?>

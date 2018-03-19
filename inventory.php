@@ -21,56 +21,38 @@ $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
 
 if (isset($_POST['submitAdd'])) {
-		$customerName = $_POST['customerName'];
-		$companyName=$_POST['companyName'];
-		$customerContactNo=$_POST['contactNumber'];
-		$customerEmail=$_POST['emailAddress'];
-		$customerAddress=$_POST['address'];
+		$stockName = $_POST['stockName'];
+    $stockImage = $_POST['stockImage'];
+		$price = $_POST['price'];
+		$totalStock = $_POST['totalStock'];
 
-		/*if (isset($_POST['myCheck'])) {
-			//Checking the associated Customer with their ID via Name
-			$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
-			$runquery = mysqli_query($con, $sqlcheckidnumber);
-
-			if ($runquery -> num_rows <= 0) {
-				//It's a new customer! Adding to the DB!
-				$companyName=$_POST['companyName'];
-				$customerContactNo=$_POST['customerContactNo'];
-				$customerEmail=$_POST['customerEmail'];
-				$customerAddress=$_POST['customerAddress'];
-
-				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";
-				$con -> query($sqlnewcustomerinsert);
-			}
-		}*/
-
-		$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
+		$sqlcheckidnumber = "SELECT stockID FROM stock WHERE stockName = '$stockName'"; //Checking for duplicates
 		$runquery = mysqli_query($con, $sqlcheckidnumber);
 
 		if ($runquery -> num_rows <= 0) {
 			//Customer not found, proceed with adding
 			$resultArray = mysqli_fetch_assoc($runquery);
-			$customerID = $resultArray["customerID"];
+			$stockID = $resultArray["stockID"];
 
-			$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";
-			$con -> query($sqlnewcustomerinsert);
+			$sqlnewstockinsert = "INSERT INTO stock(stockName, stockImage, price, totalStock) VALUES ('$stockName', '$stockImage', '$price', '$totalStock')";
+			$con -> query($sqlnewstockinsert);
 		}else{
-			//Customer found, throw error
+			//Stock found, throw error
 		}
 	}
 
-if(isset($_POST['viewCustomer'])){
+if(isset($_POST['viewStock'])){
 	$inputtedID = $_POST['inputtedID'];
 
 	$_SESSION['INPUTTEDID'] = $inputtedID;
-	header('location:viewCustomerData.php');
+	header('location:viewStock.php');
 }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iBuzz - Customer Data</title>
+	<title>iBuzz - Inventory</title>
 	<link href="images/Icon.ico" rel="icon" type="image/x-icon">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><!--<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -208,7 +190,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    									</div>
    								</a>
    								<ul class="dropdown-menu drp-mnu">
-   									<li> <a href="profile.php"><i class="fa fa-user"></i>Profile</a> </li>
+   									<li> <a href="profile.php"><i class="fa fa-user"></i> Profile</a> </li>
    									<li> <a href="sign-out.php"><i class="fa fa-sign-out"></i> Logout</a> </li>
    								</ul>
    							</li>
@@ -222,7 +204,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Customer Data</h3>
+				<h3 class="blank1">Inventory</h3>
 				<hr>
 				<div class="table-responsive">
 					<div class="grid_3 grid_4">
@@ -230,12 +212,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<!-- Incoming Table -->
 							<thead class="thead-inverse">
 								<tr>
-									<th>Customer ID</th>
-									<th>Customer Name</th>
-									<th>Company Name</th>
-									<th>Contact Number</th>
-									<th>Email Address</th>
-									<th>Delivery Address</th>
+									<th>Stock ID</th>
+									<th>Stock Image</th>
+									<th>Stock Name</th>
+									<th>Price</th>
+									<th>Total Stock</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -245,18 +226,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								$password = "";
 								$dbname = "fyp";
 								$con = new mysqli($servername, $username, $password, $dbname);
-								$sql = "SELECT customerID, customerName, companyName, contactNumber, emailAddress, address FROM customer ORDER BY customerID DESC";
+								$sql = "SELECT * FROM stock ORDER BY stockID DESC";
 								$result = mysqli_query($con, $sql);
 								if ($result->num_rows > 0) {
 									while ($row = mysqli_fetch_assoc($result)){
 								?>
 								<tr>
-									<td><?php echo $row["customerID"] ?></td>
-									<td><?php echo $row["customerName"] ?></td>
-									<td><?php echo $row["companyName"] ?></td>
-									<td><?php echo $row["contactNumber"] ?></td>
-									<td><?php echo $row["emailAddress"] ?></td>
-									<td><?php echo $row["address"] ?></td>
+									<td><?php echo $row["stockID"] ?></td>
+									<td><?php echo $row["stockImage"] ?></td>
+									<td><?php echo $row["stockName"] ?></td>
+									<td><?php echo $row["price"] ?></td>
+									<td><?php echo $row["totalStock"] ?></td>
 								</tr><?php }
 								}
 								else{
@@ -268,13 +248,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<td>No data</td>
 									<td>No data</td>
                   <td>No data</td>
-									<td>No data</td>
 								</tr><?php }?>
 							</tbody>
 						</table>
 						<center>
-							<p><a class="btn btn-primary" data-toggle="modal" href="#addCustomer"><span class="glyphicon glyphicon-user"></span> Add Customer</a>
-							<a class="btn btn-info" data-toggle="modal" href="#viewCustomer"><span class="glyphicon glyphicon-search"></span> Edit Customer Info</a></p>
+							<p><a class="btn btn-primary" data-toggle="modal" href="#addStock"><span class="glyphicon glyphicon-user"></span> Add Stock</a>
+							<a class="btn btn-info" data-toggle="modal" href="#viewStock"><span class="glyphicon glyphicon-search"></span> Edit Stock Info</a></p>
 						</center>
 					</div>
 				</div>
@@ -284,7 +263,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<!-- Trigger the modal with a button -->
 			<!-- Modal -->
-			<div class="modal fade" id="addCustomer" role="dialog">
+			<div class="modal fade" id="addStock" role="dialog">
 				<div class="modal-dialog modal-lg">
 					<!-- Modal content-->
 					<div class="modal-content">
@@ -296,7 +275,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<div class="panel-group">
 											<div class="panel panel-default">
 												<div class="panel-heading text-center" style="color: #fff; background-color: rgb(51, 122, 183);">
-													<span class="glyphicon glyphicon-user"></span><strong>&nbsp; Add Customer</strong>
+													<span class="glyphicon glyphicon-user"></span><strong>&nbsp; Add Stock</strong>
 												</div>
 												<div class="panel-body">
 												<form action="" method="post">
@@ -307,19 +286,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													$dbname = "fyp";
 													$con = new mysqli($servername, $username, $password, $dbname);
 
-													$sql = "SELECT * FROM customer";
+													$sql = "SELECT * FROM stock";
 													$result = mysqli_query($con, $sql);
 													?>
-													<label>Customer Name: </label>
-													<input type="text" id="customerName" name="customerName" class="form-control1 control3">
-													<label>Company Name: </label>
-													<input type="text" id="companyName" name="companyName" class="form-control1 control3">
-                          <label>Contact Number: </label>
-													<input type="text" id="contactNumber" name="contactNumber" class="form-control1 control3">
-                          <label>Email Address: </label>
-													<input type="text" id="emailAddress" name="emailAddress" class="form-control1 control3">
-                          <label>Delivery Address: </label>
-													<input type="text" id="address" name="address" class="form-control1 control3">
+													<label>Stock Name: </label>
+													<input type="text" id="stockName" name="stockName" class="form-control1 control3">
+													<label>Price: </label>
+													<input type="text" id="price" name="price" class="form-control1 control3">
+                          <label>Total Amount: </label>
+													<input type="text" id="totalStock" name="totalStock" class="form-control1 control3">
+                          <!--
+                          <label>Stock Image: </label>
+													<input type="image" id="stockImage" name="stockImage" class="form-control1 control3">
+                        -->
 													<br>
 													<center>
 														<input class="btn btn-success" name="submitAdd" type="submit" value="Submit">
@@ -339,7 +318,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="viewCustomer" role="dialog">
+		<div class="modal fade" id="viewStock" role="dialog">
 			<div class="modal-dialog modal-md">
 				<!-- Modal content-->
 				<div class="modal-content">
@@ -351,15 +330,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="panel-group">
 									<div class="panel panel-default">
 										<div class="panel-heading text-center" style="color: #fff; background-color: #5bc0de;">
-											<span class="glyphicon glyphicon-search"></span><strong>&nbsp; Edit Customer Info</strong>
+											<span class="glyphicon glyphicon-search"></span><strong>&nbsp; Edit Stock Info</strong>
 										</div>
 										<div class="panel-body">
 											<div class="row form-group">
 												<form action="" method="post">
-													<label>Customer ID:</label>
+													<label>Stock ID:</label>
 													<input type="text" id="inputtedID" name="inputtedID" class="form-control1 control3">
 
-													<button class="btn btn-success" contenteditable="false" name="viewCustomer" style="margin-left: 43%;" type="submit">Submit</button>
+													<button class="btn btn-success" contenteditable="false" name="viewStock" style="margin-left: 43%;" type="submit">Submit</button>
 												</form>
 											</div>
 										</div>

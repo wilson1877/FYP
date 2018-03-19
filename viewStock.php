@@ -18,7 +18,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iBuzz - Customer Information</title>
+	<title>iBuzz - Inventory Information</title>
 	<link href="images/Icon.ico" rel="icon" type="image/x-icon">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><!--<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -170,7 +170,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Customer View #<?php echo $inputtedID ?></h3>
+				<h3 class="blank1">Stock View #<?php echo $inputtedID ?></h3>
 				<hr>
 				<?php
 				$servername = "localhost";
@@ -179,7 +179,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$dbname = "fyp";
 				$con = new mysqli($servername, $username, $password, $dbname);
 
-				$sql = "SELECT * FROM customer WHERE customerID = '$inputtedID'";
+				$sql = "SELECT * FROM stock WHERE stockID = '$inputtedID'";
 
 				$result = mysqli_query($con, $sql);
 
@@ -187,22 +187,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					$resultArray = mysqli_fetch_assoc($result);
 				?>
 					<div class="grid_3 grid_4">
-					<p><h2><b>Customer Name: <?php echo $resultArray["customerName"] ?></b></h2></p>
-					<p><h4><b>Company Name: </b> <?php echo $resultArray["companyName"] ?></h4></p>
-					<p><h4><b>Contact Number: </b> <?php echo $resultArray["contactNumber"] ?></h4></p>
-					<p><h4><b>Email Address: </b> <?php echo $resultArray["emailAddress"] ?></h4></p>
-					<p><h4><b>Delivery Address: </b> <?php echo $resultArray["address"] ?></h4></p>
+					<p><h2><b>Stock Name: <?php echo $resultArray["stockName"] ?></b></h2></p>
+					<p><h4><b>Price: </b> <?php echo $resultArray["price"] ?></h4></p>
+					<p><h4><b>Total Stock: </b> <?php echo $resultArray["totalStock"] ?></h4></p>
+          <p><h4><b>Stock Image: </b> <?php echo $resultArray["stockImage"] ?></h4></p>
 					</div>
 				<?php
 				}else{ ?>
-					<h1>Customer not found!!</h1>
+					<h1>Stock not found!!</h1>
 					<hr>
-					<p>Ensure that you wrote the Customer ID properly!</p>
+					<p>Ensure that you wrote the Stock ID properly!</p>
 				<?php }
          ?>
 				<center>
-					<a href="customerData.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
-          <a href="deleteCustomer.php" class="btn btn-default"><span class="glyphicon glyphicon-forward"></span> Delete Record</a>
+					<a href="inventory.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
+          <a href="deleteStock.php" class="btn btn-default"><span class="glyphicon glyphicon-forward"></span> Delete Record</a>
 				</center>
 			</div>
 		</div>
