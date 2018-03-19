@@ -26,7 +26,7 @@ if (isset($_POST['submitAdd'])) {
 		$customerContactNo=$_POST['contactNumber'];
 		$customerEmail=$_POST['emailAddress'];
 		$customerAddress=$_POST['address'];
-		
+
 		/*if (isset($_POST['myCheck'])) {
 			//Checking the associated Customer with their ID via Name
 			$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
@@ -43,10 +43,10 @@ if (isset($_POST['submitAdd'])) {
 				$con -> query($sqlnewcustomerinsert);
 			}
 		}*/
-
+    
 		$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
 		$runquery = mysqli_query($con, $sqlcheckidnumber);
-		
+
 		if ($runquery -> num_rows <= 0) {
 			//Customer not found, proceed with adding
 			$resultArray = mysqli_fetch_assoc($runquery);
