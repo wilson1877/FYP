@@ -43,7 +43,7 @@ if (isset($_POST['submitAdd'])) {
 				$con -> query($sqlnewcustomerinsert);
 			}
 		}*/
-    
+
 		$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
 		$runquery = mysqli_query($con, $sqlcheckidnumber);
 
@@ -153,7 +153,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 https://linearicons.com/free#cheat-sheet-->
 				<ul class="nav nav-pills nav-stacked custom-nav">
 					<li>
-						<a href="#"><i class="lnr lnr-user"></i> <span>User Accounts</span></a>
+						<a href="userAccount.php"><i class="lnr lnr-user"></i> <span>User Accounts</span></a>
 					</li>
 					<li>
 						<a href="customerData.php"><i class="fa fa-users"></i> <span>Customer Data</span></a>
@@ -164,7 +164,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
 					<li class="menu-list">
-						<a href="#"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
+						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
 					</li>
 					<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
 					<li><a href="#"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>
@@ -208,8 +208,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    									</div>
    								</a>
    								<ul class="dropdown-menu drp-mnu">
-   									<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>
-   									<li> <a href="#"><i class="fa fa-user"></i>Profile</a> </li>
+   									<li> <a href="profile.php"><i class="fa fa-user"></i>Profile</a> </li>
    									<li> <a href="sign-out.php"><i class="fa fa-sign-out"></i> Logout</a> </li>
    								</ul>
    							</li>
