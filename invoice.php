@@ -269,9 +269,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<th>Misc. Notes</th>
 								</tr>
 							</thead>
-							<form id="actionSender" method="post">
+<<<<<<< HEAD
+							<form id="actionSender">
 								<input id="selectedID" name="selectedID" value="0"/>
 							</form>
+=======
+>>>>>>> parent of 30f0ec2... Rearranging Website Layouts
 							<tbody>
 								<?php
 								$servername = "localhost";
@@ -284,12 +287,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								if ($result->num_rows > 0) {
 									while ($row = mysqli_fetch_assoc($result)){
 								?>
-								<script>
-								function selectInvoice(invoiceID){
-									document.getElementById("selectedID").value = invoiceID;
-								}
-								</script>
-								<tr onclick="selectInvoice(<?php echo $row["invoiceID"]?>)">
+								<tr>
 									<td><?php echo $row["invoiceID"] ?></td>
 									<td><?php echo $row["date"] ?></td>
 									<td><?php echo $row["totalPrice"] ?></td>
@@ -297,8 +295,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<td><?php echo $row["customerName"] ?></td>
 									<td><?php echo $row["purchaseOrderNo"] ?></td>
 									<td><?php echo $row["miscNotes"] ?></td>
-								</tr>
-								<?php }
+								</tr><?php }
 								}
 								else{
 								echo "0 results";
@@ -316,23 +313,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<span class="glyphicon glyphicon-user"></span> Add Invoice</a>
 							<a class="btn btn-warning" data-toggle="modal" href="#editInvoice"><span class="glyphicon glyphicon-wrench"></span> Edit Invoice</a>
 							<a class="btn btn-danger" data-toggle="modal" href="#removeInvoice"><span class="glyphicon glyphicon-remove"></span> Remove Invoice</a>
-							<!--<a class="btn btn-info" data-toggle="modal" href="#viewInvoice"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>-->
-							<a href="#" onClick="viewInvoice()" class="btn btn-info" contenteditable="false" name="invoiceView"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>
-
-							<script>
-							function viewInvoice(){
-								if (document.getElementById("selectedID").value < 1 ){
-									alert("No Invoice selected");
-								}
-								else {
-									var theform = document.getElementById("actionSender");
-									theform.action="invoiceview.php";
-									theform.submit()
-								}
-							}
-							</script>
-							
-							<!--<button class="btn btn-success" contenteditable="false" name="invoiceView" style="margin-left: 43%;" type="submit">Submit</button>-->
+							<a class="btn btn-info" data-toggle="modal" href="#viewInvoice"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>
 						</center>
 					</div>
 				</div>
@@ -518,12 +499,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 			</div>
 		</div>
-		<!--
 		<div class="modal fade" id="viewInvoice" role="dialog">
 			<div class="modal-dialog modal-md">
+				<!-- Modal content-->
 				<div class="modal-content">
 					<button class="close" data-dismiss="modal" type="button">&times;</button>
 					<div class="modal-body">
+						<!--Content-->
 						<div class="container" style="width: 100%">
 							<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
 								<div class="panel-group">
@@ -551,7 +533,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 				</div>
 			</div>
-		</div>-->
+		</div>
 		<!-- //switches -->
 		<div class="col_1">
 			<div class="clearfix"></div>

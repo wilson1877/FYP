@@ -12,7 +12,8 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
     $firstName=$_SESSION['firstName'];
     $isDriver = $_SESSION['isDriver'];
     $firstname = $_SESSION['firstName'];
-	$inputtedID = $_SESSION['INPUTTEDID'];
+	//$inputtedID = $_POST['INPUTTEDID'];
+    $inputtedID = $_REQUEST['selectedID'];
 }
 ?>
 <!DOCTYPE html>
