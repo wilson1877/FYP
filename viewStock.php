@@ -12,47 +12,13 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
     $firstName=$_SESSION['firstName'];
     $isDriver = $_SESSION['isDriver'];
     $firstname = $_SESSION['firstName'];
-}
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "fyp";
-$con = new mysqli($servername, $username, $password, $dbname);
-
-if (isset($_POST['submitAdd'])) {
-		$stockName = $_POST['stockName'];
-    $stockImage = $_POST['stockImage'];
-		$price = $_POST['price'];
-		$totalStock = $_POST['totalStock'];
-
-		$sqlcheckidnumber = "SELECT stockID FROM stock WHERE stockName = '$stockName'"; //Checking for duplicates
-		$runquery = mysqli_query($con, $sqlcheckidnumber);
-
-		if ($runquery -> num_rows <= 0) {
-			//Customer not found, proceed with adding
-			$resultArray = mysqli_fetch_assoc($runquery);
-			$stockID = $resultArray["stockID"];
-
-			$sqlnewstockinsert = "INSERT INTO stock(stockName, stockImage, price, totalStock) VALUES ('$stockName', '$stockImage', '$price', '$totalStock')";
-			$con -> query($sqlnewstockinsert);
-		}else{
-			//Stock found, throw error
-		}
-	}
-
-if(isset($_POST['viewStock'])){
-	$inputtedID = $_POST['inputtedID'];
-
-	$_SESSION['INPUTTEDID'] = $inputtedID;
-	header('location:viewStock.php');
+	$inputtedID = $_SESSION['INPUTTEDID'];
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iBuzz - Inventory</title>
+	<title>iBuzz - Inventory Information</title>
 	<link href="images/Icon.ico" rel="icon" type="image/x-icon">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><!--<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -145,7 +111,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</li>
 					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
-					<li class="menu-list">
+					<li>
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
 					</li>
 					<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
@@ -204,153 +170,39 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Inventory</h3>
+				<h3 class="blank1">Stock View #<?php echo $inputtedID ?></h3>
 				<hr>
-				<div class="table-responsive">
+				<?php
+				$servername = "localhost";
+				$username = "root";
+				$password = "";
+				$dbname = "fyp";
+				$con = new mysqli($servername, $username, $password, $dbname);
+
+				$sql = "SELECT * FROM stock WHERE stockID = '$inputtedID'";
+
+				$result = mysqli_query($con, $sql);
+
+				if (mysqli_num_rows($result) > 0){
+					$resultArray = mysqli_fetch_assoc($result);
+				?>
 					<div class="grid_3 grid_4">
-						<table class="table table-striped table-bordered">
-							<!-- Incoming Table -->
-							<thead class="thead-inverse">
-								<tr>
-									<th>Stock ID</th>
-									<th>Stock Image</th>
-									<th>Stock Name</th>
-									<th>Price</th>
-									<th>Total Stock</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php
-								$servername = "localhost";
-								$username = "root";
-								$password = "";
-								$dbname = "fyp";
-								$con = new mysqli($servername, $username, $password, $dbname);
-								$sql = "SELECT * FROM stock ORDER BY stockID DESC";
-								$result = mysqli_query($con, $sql);
-								if ($result->num_rows > 0) {
-									while ($row = mysqli_fetch_assoc($result)){
-								?>
-								<tr>
-									<td><?php echo $row["stockID"] ?></td>
-									<td><?php echo $row["stockImage"] ?></td>
-									<td><?php echo $row["stockName"] ?></td>
-									<td><?php echo $row["price"] ?></td>
-									<td><?php echo $row["totalStock"] ?></td>
-								</tr><?php }
-								}
-								else{
-								echo "No results";
-								?>
-								<tr>
-									<td>No data</td>
-									<td>No data</td>
-									<td>No data</td>
-									<td>No data</td>
-                  <td>No data</td>
-								</tr><?php }?>
-							</tbody>
-						</table>
-						<center>
-							<p><a class="btn btn-primary" data-toggle="modal" href="#addStock"><span class="glyphicon glyphicon-user"></span> Add Stock</a>
-							<a class="btn btn-info" data-toggle="modal" href="#viewStock"><span class="glyphicon glyphicon-search"></span> Edit Stock Info</a></p>
-						</center>
+					<p><h2><b>Stock Name: <?php echo $resultArray["stockName"] ?></b></h2></p>
+					<p><h4><b>Price: </b> <?php echo $resultArray["price"] ?></h4></p>
+					<p><h4><b>Total Stock: </b> <?php echo $resultArray["totalStock"] ?></h4></p>
+          <p><h4><b>Stock Image: </b> <?php echo $resultArray["stockImage"] ?></h4></p>
 					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-lg-12" style="height:10px"></div><!--Add Customer Modal-->
-		<div class="container">
-			<!-- Trigger the modal with a button -->
-			<!-- Modal -->
-			<div class="modal fade" id="addStock" role="dialog">
-				<div class="modal-dialog modal-lg">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<button class="close" data-dismiss="modal" type="button">&times;</button>
-							<div class="modal-body">
-								<!--Content-->
-								<div class="container" style="width: 100%">
-									<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
-										<div class="panel-group">
-											<div class="panel panel-default">
-												<div class="panel-heading text-center" style="color: #fff; background-color: rgb(51, 122, 183);">
-													<span class="glyphicon glyphicon-user"></span><strong>&nbsp; Add Stock</strong>
-												</div>
-												<div class="panel-body">
-												<form action="" method="post">
-                          <?php
-													$servername = "localhost";
-													$username = "root";
-													$password = "";
-													$dbname = "fyp";
-													$con = new mysqli($servername, $username, $password, $dbname);
-
-													$sql = "SELECT * FROM stock";
-													$result = mysqli_query($con, $sql);
-													?>
-													<label>Stock Name: </label>
-													<input type="text" id="stockName" name="stockName" class="form-control1 control3">
-													<label>Price: </label>
-													<input type="text" id="price" name="price" class="form-control1 control3">
-                          <label>Total Amount: </label>
-													<input type="text" id="totalStock" name="totalStock" class="form-control1 control3">
-                          <!--
-                          <label>Stock Image: </label>
-													<input type="image" id="stockImage" name="stockImage" class="form-control1 control3">
-                        -->
-													<br>
-													<center>
-														<input class="btn btn-success" name="submitAdd" type="submit" value="Submit">
-                            <input class="btn btn-info" name="reset" type="reset" value="Reset">
-													</center>
-												</form>
-												</div>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-						<div class="modal-footer">
-							<button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="viewStock" role="dialog">
-			<div class="modal-dialog modal-md">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<button class="close" data-dismiss="modal" type="button">&times;</button>
-					<div class="modal-body">
-						<!--Content-->
-						<div class="container" style="width: 100%">
-							<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
-								<div class="panel-group">
-									<div class="panel panel-default">
-										<div class="panel-heading text-center" style="color: #fff; background-color: #5bc0de;">
-											<span class="glyphicon glyphicon-search"></span><strong>&nbsp; Edit Stock Info</strong>
-										</div>
-										<div class="panel-body">
-											<div class="row form-group">
-												<form action="" method="post">
-													<label>Stock ID:</label>
-													<input type="text" id="inputtedID" name="inputtedID" class="form-control1 control3">
-
-													<button class="btn btn-success" contenteditable="false" name="viewStock" style="margin-left: 43%;" type="submit">Submit</button>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-					</div>
-				</div>
+				<?php
+				}else{ ?>
+					<h1>Stock not found!!</h1>
+					<hr>
+					<p>Ensure that you wrote the Stock ID properly!</p>
+				<?php }
+         ?>
+				<center>
+					<a href="inventory.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
+          <a href="deleteStock.php" class="btn btn-default"><span class="glyphicon glyphicon-forward"></span> Delete Record</a>
+				</center>
 			</div>
 		</div>
 		<!-- //switches -->
