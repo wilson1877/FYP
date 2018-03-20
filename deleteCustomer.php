@@ -20,9 +20,7 @@
   $sql = "DELETE FROM customer WHERE customerID = '$inputtedID'";
   $con -> query($sql);
 
-  $passed = true;
-
-  if ($passed) {
+  if (mysqli_affected_rows($con) > 0) {
     echo
     "<script>
         alert('Successfully delete customer');
