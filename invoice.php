@@ -313,12 +313,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<center>
 							<p><a class="btn btn-primary" data-toggle="modal" href="#addInvoice">
 							<span class="glyphicon glyphicon-user"></span> Add Invoice</a>
-							<a class="btn btn-warning" data-toggle="modal" href="#editInvoice"><span class="glyphicon glyphicon-wrench"></span> Edit Invoice</a>
-							<a class="btn btn-danger" data-toggle="modal" href="#removeInvoice"><span class="glyphicon glyphicon-remove"></span> Remove Invoice</a>
+							<a href="#" onClick="editInvoice()" class="btn btn-warning" contenteditable="false" name="editInvoice"><span class="glyphicon glyphicon-wrench"></span> Edit Invoice</a>
+							<a href="#" onClick="removeInvoice()" class="btn btn-danger" contenteditable="false" name="removeInvoice"><span class="glyphicon glyphicon-remove"></span> Remove Invoice</a>
 							<!--<a class="btn btn-info" data-toggle="modal" href="#viewInvoice"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>-->
 							<a href="#" onClick="viewInvoice()" class="btn btn-info" contenteditable="false" name="invoiceView"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>
 
 							<script>
+							function editInvoice(){
+								if (document.getElementById("selectedID").value < 1 ){
+									alert("No Invoice selected");
+								}
+								else {
+									var theform = document.getElementById("actionSender");
+									theform.action="invoiceedit.php";
+									theform.submit()
+								}
+							}
+							
+							function removeInvoice(){
+								if (document.getElementById("selectedID").value < 1 ){
+									alert("No Invoice selected");
+								}
+								else {
+									if (confirm('Deleting Invoice. Are you sure?')){
+										var theform = document.getElementById("actionSender");
+										theform.action="deleteInvoice.php";
+										theform.submit()
+									}
+								}
+							}
+							
 							function viewInvoice(){
 								if (document.getElementById("selectedID").value < 1 ){
 									alert("No Invoice selected");
