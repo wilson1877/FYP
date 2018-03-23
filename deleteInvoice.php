@@ -6,7 +6,7 @@
 		$firstName=$_SESSION['firstName'];
 		$isDriver = $_SESSION['isDriver'];
 		$firstname = $_SESSION['firstName'];
-		$inputtedID = $_SESSION['INPUTTEDID'];
+		$inputtedID = $_REQUEST['selectedID'];
 }
 
   $servername = "localhost";
@@ -16,26 +16,27 @@
 
   // Create connection
   $con = new mysqli($servername, $username, $password, $dbname);
-
-  $sql = "DELETE FROM customer WHERE customerID = '$inputtedID'";
+  
+  $sql = "DELETE FROM invoiceitemlist WHERE invoiceID = '$inputtedID'";
   $con -> query($sql);
 
+  $sql2 = "DELETE FROM invoice WHERE invoiceID = '$inputtedID'";
+  $con -> query($sql2);
+  
   if (mysqli_affected_rows($con) > 0) {
-    echo
-    "<script>
-        alert('Successfully delete customer');
-        location.href='customerData.php';
-    </script>";
-    exit();
-  }
-  else {
-    echo
-    "<script>
-        alert('Delete unsuccessful as the customer have invoice record');
-        location.href='customerData.php';
-    </script>";
-    exit();
-  }
-
+		echo
+		"<script>
+        alert('Data successfully removed!');
+		location.href='invoice.php';
+		</script>";
+	}
+	else {
+		echo
+		"<script>
+        alert('Something went boom-');
+		location.href='invoice.php';
+		</script>";
+	}
+  
   mysqli_close($con);
 ?>
