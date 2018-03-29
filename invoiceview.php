@@ -14,6 +14,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
     $firstname = $_SESSION['firstName'];
 	//$inputtedID = $_POST['INPUTTEDID'];
     $inputtedID = $_REQUEST['selectedID'];
+	$_SESSION['inputtedID'] = $_REQUEST['selectedID'];
 }
 ?>
 <!DOCTYPE html>
@@ -70,7 +71,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	       height: 236px;
 	   }
 	   .thead-inverse th {
-	       background-color: #e1ffda;
+	       background-color: #000000;
 	   }
 	   .btn-info {
 	       padding: 6px 12px;
@@ -196,21 +197,47 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<p><h4><b>Invoice Date:</b> <?php echo $resultArray["date"] ?></h4></p>
 					<hr>
 					<p><h2>Items Ordered: </h2></p>
+					<table class="table table-bordered">
+							<!-- Incoming Table -->
+							<thead class="thead-inverse">
+								<tr>
+									<th><font color="#fff">#</font></th>
+									<th><font color="#fff">Item</font></th>
+									<th><font color="#fff">Unit Price</font></th>
+									<th><font color="#fff">Quantity</font></th>
+									<th><font color="#fff">Amount</font></th>
+								</tr>
+							</thead>
 					<?php
 					$itemssql = "SELECT a.itemQty, b.stockName, b.price FROM invoiceitemlist a INNER JOIN stock b ON a.stockID = b.stockID WHERE a.invoiceID = '$inputtedID'";
 					$itemsresult = mysqli_query($con, $itemssql);
-
+					$counter = 0;
 					while($row = mysqli_fetch_array($itemsresult)) {
 						$itemQty = $row["itemQty"];
 						$itemPrice = $row["price"];
-						$individualPrice = $itemQty * $itemPrice
+						$individualPrice = $itemQty * $itemPrice;
+						$counter += 1;
 						?>
-						<p><h4><b>Item:</b> <?php echo $row["stockName"] ?></h4></p>
+						<!--<p><h4><b>Item:</b> <?php echo $row["stockName"] ?></h4></p>
 						<p><h4><b>Quantity:</b> <?php echo $row["itemQty"] ?></h4></p>
-						<p><h4><b>Total Price:</b> $<?php echo $individualPrice ?></h4></p>
-						<hr>
+						<p><h4><b>Total Price:</b> $<?php echo $individualPrice ?></h4></p>-->
+							<tbody>
+								<tr>
+									<td><?php echo $counter ?></td>
+									<td><?php echo $row["stockName"] ?></td>
+									<td><?php echo $row["price"] ?></td>
+									<td><?php echo $row["itemQty"] ?> pcs</td>
+									<td>$ <?php echo $individualPrice ?></td>
+								</tr>
+						
 					<?php } ?>
-					<p><h2><b>Grand Total:</b> $<?php echo $resultArray["totalPrice"] ?></h2></p>
+					<tr>
+					<td colspan="5"><h3 align="right"><b>Grand Total:  </b> $<?php echo $resultArray["totalPrice"] ?></h3></td>
+					</tr>
+					</tbody>
+					</table>
+						<hr>
+					<!--<p><h2><b>Grand Total:</b> $<?php echo $resultArray["totalPrice"] ?></h2></p>-->
 					<p><h4><b>Misc.Notes:</b> <?php echo $resultArray["miscNotes"] ?></h4></p>
 					</div>
 				<?php
@@ -221,6 +248,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<?php } ?>
 				<center>
 					<a href="invoice.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
+					<a href="invoiceprint.php" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Invoice</a>
 				</center>
 			</div>
 		</div>

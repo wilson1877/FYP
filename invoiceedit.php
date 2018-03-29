@@ -73,11 +73,21 @@ if (mysqli_num_rows($getquery) > 0){
 			var nextItem = 0;
 
 			function additem(){
-                document.getElementById("items").innerHTML += "  <label>Item "+ (nextItem+1) +"\ Name:</label> <input type=\"text\" list=\"itemList\" name=\"itemName[" +nextItem+ "]\" id=\"itemName[" +nextItem+ "]\" class=\"form-control1 control3\">  <label>Item "+(nextItem+1)+"\ Quantity:</label> <input type=\"text\" name=\"itemQuantity[" +nextItem+ "]\" id=\"itemQuantity[" +nextItem+ "]\" class=\"form-control1 control3\">"
+                document.getElementById("items").innerHTML += "<div class=\"row\" id=\"row"+(nextItem+1)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
+				 "<input type=\"text\" list=\"itemList\" name=\"itemName[]\" id=\"itemName[]\" class=\"form-control1 control3\" /> </div>" +
+				 "<div class=\"col-md-2\"> <label>Item Quantity:</label>" +
+				 "<input type=\"text\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
+				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('row"+(nextItem+1)+"');\">Remove Row</button></div></div> </div>"+
+				 "<div class=\"clearfix\"> </div></div>";
                 nextItem += 1;
 
                 return false;
             };
+			function removeItemRow(rowID){
+				 var row = document.getElementById(rowID); // this gives you the row you want to remove
+				 row.parentNode.removeChild(row); // this gets the html object that holds the row and tells it to remove said row
+				 return false;
+			}
 	</script>
 	<style>
 	   .activity_box{
@@ -98,6 +108,9 @@ if (mysqli_num_rows($getquery) > 0){
 	   textarea {
 			resize: none;
 	   }
+	   .invoice-padding{
+			margin-top : 25px;
+		}
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
@@ -249,20 +262,23 @@ if (mysqli_num_rows($getquery) > 0){
 						</datalist>
 						<?php
 					
-						$sqlgetItemList = "SELECT * FROM invoiceitemlist WHERE invoiceID = '$inputtedID'";
+						$sqlgetItemList = "SELECT iit.*, stockName FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$inputtedID'";
                         $result = mysqli_query($con, $sqlgetItemList);
                         if ($result->num_rows > 0){
-                            
-                            echo "<script>window.nextItem = " + $result->num_rows + ";</script>";
+                            $x = 1;
+                            echo "<script>window.nextItem = " . $result->num_rows . ";</script>";
+							
                             while ($row = mysqli_fetch_assoc($result)){ 
                             ?>
+                                <input type="hidden" id="itemID[]" name="itemID[]" value="<?php echo $row['ID'] ?>" />
                                 <label>Item Name:</label>
-                                <input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3" value="<?php $row['itemName'] ?>" />
+                                <input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3" value="<?php echo $row['stockName'] ?>" />
 
                                 <label>Item Quantity:</label>
-                                <input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3"  value="<?php $row['itemQuantity'] ?>" />
+                                <input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3"  value="<?php echo $row['itemQty'] ?>" />
                         <?php 
-                            }
+                            $x += 1;
+							}
                         }?>
                     </div>
 					
