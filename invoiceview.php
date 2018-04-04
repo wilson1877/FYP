@@ -247,8 +247,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<?php } ?>
 				<center>
 					<a href="invoice.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
-          <a href="deliveryOrder.php" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> View Delivery Order</a>
 					<a href="invoiceprint.php" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Invoice</a>
+          <a href="deliveryOrder.php" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Delivery Order</a>
 				</center>
 			</div>
 		</div>
