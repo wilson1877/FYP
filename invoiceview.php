@@ -227,12 +227,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<td><?php echo $row["stockName"] ?></td>
 									<td><?php echo $row["price"] ?></td>
 									<td><?php echo $row["itemQty"] ?> pcs</td>
-									<td>$ <?php echo $individualPrice ?></td>
+									<td>RM <?php echo $individualPrice ?></td>
 								</tr>
-						
+
 					<?php } ?>
 					<tr>
-					<td colspan="5"><h3 align="right"><b>Grand Total:  </b> $<?php echo $resultArray["totalPrice"] ?></h3></td>
+					<td colspan="5"><h3 align="right"><b>Grand Total:  </b> RM<?php echo $resultArray["totalPrice"] ?></h3></td>
 					</tr>
 					</tbody>
 					</table>
