@@ -294,10 +294,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													<input type="text" id="price" name="price" class="form-control1 control3">
                           <label>Quantity: </label>
 													<input type="text" id="totalStock" name="totalStock" class="form-control1 control3">
-                          <!--
                           <label>Stock Image: </label>
-													<input type="image" id="stockImage" name="stockImage" class="form-control1 control3">
-                        -->
+													<input type="file" id="stockImage" name="stockImage" id="fileToUpload" class="form-control1 control3">
 													<br>
 													<center>
 														<input class="btn btn-success" name="submitAdd" type="submit" value="Submit">
