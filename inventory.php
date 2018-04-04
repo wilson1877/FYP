@@ -143,7 +143,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 					</li>
-					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
 					<li class="menu-list">
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
@@ -253,7 +252,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</table>
 						<center>
 							<p><a class="btn btn-primary" data-toggle="modal" href="#addStock"><span class="glyphicon glyphicon-user"></span> Add Stock</a>
-							<a class="btn btn-info" data-toggle="modal" href="#viewStock"><span class="glyphicon glyphicon-search"></span> Edit Stock Info</a></p>
+							<a class="btn btn-info" data-toggle="modal" href="#viewStock"><span class="glyphicon glyphicon-wrench"></span> Edit Stock Info</a></p>
 						</center>
 					</div>
 				</div>
@@ -330,7 +329,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="panel-group">
 									<div class="panel panel-default">
 										<div class="panel-heading text-center" style="color: #fff; background-color: #5bc0de;">
-											<span class="glyphicon glyphicon-search"></span><strong>&nbsp; Edit Stock Info</strong>
+											<span class="glyphicon glyphicon-wrench"></span><strong>&nbsp; Edit Stock Info</strong>
 										</div>
 										<div class="panel-body">
 											<div class="row form-group">

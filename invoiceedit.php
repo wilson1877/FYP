@@ -22,13 +22,13 @@ $username = "root";
 $password = "";
 $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
-				
+
 $sqlcheck = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID'";
 $getquery = mysqli_query($con, $sqlcheck);
 
 if (mysqli_num_rows($getquery) > 0){
 	$resultArray = mysqli_fetch_assoc($getquery);
-	
+
 	$customerNameold = $resultArray['customerName'];
 	$dateold = $resultArray['date'];
 	$totalPriceold = $resultArray['totalPrice'];
@@ -143,7 +143,6 @@ if (mysqli_num_rows($getquery) > 0){
 					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 					</li>
-					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
 					<li>
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
@@ -249,7 +248,7 @@ if (mysqli_num_rows($getquery) > 0){
 					<!-- loop here -->
 					<label>Purchase Order No:</label>
 					<input type="text" placeholder="<?php echo $purchaseOrderNoold ?>" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
-					
+
 					<div id="items">
 						<datalist id="itemList">
 							<?php
@@ -261,14 +260,14 @@ if (mysqli_num_rows($getquery) > 0){
 							<?php } ?>
 						</datalist>
 						<?php
-					
+
 						$sqlgetItemList = "SELECT iit.*, stockName FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$inputtedID'";
                         $result = mysqli_query($con, $sqlgetItemList);
                         if ($result->num_rows > 0){
                             $x = 1;
                             echo "<script>window.nextItem = " . $result->num_rows . ";</script>";
-							
-                            while ($row = mysqli_fetch_assoc($result)){ 
+
+                            while ($row = mysqli_fetch_assoc($result)){
                             ?>
                                 <input type="hidden" id="itemID[]" name="itemID[]" value="<?php echo $row['ID'] ?>" />
                                 <label>Item Name:</label>
@@ -276,13 +275,13 @@ if (mysqli_num_rows($getquery) > 0){
 
                                 <label>Item Quantity:</label>
                                 <input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3"  value="<?php echo $row['itemQty'] ?>" />
-                        <?php 
+                        <?php
                             $x += 1;
 							}
                         }?>
                     </div>
-					
-					
+
+
 					<button class="btn btn-normal" onclick="return additem()">Add Item</button>
 					<br>
 					<label>Notes:</label>

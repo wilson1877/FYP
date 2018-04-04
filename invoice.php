@@ -207,7 +207,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 					</li>
-					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
 					<li>
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
@@ -332,7 +331,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<p><a class="btn btn-primary" data-toggle="modal" href="#addInvoice">
 							<span class="glyphicon glyphicon-user"></span> Add Invoice</a>
 							<a href="#" onClick="editInvoice()" class="btn btn-warning" contenteditable="false" name="editInvoice"><span class="glyphicon glyphicon-wrench"></span> Edit Invoice</a>
-							<a href="#" onClick="removeInvoice()" class="btn btn-danger" contenteditable="false" name="removeInvoice"><span class="glyphicon glyphicon-remove"></span> Remove Invoice</a>
+							<a href="#" onClick="removeInvoice()" class="btn btn-danger" contenteditable="false" name="removeInvoice"><span class="glyphicon glyphicon-remove"></span> Delete Invoice</a>
 							<!--<a class="btn btn-info" data-toggle="modal" href="#viewInvoice"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>-->
 							<a href="#" onClick="viewInvoice()" class="btn btn-info" contenteditable="false" name="invoiceView"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>
 
@@ -347,7 +346,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									theform.submit()
 								}
 							}
-							
+
 							function removeInvoice(){
 								if (document.getElementById("selectedID").value < 1 ){
 									alert("No Invoice selected");
@@ -360,7 +359,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									}
 								}
 							}
-							
+
 							function viewInvoice(){
 								if (document.getElementById("selectedID").value < 1 ){
 									alert("No Invoice selected");
@@ -451,7 +450,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														}
 													}
 													</script>
-													
+
 
 													<label>Purchase Order No:</label>
 													<input type="text" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
@@ -557,7 +556,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="panel-group">
 									<div class="panel panel-default">
 										<div class="panel-heading text-center" style="color: #fff; background-color: #d9534f;">
-											<span class="glyphicon glyphicon-remove"></span><strong>&nbsp; Remove Invoice</strong>
+											<span class="glyphicon glyphicon-remove"></span><strong>&nbsp; Delete Invoice</strong>
 										</div>
 										<div class="panel-body">
 											<div class="row form-group">
