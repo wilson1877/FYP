@@ -216,7 +216,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<th>Stock Image</th>
 									<th>Stock Name</th>
 									<th>Price</th>
-									<th>Total Stock</th>
+									<th>Quantity</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -293,7 +293,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													<input type="text" id="stockName" name="stockName" class="form-control1 control3">
 													<label>Price: </label>
 													<input type="text" id="price" name="price" class="form-control1 control3">
-                          <label>Total Amount: </label>
+                          <label>Quantity: </label>
 													<input type="text" id="totalStock" name="totalStock" class="form-control1 control3">
                           <!--
                           <label>Stock Image: </label>
