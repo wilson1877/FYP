@@ -88,12 +88,12 @@ if (isset($_POST['submitAdd'])) {
 		}
 	}
 
-if(isset($_POST['invoiceView'])){
-	$inputtedID = $_POST['inputtedID'];
+	if(isset($_POST['invoiceView'])){
+		$inputtedID = $_POST['inputtedID'];
 
-	$_SESSION['INPUTTEDID'] = $inputtedID;
-	header('location:invoiceview.php');
-}
+		$_SESSION['INPUTTEDID'] = $inputtedID;
+		header('location:invoiceview.php');
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -132,11 +132,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			var nextItem = 1;
 
 			function additem(){
-                document.getElementById("items").innerHTML += "  <label>Item "+ (nextItem+1) +"\ Name:</label> <input type=\"text\" list=\"itemList\" name=\"itemName[" +nextItem+ "]\" id=\"itemName[" +nextItem+ "]\" class=\"form-control1 control3\">  <label>Item "+(nextItem+1)+"\ Quantity:</label> <input type=\"text\" name=\"itemQuantity[" +nextItem+ "]\" id=\"itemQuantity[" +nextItem+ "]\" class=\"form-control1 control3\">"
+                document.getElementById("items").innerHTML += "<div class=\"row\" id=\"row"+(nextItem+1)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
+				 "<input type=\"text\" list=\"itemList\" name=\"itemName[]\" id=\"itemName[]\" class=\"form-control1 control3\" /> </div>" +
+				 "<div class=\"col-md-2\"> <label>Item Quantity:</label>" +
+				 "<input type=\"text\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
+				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('row"+(nextItem+1)+"');\">Remove Row</button></div></div> </div>"+
+				 "<div class=\"clearfix\"> </div></div>";
                 nextItem += 1;
 
                 return false;
             };
+			function removeItemRow(rowID){
+				 var row = document.getElementById(rowID); // this gives you the row you want to remove
+				 row.parentNode.removeChild(row); // this gets the html object that holds the row and tells it to remove said row
+				 return false;
+			}
 	</script>
 	<style>
 	   .activity_box{
@@ -157,6 +167,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	   textarea {
 			resize: none;
 	   }
+		.invoice-padding{
+			margin-top : 25px;
+		}
+
+		.selected {
+			background-color: brown;
+			color: #FFF;
+		}
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
@@ -189,7 +207,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 					</li>
-					<li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Orders</span></a></li>
 					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
 					<li>
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
@@ -254,7 +271,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<hr>
 				<div class="table-responsive">
 					<div class="grid_3 grid_4">
-						<table class="table table-striped table-bordered">
+						<table id="myTable" class="table table-striped table-bordered">
 							<!-- Incoming Table -->
 							<thead class="thead-inverse">
 								<tr>
@@ -314,7 +331,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<p><a class="btn btn-primary" data-toggle="modal" href="#addInvoice">
 							<span class="glyphicon glyphicon-user"></span> Add Invoice</a>
 							<a href="#" onClick="editInvoice()" class="btn btn-warning" contenteditable="false" name="editInvoice"><span class="glyphicon glyphicon-wrench"></span> Edit Invoice</a>
-							<a href="#" onClick="removeInvoice()" class="btn btn-danger" contenteditable="false" name="removeInvoice"><span class="glyphicon glyphicon-remove"></span> Remove Invoice</a>
+							<a href="#" onClick="removeInvoice()" class="btn btn-danger" contenteditable="false" name="removeInvoice"><span class="glyphicon glyphicon-remove"></span> Delete Invoice</a>
 							<!--<a class="btn btn-info" data-toggle="modal" href="#viewInvoice"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>-->
 							<a href="#" onClick="viewInvoice()" class="btn btn-info" contenteditable="false" name="invoiceView"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>
 
@@ -329,7 +346,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									theform.submit()
 								}
 							}
-							
+
 							function removeInvoice(){
 								if (document.getElementById("selectedID").value < 1 ){
 									alert("No Invoice selected");
@@ -342,7 +359,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									}
 								}
 							}
-							
+
 							function viewInvoice(){
 								if (document.getElementById("selectedID").value < 1 ){
 									alert("No Invoice selected");
@@ -434,11 +451,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													}
 													</script>
 
+
 													<label>Purchase Order No:</label>
 													<input type="text" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
-													<div id="items">
+													<label><b>Items</b></label>
+													<div id="items" class="form-group">
+														<!--
 														<label>Item 1 Name:</label>
-														<datalist id="itemList">
+														<input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3">
+														<label>Item 1 Quantity:</label>
+														<input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">-->
+														<div class="row" id="row0">
+															<datalist id="itemList">
 															<?php
 															$sql = "SELECT * FROM stock";
 															$result = mysqli_query($con, $sql);
@@ -446,10 +470,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 															while($row = mysqli_fetch_array($result)) { ?>
 																<option value="<?php echo $row['stockName']; ?>"><?php echo $row['stockName']; ?></option>
 															<?php } ?>
-														</datalist>
-														<input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3">
-														<label>Item 1 Quantity:</label>
-														<input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">
+															</datalist>
+															<div class="col-md-10 grid_box1">
+																<label>Item Name</label>
+																<!--<input type="text" class="form-control1" placeholder=".col-md-10">-->
+																<input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3">
+															</div>
+															<div class="col-md-2">
+																<label>Item Quantity</label>
+																<!--<input type="text" class="form-control1" placeholder=".col-md-12">-->
+																<input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">
+															</div>
+															<!--<div class="col-md-2"><button class="btn btn-danger" onClick="removeItemRow('row0');">Remove Row</button></div>-->
+															<div class="clearfix"> </div>
+														</div>
 													</div>
 													<button class="btn btn-normal" onclick="return additem()">Add Item</button>
 													<br>
@@ -522,7 +556,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="panel-group">
 									<div class="panel panel-default">
 										<div class="panel-heading text-center" style="color: #fff; background-color: #d9534f;">
-											<span class="glyphicon glyphicon-remove"></span><strong>&nbsp; Remove Invoice</strong>
+											<span class="glyphicon glyphicon-remove"></span><strong>&nbsp; Delete Invoice</strong>
 										</div>
 										<div class="panel-body">
 											<div class="row form-group">

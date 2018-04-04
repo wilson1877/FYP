@@ -35,8 +35,12 @@
 
     }
     else{
-      echo "Invalid username or password.";
-      /*$errorMsg = "Invalid username or password.";*/
+      echo
+      "<script>
+          alert('Invalid username or password');
+          location.href='sign-in.html';
+      </script>";
+      exit();
     }
 
   }

@@ -201,7 +201,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          ?>
 				<center>
 					<a href="inventory.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
-          <a href="deleteStock.php" class="btn btn-default"><span class="glyphicon glyphicon-forward"></span> Delete Record</a>
+          <a href="editStock.php" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span> Edit Record</a>
+          <a href="deleteStock.php" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Delete Record</a>
 				</center>
 			</div>
 		</div>
