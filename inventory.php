@@ -270,7 +270,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="modal-body">
 								<!--Content-->
 								<div class="container" style="width: 100%">
-									<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
+									<form action="addStock.php" class="custom-form-horizontal" data-toggle="validator" method="post" role="form" enctype="multipart/form-data">
 										<div class="panel-group">
 											<div class="panel panel-default">
 												<div class="panel-heading text-center" style="color: #fff; background-color: rgb(51, 122, 183);">
@@ -295,10 +295,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                           <label>Quantity: </label>
 													<input type="text" id="totalStock" name="totalStock" class="form-control1 control3">
                           <label>Stock Image: </label>
-													<input type="file" id="stockImage" name="stockImage" id="fileToUpload" class="form-control1 control3">
+													<!--<input type="file" id="stockImage" name="stockImage" id="fileToUpload" class="form-control1 control3">-->
+													<input type="file" id="stockImage" name="stockImage" class="form-control1 control3">
 													<br>
 													<center>
-														<input class="btn btn-success" name="submitAdd" type="submit" value="Submit">
+														<!--<input class="btn btn-success" name="submitAdd" type="submit" value="Submit">-->
+														<input class="btn btn-success" name="submit" type="submit" value="Submit">
                             <input class="btn btn-info" name="reset" type="reset" value="Reset">
 													</center>
 												</form>

@@ -22,18 +22,80 @@ $username = "root";
 $password = "";
 $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
-
+				
 $sqlcheck = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID'";
 $getquery = mysqli_query($con, $sqlcheck);
 
 if (mysqli_num_rows($getquery) > 0){
 	$resultArray = mysqli_fetch_assoc($getquery);
-
+	
 	$customerNameold = $resultArray['customerName'];
 	$dateold = $resultArray['date'];
 	$totalPriceold = $resultArray['totalPrice'];
 	$purchaseOrderNoold = $resultArray['purchaseOrderNo'];
 	$miscNotesold = $resultArray['miscNotes'];
+}
+
+if (isset($_POST['submitEdit'])) {
+
+	$customerName = $_POST['customerName'];
+	$purchaseOrderNo = $_POST['purchaseOrderNo'];
+	$invoiceDate = $_POST['invoiceDate'];
+	$miscNotes = $_POST['miscNotes'];
+	
+	//Copy Pasted from invoice, need to change
+	$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
+	$runquery = mysqli_query($con, $sqlcheckidnumber);
+	if ($runquery -> num_rows > 0) {
+		//Name found!
+		$resultArray = mysqli_fetch_assoc($runquery);
+		$customerID = $resultArray["customerID"];
+		$totalPrice = 0;
+
+		//Adding New Customer
+
+		//$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";
+		//$con -> query($sqlinsert);
+		
+		$sqledit = "UPDATE invoice SET totalPrice = '$totalPrice', customerID = '$customerID', miscNotes = '$miscNotes', purchaseOrderNo = '$purchaseOrderNo' WHERE invoiceID = '$inputtedID'";
+		$con -> query($sqledit);
+		
+		//$invoiceID = $con->insert_id;
+		
+		//Wiping out the database list from invoiceitemlist
+		$deleteRecord = "DELETE FROM invoiceitemlist WHERE invoiceID = '$inputtedID'";
+		$con -> query($deleteRecord);
+
+		foreach($_POST['itemName'] as $index => $itemName ) {
+			if ($itemName){
+				$sqlcheckItemName = "SELECT stockID, price FROM stock WHERE stockName = '$itemName'";
+				$runquery2 = mysqli_query($con, $sqlcheckItemName);
+
+				if (mysqli_num_rows($runquery2) > 0){
+					$resultArray = mysqli_fetch_assoc($runquery2);
+
+					$stockID = $resultArray["stockID"];
+					$price = $resultArray["price"];
+
+					$itemQuantity = $_POST["itemQuantity"][$index];
+
+					$totalPrice += $price * $itemQuantity;
+					
+					$sqlinsert2 = "INSERT INTO invoiceitemlist(invoiceID, stockID, itemQty) VALUES ('$inputtedID', '$stockID', '$itemQuantity')";
+					$con -> query($sqlinsert2);
+				}
+			}
+		}
+		
+		$sqlUpdate = "UPDATE invoice SET totalPrice= '$totalPrice' WHERE invoiceID = '$inputtedID'";
+		$con -> query($sqlUpdate);
+		
+		echo
+		"<script>
+		location.href='invoice.php';
+		</script>";
+	}
+
 }
 
 ?>
@@ -205,6 +267,7 @@ if (mysqli_num_rows($getquery) > 0){
 			<div id="page-wrapper">
 				<h3 class="blank1">Editing Invoice #<?php echo $inputtedID ?> - <?php echo $customerNameold ?> [<?php echo $purchaseOrderNoold ?>]</h3>
 				<hr>
+				<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
 				<?php
 				$servername = "localhost";
 				$username = "root";
@@ -237,56 +300,97 @@ if (mysqli_num_rows($getquery) > 0){
 						<?php } ?>
 					</datalist>
 
-					<input type="text" placeholder="<?php echo $customerNameold ?>" id="customerName" name="customerName" list="customerList" class="form-control1 control3">
+					<input type="text" value="<?php echo $customerNameold ?>" id="customerName" name="customerName" list="customerList" class="form-control1 control3">
+					<br>
+					<label>Customer is New: <input type="checkbox" name="myCheck" id="myCheck" onclick="myFunction()"> </label>
+					<br>
+					<p class="well" id="text" style="display:none">
+					<label>Company Name:</label>
+					<input type="text" id="companyName" name="companyName" class="form-control1 control3">
+					<label>Customer Contact No:</label>
+					<input type="text" id="customerContactNo" name="customerContactNo" class="form-control1 control3">
+					<label>E-Mail Address:</label>
+					<input type="text" id="customerEmail" name="customerEmail" class="form-control1 control3">
+					<label>Company Address:</label>
+					<input type="text" id="customerAddress" name="customerAddress" class="form-control1 control3">
+				<br>
+				</p>
+				<script>
+				function myFunction() {
+					var checkBox = document.getElementById("myCheck");
+					var text = document.getElementById("text");
+					if (checkBox.checked == true){
+						text.style.display = "block";
+					} else {
+					   text.style.display = "none";
+					}
+				}
+				</script>
 					<label>Purchase Order No:</label>
-					<input type="text" placeholder="<?php echo $purchaseOrderNoold ?>" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
+					<input type="text" value="<?php echo $purchaseOrderNoold ?>" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
 					<hr>
 					<label>Invoice Date:</label>
-					<input type="text" placeholder="<?php echo $dateold ?>" id="invoiceDate" name="invoiceDate" class="form-control1 control3">
+					<input type="text" value="<?php echo $dateold ?>" id="invoiceDate" name="invoiceDate" class="form-control1 control3">
 					<hr>
 					<p><h2>Items Ordered:</h2></p>
 					<!-- loop here -->
-					<label>Purchase Order No:</label>
-					<input type="text" placeholder="<?php echo $purchaseOrderNoold ?>" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
+					
+					<div id="items" class="form-group">
+							<datalist id="itemList">
+								<?php
+								$sql = "SELECT * FROM stock";
+								$result = mysqli_query($con, $sql);
 
-					<div id="items">
-						<datalist id="itemList">
+								while($row = mysqli_fetch_array($result)) { ?>
+									<option value="<?php echo $row['stockName']; ?>"><?php echo $row['stockName']; ?></option>
+								<?php } ?>
+							</datalist>
+
 							<?php
-							$sql = "SELECT * FROM stock";
-							$result = mysqli_query($con, $sql);
-
-							while($row = mysqli_fetch_array($result)) { ?>
-								<option value="<?php echo $row['stockName']; ?>"><?php echo $row['stockName']; ?></option>
-							<?php } ?>
-						</datalist>
-						<?php
-
-						$sqlgetItemList = "SELECT iit.*, stockName FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$inputtedID'";
-                        $result = mysqli_query($con, $sqlgetItemList);
-                        if ($result->num_rows > 0){
-                            $x = 1;
-                            echo "<script>window.nextItem = " . $result->num_rows . ";</script>";
-
-                            while ($row = mysqli_fetch_assoc($result)){
-                            ?>
-                                <input type="hidden" id="itemID[]" name="itemID[]" value="<?php echo $row['ID'] ?>" />
-                                <label>Item Name:</label>
-                                <input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3" value="<?php echo $row['stockName'] ?>" />
-
-                                <label>Item Quantity:</label>
-                                <input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3"  value="<?php echo $row['itemQty'] ?>" />
-                        <?php
-                            $x += 1;
-							}
-                        }?>
-                    </div>
-
-
+						
+							$sqlgetItemList = "SELECT iit.*, stockName FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$inputtedID'";
+							$result = mysqli_query($con, $sqlgetItemList);
+							if ($result->num_rows > 0){
+								$x = 0;
+								echo "<script>window.nextItem = " . $result->num_rows . ";</script>";
+								
+								while ($row = mysqli_fetch_assoc($result)){ 
+								?>
+									<div class="row" id="row<?php echo $x; ?>">
+										<input type="hidden" id="itemID[]" name="itemID[]" value="<?php echo $row['ID'] ?>" />
+										<div class="col-md-<?php if ($x == 0 ) { echo 10; } else { echo 8; }; ?> grid_box1">
+											<label>Item Name:</label>
+											<input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3" value="<?php echo $row['stockName'] ?>" />
+										</div>
+										<div class="col-md-2">
+											<label>Item Quantity:</label>
+											<input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3"  value="<?php echo $row['itemQty'] ?>" />
+										</div>
+									<?php if ($x > 0 ) { ?>
+										<div class="col-md-2">
+													<button class="btn btn-danger invoice-padding" onClick="return removeItemRow('row<?php echo $x ?>');">Remove Row</button>
+										</div>
+									<?php } ?>
+										<div class="clearfix"> </div>
+									</div>
+							<?php 
+								$x += 1;
+								}
+							}?>
+					</div>
+					
+					
 					<button class="btn btn-normal" onclick="return additem()">Add Item</button>
 					<br>
 					<label>Notes:</label>
-					<textarea class="form-control" placeholder="<?php echo $miscNotesold ?>" rows="5" name="miscNotes" id="miscNotes"></textarea>
+					<textarea class="form-control" value="<?php echo $miscNotesold ?>" rows="5" name="miscNotes" id="miscNotes"></textarea>
+					<br>
+					<center>
+						<input class="btn btn-success" name="submitEdit" type="submit" value="Submit"> <input class="btn btn-info" name="reset" type="reset" value="Reset">
+						<br>
+					</center>
 					</div>
+					</form>
 				<?php
 				}else{ ?>
 					<h1>Invoice not found!!</h1>
