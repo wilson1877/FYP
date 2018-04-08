@@ -51,8 +51,10 @@ if (isset($_POST['submitAdd'])) {
 			$totalPrice = 0;
 
 			//Adding New Customer
+			
+			$currentDate = date("Y/m/d");
 
-			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";
+			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo, date) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo', '$currentDate')";
 			$con -> query($sqlinsert);
 
 			$invoiceID = $con->insert_id;
@@ -271,6 +273,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<hr>
 				<div class="table-responsive">
 					<div class="grid_3 grid_4">
+						<script>
+							function selectInvoice(invoiceID){
+								var selectedIDInput = document.getElementById("selectedID");
+								var previously_selected = document.getElementById("Srow"+selectedIDInput.value);
+								if (previously_selected != null ){
+									previously_selected.style.backgroundColor = "";
+//									previously_selected.classList.remove("table-selected");
+								}
+								selectedIDInput.value = invoiceID;
+								document.getElementById("Srow"+invoiceID).style.backgroundColor = "lightcyan";
+							}
+						</script>
 						<table id="myTable" class="table table-striped table-bordered">
 							<!-- Incoming Table -->
 							<thead class="thead-inverse">
@@ -300,12 +314,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								if ($result->num_rows > 0) {
 									while ($row = mysqli_fetch_assoc($result)){
 								?>
-								<script>
-								function selectInvoice(invoiceID){
-									document.getElementById("selectedID").value = invoiceID;
-								}
-								</script>
-								<tr onclick="selectInvoice(<?php echo $row["invoiceID"]?>)">
+								<tr onclick="selectInvoice(<?php echo $row["invoiceID"]?>)" id="Srow<?php echo $row["invoiceID"]?>">
 									<td><?php echo $row["invoiceID"] ?></td>
 									<td><?php echo $row["date"] ?></td>
 									<td><?php echo $row["totalPrice"] ?></td>
@@ -419,7 +428,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														<?php } ?>
 													</datalist>
 
-													<input type="text" id="customerName" name="customerName" list="customerList" class="form-control1 control3">
+													<input type="text" required id="customerName" name="customerName" list="customerList" class="form-control1 control3">
 													<!-- Button to Add New Customer Here if doesn't exist-->
 													<!--More Customer Details
 													<label>Address: </label>
@@ -453,7 +462,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 													<label>Purchase Order No:</label>
-													<input type="text" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
+													<input type="text" id="purchaseOrderNo" required name="purchaseOrderNo" class="form-control1 control3">
 													<label><b>Items</b></label>
 													<div id="items" class="form-group">
 														<!--
@@ -474,12 +483,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 															<div class="col-md-10 grid_box1">
 																<label>Item Name</label>
 																<!--<input type="text" class="form-control1" placeholder=".col-md-10">-->
-																<input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3">
+																<input type="text" required id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3">
 															</div>
 															<div class="col-md-2">
 																<label>Item Quantity</label>
 																<!--<input type="text" class="form-control1" placeholder=".col-md-12">-->
-																<input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">
+																<input type="text" required id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">
 															</div>
 															<!--<div class="col-md-2"><button class="btn btn-danger" onClick="removeItemRow('row0');">Remove Row</button></div>-->
 															<div class="clearfix"> </div>
