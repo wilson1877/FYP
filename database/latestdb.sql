@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2018 at 06:04 PM
+-- Generation Time: Apr 09, 2018 at 09:17 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 5.6.33
 
@@ -32,7 +32,8 @@ CREATE TABLE `customer` (
   `customerID` int(100) NOT NULL,
   `customerName` varchar(50) NOT NULL,
   `companyName` varchar(50) NOT NULL,
-  `contactNumber` int(50) NOT NULL,
+  `contactNumber` varchar(50) NOT NULL,
+  `faxNumber` varchar(50) NOT NULL,
   `emailAddress` varchar(50) NOT NULL,
   `address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -41,10 +42,12 @@ CREATE TABLE `customer` (
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customerID`, `customerName`, `companyName`, `contactNumber`, `emailAddress`, `address`) VALUES
-(1, 'Test Customer', 'CompanyTest', 1123411, 'qwerty@test.com', 'No 10 asdf'),
-(2, 'MonikaCorp', 'Just Monika', 11412311, '123@fas.com', '1231'),
-(3, 'Sayori', 'SayoriTest', 162144213, 'sayori@ddlc.com', '1231');
+INSERT INTO `customer` (`customerID`, `customerName`, `companyName`, `contactNumber`, `faxNumber`, `emailAddress`, `address`) VALUES
+(1, 'Test Customer', 'CompanyTest', '03-65236558', '03-65236559', 'qwerty@test.com', '4 Goldfield Rd.\r\nHonolulu, HI 96815'),
+(2, 'MonikaCorp', 'Just Monika', '09-78631556', '09-78631558', '123@fas.com', '514 S. Magnolia St.\r\nOrlando, FL 32806'),
+(3, 'Sayori', 'SayoriTest', '09-78631554', '09-78631555', 'sayori@ddlc.com', '71 Pilgrim Avenue\r\nChevy Chase, MD 20815'),
+(5, 'Natsuki', 'Cupcake Club', '09-23242132', '09-23242133', 'natsuki@ddlc.dom', '7122 Kirkland Lane\r\nSanta Clara, CA 95050'),
+(6, 'Yuri', 'Knife Club', '03-122423112', '03-122423113', 'yuri@ddlc.com', 'wee\r\nTest');
 
 -- --------------------------------------------------------
 
@@ -98,7 +101,8 @@ INSERT INTO `invoice` (`invoiceID`, `date`, `totalPrice`, `itemQuantity`, `custo
 (1, '2018-03-12', '307.50', 0, 2, 'NotesTest', 'PO-12345'),
 (2, '2018-03-20', '55.00', 0, 1, '', '1111'),
 (3, '2018-03-28', '55.00', 0, 3, 'fgsd', '12'),
-(4, '2018-03-29', '672.00', 0, 1, '12321', '1231');
+(4, '2018-03-29', '672.00', 0, 1, '12321', '1231'),
+(5, '2018-04-09', '2622.50', 0, 5, 'Deliver ASAP', 'STBY-124');
 
 -- --------------------------------------------------------
 
@@ -124,7 +128,11 @@ INSERT INTO `invoiceitemlist` (`itemListID`, `invoiceID`, `stockID`, `itemQty`, 
 (4, 3, 1, 10, ''),
 (5, 4, 1, 12, ''),
 (6, 4, 2, 12, ''),
-(26, 2, 1, 10, '');
+(26, 2, 1, 10, ''),
+(27, 5, 1, 10, ''),
+(28, 5, 2, 11, ''),
+(29, 5, 3, 20, ''),
+(30, 5, 4, 1, '');
 
 -- --------------------------------------------------------
 
@@ -236,7 +244,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `delivery`
@@ -248,19 +256,19 @@ ALTER TABLE `delivery`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `invoiceID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `invoiceID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `invoiceitemlist`
 --
 ALTER TABLE `invoiceitemlist`
-  MODIFY `itemListID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `itemListID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `stockID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `stockID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user`

@@ -60,7 +60,7 @@ $pdf->SetSubject('Invoice');
 $pdf->SetKeywords('invoice');
 
 // set default header data
-$pdf->SetHeaderData('logo.png', 40, 'Invoice - IBuzz system', '<ADDRESS GOES HERE>');
+$pdf->SetHeaderData('logo.png', 40, 'Invoice - IBuzz system', "No 2754, 2nd floor, Jalan Chain Ferry Taman Inderawasih");
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -100,7 +100,7 @@ $pdf->SetFont('helvetica', '', 12);
 
 $invoiceTitle = "<p>".$resultArray["companyName"]."</p>". createRightInvoiceTable($resultArray);
 //$pdf->writeHTML(0, $invoiceTitle, true, false, false, false, '');
-$txt = '<p>[Company Address Here, will find later]</p><p><b>Contact:</b><br /><b>Tel:</b><br /><b>Fax:</b></p>';
+$txt = "<p>".nl2br($resultArray["address"])."</p><p><b>Contact:  </b>".$resultArray["customerName"]."<br /><b>Tel:  </b>".$resultArray["contactNumber"]."<br /><b>Fax:  </b>".$resultArray["faxNumber"]."<br /></p>";
 $pdf->writeHTML($txt, true, false, false, false, '');
 //$txt = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 $pdf->SetFillColor(255, 235, 235);
@@ -179,14 +179,15 @@ EOD;
 }
 
 function createItemRowsFromDatabaseRow($rowNumber, $row){
-	$ammount = $row["price"] * $row["itemQty"];
+	$amount = $row["price"] * $row["itemQty"];
+	$amountDecimal = number_format($amount,2);
 	return <<<EOD
 	    <tr>
 		<td width="10%">$rowNumber</td>
 		<td bgcolor="#d9d9d9" width="55%">{$row["stockName"]}</td>
 		<td width="15%">{$row["price"]}</td>
 		<td bgcolor="#d9d9d9" width="10%">{$row["itemQty"]}</td>
-		<td bgcolor="#d9d9d9" width="10%">{$ammount}</td>
+		<td bgcolor="#d9d9d9" width="10%">{$amountDecimal}</td>
 	</tr>
 EOD;
 }
@@ -204,12 +205,13 @@ EOD;
 }
 
 function createItemTableGrandTotal($grandTotal) {
+	$numberFormatTotal = number_format($grandTotal,2);
 	$convertedNum = convert_number_to_words($grandTotal);
 	$grandTotalText = strtoupper($convertedNum);
 	
 	return <<<EOD
 	<tr>
-	<td width="100%" align="right"> Grand Total: {$grandTotal}<br />{$grandTotalText} ONLY</td>
+	<td width="100%" align="right"><span style="font-size:23px;"> Grand Total: {$numberFormatTotal}</span><br />{$grandTotalText} ONLY</td>
 	</tr>
 EOD;
 }

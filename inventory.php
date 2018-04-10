@@ -103,7 +103,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	       height: 236px;
 	   }
 	   .thead-inverse th {
-	       background-color: #e1ffda;
+	       background-color: #fff6c6;
 	   }
 	   .btn-info {
 	       padding: 6px 12px;

@@ -34,10 +34,12 @@ if (isset($_POST['submitAdd'])) {
 				//It's a new customer! Adding to the DB!
 				$companyName=$_POST['companyName'];
 				$customerContactNo=$_POST['customerContactNo'];
+				$customerFaxNo=$_POST['customerFaxNo'];
 				$customerEmail=$_POST['customerEmail'];
 				$customerAddress=$_POST['customerAddress'];
 
-				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";
+				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
+				
 				$con -> query($sqlnewcustomerinsert);
 			}
 		}
@@ -442,10 +444,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														<input type="text" id="companyName" name="companyName" class="form-control1 control3">
 														<label>Customer Contact No:</label>
 														<input type="text" id="customerContactNo" name="customerContactNo" class="form-control1 control3">
+														<label>Customer Fax No:</label>
+														<input type="text" id="customerFaxNo" name="customerFaxNo" class="form-control1 control3">
 														<label>E-Mail Address:</label>
 														<input type="text" id="customerEmail" name="customerEmail" class="form-control1 control3">
 														<label>Company Address:</label>
-														<input type="text" id="customerAddress" name="customerAddress" class="form-control1 control3">
+														<!--<input type="textarea" id="customerAddress" name="customerAddress" class="form-control1 control3">-->
+														<textarea class="form-control" rows="2" name="customerAddress" id="customerAddress"></textarea>
 													<br>
 													</p>
 													<script>
