@@ -16,15 +16,15 @@ $username = "root";
 $password = "";
 $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
-				
+
 $sql = "SELECT a.*, b.* FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID' AND a.customerID = b.customerID";
 
 $result = mysqli_query($con, $sql);
 
 if (mysqli_num_rows($result) > 0){
 $resultArray = mysqli_fetch_assoc($result);
- 
- 
+
+
 // Include the main TCPDF library (search for installation path).
 require_once('tcpdf_include.php');
 
@@ -32,17 +32,17 @@ class MYPDF extends TCPDF {
     public function Footer() {
         $this->SetY(-25);
         $this->SetFont('brushscript', 'N', 36);
-        $this->Cell(0, 
-		5, 
-		'Thank you!', 
-		0, 
-		false, 
-		'C', 
-		0, 
-		'', 
-		0, 
-		false, 
-		'T', 
+        $this->Cell(0,
+		5,
+		'Thank you!',
+		0,
+		false,
+		'C',
+		0,
+		'',
+		0,
+		false,
+		'T',
 		'M');
 		//Cell(float w [, float h [, string txt [, mixed border [, int ln [, string align [, boolean fill [, mixed link]]]]]]])
 		//http://www.fpdf.org/en/doc/cell.htm
@@ -141,7 +141,7 @@ $pdf->Output('invoiceprint.php', 'I');
 
 function createItemsTableFromDatabase($connection, $invoiceID){
 	$returnedTable = "";
-	
+
 	$itemsRows = "\n";
 	$grandTotal = 0;
 	$sqlInvoiceItemsList = "SELECT iit.*, stockName, price FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$invoiceID'";
@@ -156,7 +156,7 @@ function createItemsTableFromDatabase($connection, $invoiceID){
 		$rownum += 1;
 		$grandTotal += $row["price"] * $row["itemQty"];
 	}
-	
+
 	while ($rownum <= 17){
 		$returnedTable .= createEmptyRows($rownum, $row);
 		$rownum += 1;
@@ -168,12 +168,12 @@ function createItemsTableFromDatabase($connection, $invoiceID){
 
 function createItemTableHeader() {
 	return <<<EOD
-	<tr style="width:100%"> 
-	<th width="10%"><b>No.</b></th>
-	<th bgcolor="#d9d9d9" width="55%"><b>Item Description</b></th>
-	<th width="15%"><b>Unit Price</b></th>
-	<th bgcolor="#d9d9d9" width="10%"><b>Qty.</b></th>
-	<th bgcolor="#d9d9d9" width="10%"><b>Amount</b></th>
+	<tr style="width:100%">
+	<th align="center" width="5%"><b>No.</b></th>
+	<th align="center" bgcolor="#d9d9d9" width="55%"><b>Item Description</b></th>
+	<th align="center" width="15%"><b>Unit Price</b></th>
+	<th align="center" bgcolor="#d9d9d9" width="10%"><b>Qty.</b></th>
+	<th align="center" bgcolor="#d9d9d9" width="15%"><b>Amount</b></th>
 	</tr>
 EOD;
 }
@@ -183,11 +183,11 @@ function createItemRowsFromDatabaseRow($rowNumber, $row){
 	$amountDecimal = number_format($amount,2);
 	return <<<EOD
 	    <tr>
-		<td width="10%">$rowNumber</td>
+		<td width="5%" align="center">$rowNumber</td>
 		<td bgcolor="#d9d9d9" width="55%">{$row["stockName"]}</td>
-		<td width="15%">{$row["price"]}</td>
-		<td bgcolor="#d9d9d9" width="10%">{$row["itemQty"]}</td>
-		<td bgcolor="#d9d9d9" width="10%">{$amountDecimal}</td>
+		<td width="15%" align="right">{$row["price"]}</td>
+		<td bgcolor="#d9d9d9" width="10%" align="right">{$row["itemQty"]}</td>
+		<td align="right" bgcolor="#d9d9d9" width="15%">{$amountDecimal}</td>
 	</tr>
 EOD;
 }
@@ -195,11 +195,11 @@ EOD;
 function createEmptyRows($rowNumber, $row){
 	return <<<EOD
 	    <tr>
-		<td width="10%"></td>
+		<td width="5%"></td>
 		<td bgcolor="#d9d9d9" width="55%"></td>
 		<td width="15%"></td>
 		<td bgcolor="#d9d9d9" width="10%"></td>
-		<td bgcolor="#d9d9d9" width="10%"></td>
+		<td bgcolor="#d9d9d9" width="15%"></td>
 	</tr>
 EOD;
 }
@@ -208,10 +208,10 @@ function createItemTableGrandTotal($grandTotal) {
 	$numberFormatTotal = number_format($grandTotal,2);
 	$convertedNum = convert_number_to_words($grandTotal);
 	$grandTotalText = strtoupper($convertedNum);
-	
+
 	return <<<EOD
 	<tr>
-	<td width="100%" align="right"><span style="font-size:23px;"> Grand Total: {$numberFormatTotal}</span><br />{$grandTotalText} ONLY</td>
+	<td width="100%" align="right"><span style="font-size:23px;"> Grand Total: RM {$numberFormatTotal}</span><br />(RINGGIT MALAYSIA: {$grandTotalText} ONLY)</td>
 	</tr>
 EOD;
 }
