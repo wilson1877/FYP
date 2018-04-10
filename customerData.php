@@ -26,6 +26,7 @@ if (isset($_POST['submitAdd'])) {
 		$customerContactNo=$_POST['contactNumber'];
 		$customerEmail=$_POST['emailAddress'];
 		$customerAddress=$_POST['address'];
+		$customerFaxNo=$_POST['customerFaxNo'];
 
 		/*if (isset($_POST['myCheck'])) {
 			//Checking the associated Customer with their ID via Name
@@ -52,7 +53,7 @@ if (isset($_POST['submitAdd'])) {
 			$resultArray = mysqli_fetch_assoc($runquery);
 			$customerID = $resultArray["customerID"];
 
-			$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";
+			$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
 			$con -> query($sqlnewcustomerinsert);
 		}else{
 			//Customer found, throw error
@@ -121,7 +122,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	       height: 236px;
 	   }
 	   .thead-inverse th {
-	       background-color: #e1ffda;
+	       background-color: #daf0ff;
 	   }
 	   .btn-info {
 	       padding: 6px 12px;
@@ -315,10 +316,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													<input type="text" id="companyName" name="companyName" class="form-control1 control3">
                           <label>Contact Number: </label>
 													<input type="text" id="contactNumber" name="contactNumber" class="form-control1 control3">
+													<label>Customer Fax No:</label>
+													<input type="text" id="customerFaxNo" name="customerFaxNo" class="form-control1 control3">
                           <label>Email Address: </label>
 													<input type="text" id="emailAddress" name="emailAddress" class="form-control1 control3">
                           <label>Delivery Address: </label>
-													<input type="text" id="address" name="address" class="form-control1 control3">
+													<!--<input type="text" id="address" name="address" class="form-control1 control3">-->
+													<textarea class="form-control" rows="2" name="address" id="address"></textarea>
 													<br>
 													<center>
 														<input class="btn btn-success" name="submitAdd" type="submit" value="Submit">

@@ -32,7 +32,8 @@ CREATE TABLE `customer` (
   `customerID` int(100) NOT NULL,
   `customerName` varchar(50) NOT NULL,
   `companyName` varchar(50) NOT NULL,
-  `contactNumber` int(50) NOT NULL,
+  `contactNumber` varchar(50) NOT NULL,
+  `faxNumber` varchar(50) NOT NULL,
   `emailAddress` varchar(50) NOT NULL,
   `address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -73,7 +74,7 @@ CREATE TABLE `delivery` (
 
 CREATE TABLE `invoice` (
   `invoiceID` int(100) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` date NOT NULL,
   `totalPrice` decimal(50,2) NOT NULL,
   `itemQuantity` int(100) NOT NULL,
   `customerID` int(100) NOT NULL,

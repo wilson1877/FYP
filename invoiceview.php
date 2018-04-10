@@ -216,6 +216,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						$itemPrice = $row["price"];
 						$individualPrice = $itemQty * $itemPrice;
 						$counter += 1;
+						
+						$individualPriceDecimal = number_format($individualPrice,2);
 						?>
 						<!--<p><h4><b>Item:</b> <?php echo $row["stockName"] ?></h4></p>
 						<p><h4><b>Quantity:</b> <?php echo $row["itemQty"] ?></h4></p>
@@ -224,9 +226,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<tr>
 									<td><?php echo $counter ?></td>
 									<td><?php echo $row["stockName"] ?></td>
-									<td><?php echo $row["price"] ?></td>
+									<td>RM <?php echo $row["price"] ?></td>
 									<td><?php echo $row["itemQty"] ?> pcs</td>
-									<td>RM <?php echo $individualPrice ?></td>
+									<td>RM <?php echo $individualPriceDecimal ?></td>
 								</tr>
 
 					<?php } ?>
