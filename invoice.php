@@ -39,7 +39,7 @@ if (isset($_POST['submitAdd'])) {
 				$customerAddress=$_POST['customerAddress'];
 
 				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
-				
+
 				$con -> query($sqlnewcustomerinsert);
 			}
 		}
@@ -53,7 +53,7 @@ if (isset($_POST['submitAdd'])) {
 			$totalPrice = 0;
 
 			//Adding New Customer
-			
+
 			$currentDate = date("Y/m/d");
 
 			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo, date) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo', '$currentDate')";
@@ -430,7 +430,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														<?php } ?>
 													</datalist>
 
-													<input type="text" required id="customerName" name="customerName" list="customerList" class="form-control1 control3">
+													<input type="text" required id="customerName" name="customerName" list="customerList" placeholder="Click on the drop down button to select existing customer" class="form-control1 control3">
 													<!-- Button to Add New Customer Here if doesn't exist-->
 													<!--More Customer Details
 													<label>Address: </label>
@@ -488,7 +488,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 															<div class="col-md-10 grid_box1">
 																<label>Item Name</label>
 																<!--<input type="text" class="form-control1" placeholder=".col-md-10">-->
-																<input type="text" required id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3">
+																<input type="text" required id="itemName[]" name="itemName[]" list="itemList" placeholder="Click on the drop down button to select existing stock" class="form-control1 control3">
 															</div>
 															<div class="col-md-2">
 																<label>Item Quantity</label>
