@@ -50,13 +50,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<script>
 	        new WOW().init();
-
 			var nextItem = 1;
-
 			function additem(){
                 document.getElementById("items").innerHTML += "  <label>Item "+ (nextItem+1) +"\ Name:</label> <input type=\"text\" list=\"itemList\" name=\"itemName[" +nextItem+ "]\" id=\"itemName[" +nextItem+ "]\" class=\"form-control1 control3\">  <label>Item "+(nextItem+1)+"\ Quantity:</label> <input type=\"text\" name=\"itemQuantity[" +nextItem+ "]\" id=\"itemQuantity[" +nextItem+ "]\" class=\"form-control1 control3\">"
                 nextItem += 1;
-
                 return false;
             };
 	</script>
@@ -179,11 +176,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				$password = "";
 				$dbname = "fyp";
 				$con = new mysqli($servername, $username, $password, $dbname);
-
 				$sql = "SELECT a.*, b.* FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID' AND a.customerID = b.customerID";
-
 				$result = mysqli_query($con, $sql);
-
 				if (mysqli_num_rows($result) > 0){
 					$resultArray = mysqli_fetch_assoc($result);
 				?>
@@ -249,8 +243,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<?php } ?>
 				<center>
 					<a href="invoice.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
-					<a href="invoiceprint.php" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Invoice</a>
-          <a href="deliveryOrder.php" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Delivery Order</a>
+					<a onclick="invoicePrint()" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Invoice</a>
+					<a onclick="doPrint()" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Delivery Order</a>
+					
+					<script>
+					function invoicePrint() {
+						window.open("invoiceprint.php");
+					}
+					function doPrint() {
+						window.open("doprint.php");
+					}
+					</script>
 				</center>
 			</div>
 		</div>
