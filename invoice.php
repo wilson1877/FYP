@@ -34,7 +34,7 @@ if (isset($_POST['submitAdd'])) {
 				$customerEmail=$_POST['customerEmail'];
 				$customerAddress=$_POST['customerAddress'];
 				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
-				
+
 				$con -> query($sqlnewcustomerinsert);
 			}
 		}
@@ -46,7 +46,7 @@ if (isset($_POST['submitAdd'])) {
 			$customerID = $resultArray["customerID"];
 			$totalPrice = 0;
 			//Adding New Customer
-			
+
 			$currentDate = date("Y/m/d");
 			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo, date) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo', '$currentDate')";
 			$con -> query($sqlinsert);
@@ -63,11 +63,11 @@ if (isset($_POST['submitAdd'])) {
 						$totalStock = $resultArray["totalStock"];
 						/*var_dump($stockID);
 						var_dump($price);*/
-	
+
 						$itemQuantity = $_POST["itemQuantity"][$index];
-						
+
 						$updatedStock = $totalStock - $itemQuantity;
-						
+
 						$sqledit = "UPDATE stock SET totalStock = '$updatedStock' WHERE stockID = '$stockID'";
 						$con -> query($sqledit);
 						$totalPrice += $price * $itemQuantity;
@@ -124,7 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				while($row = mysqli_fetch_array($result)) {
 					$select_options .= "<option value=\"" . $row['stockName'] . "\">" . $row['stockName'] . "</option>\n";
 			} ?>
-															
+
 			function additem(){
                 document.getElementById("row"+(nextItem)).innerHTML += "<div class=\"row\" id=\"divrow"+(nextItem)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
 				 "<select name=\"itemName[]\" id=\"itemName[]\" class=\"form-control selectpicker\" data-live-search=\"true\">" + `<?php echo $select_options; ?>` +"</select> </div>" +
@@ -331,10 +331,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								echo "0 results";
 								?>
 								<tr>
-									<td>Nope</td>
-									<td>Didn't work</td>
-									<td>Sorry Lol</td>
-									<td>K bye</td>
+									<td>No data</td>
+                  <td>No data</td>
+                  <td>No data</td>
+                  <td>No data</td>
+                  <td>No data</td>
+                  <td>No data</td>
 								</tr><?php }?>
 							</tbody>
 						</table>
