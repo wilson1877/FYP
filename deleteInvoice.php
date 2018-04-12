@@ -8,25 +8,21 @@
 		$firstname = $_SESSION['firstName'];
 		$inputtedID = $_REQUEST['selectedID'];
 }
-
   $servername = "localhost";
   $username = "root";
   $password = "";
   $dbname = "fyp";
-
   // Create connection
   $con = new mysqli($servername, $username, $password, $dbname);
   
   $sql = "DELETE FROM invoiceitemlist WHERE invoiceID = '$inputtedID'";
   $con -> query($sql);
-
   $sql2 = "DELETE FROM invoice WHERE invoiceID = '$inputtedID'";
   $con -> query($sql2);
   
   if (mysqli_affected_rows($con) > 0) {
 		echo
 		"<script>
-        alert('Data successfully removed!');
 		location.href='invoice.php';
 		</script>";
 	}
