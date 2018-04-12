@@ -15,7 +15,6 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 	//$inputtedID = $_POST['INPUTTEDID'];
     $inputtedID = $_REQUEST['selectedID'];
 }
-
 /*Getting Existing Data*/
 $servername = "localhost";
 $username = "root";
@@ -25,7 +24,6 @@ $con = new mysqli($servername, $username, $password, $dbname);
 				
 $sqlcheck = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID'";
 $getquery = mysqli_query($con, $sqlcheck);
-
 if (mysqli_num_rows($getquery) > 0){
 	$resultArray = mysqli_fetch_assoc($getquery);
 	
@@ -35,9 +33,7 @@ if (mysqli_num_rows($getquery) > 0){
 	$purchaseOrderNoold = $resultArray['purchaseOrderNo'];
 	$miscNotesold = $resultArray['miscNotes'];
 }
-
 if (isset($_POST['submitEdit'])) {
-
 	$customerName = $_POST['customerName'];
 	$purchaseOrderNo = $_POST['purchaseOrderNo'];
 	$invoiceDate = $_POST['invoiceDate'];
@@ -51,9 +47,7 @@ if (isset($_POST['submitEdit'])) {
 		$resultArray = mysqli_fetch_assoc($runquery);
 		$customerID = $resultArray["customerID"];
 		$totalPrice = 0;
-
 		//Adding New Customer
-
 		//$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";
 		//$con -> query($sqlinsert);
 		
@@ -65,20 +59,15 @@ if (isset($_POST['submitEdit'])) {
 		//Wiping out the database list from invoiceitemlist
 		$deleteRecord = "DELETE FROM invoiceitemlist WHERE invoiceID = '$inputtedID'";
 		$con -> query($deleteRecord);
-
 		foreach($_POST['itemName'] as $index => $itemName ) {
 			if ($itemName){
 				$sqlcheckItemName = "SELECT stockID, price FROM stock WHERE stockName = '$itemName'";
 				$runquery2 = mysqli_query($con, $sqlcheckItemName);
-
 				if (mysqli_num_rows($runquery2) > 0){
 					$resultArray = mysqli_fetch_assoc($runquery2);
-
 					$stockID = $resultArray["stockID"];
 					$price = $resultArray["price"];
-
 					$itemQuantity = $_POST["itemQuantity"][$index];
-
 					$totalPrice += $price * $itemQuantity;
 					
 					$sqlinsert2 = "INSERT INTO invoiceitemlist(invoiceID, stockID, itemQty) VALUES ('$inputtedID', '$stockID', '$itemQuantity')";
@@ -95,9 +84,7 @@ if (isset($_POST['submitEdit'])) {
 		location.href='invoice.php';
 		</script>";
 	}
-
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -112,9 +99,6 @@ if (isset($_POST['submitEdit'])) {
 	</script><!-- Bootstrap Core CSS -->
 	<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
@@ -131,18 +115,24 @@ if (isset($_POST['submitEdit'])) {
 	</script>
 	<script>
 	        new WOW().init();
-
 			var nextItem = 0;
-
+			<?php
+				$sql = "SELECT * FROM stock";
+				$result = mysqli_query($con, $sql);
+				$select_options = "";
+				while($row = mysqli_fetch_array($result)) {
+					$select_options .= "<option value=\"" . $row['stockName'] . "\">" . $row['stockName'] . "</option>\n";
+			} ?>
 			function additem(){
-                document.getElementById("items").innerHTML += "<div class=\"row\" id=\"row"+(nextItem+1)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
-				 "<input type=\"text\" list=\"itemList\" name=\"itemName[]\" id=\"itemName[]\" class=\"form-control1 control3\" /> </div>" +
+                document.getElementById("row"+(nextItem)).innerHTML += "<div class=\"row\" id=\"divrow"+(nextItem)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
+				 "<select name=\"itemName[]\" id=\"itemName[]\" class=\"form-control selectpicker\" data-live-search=\"true\">" + `<?php echo $select_options; ?>` +"</select> </div>" +
 				 "<div class=\"col-md-2\"> <label>Item Quantity:</label>" +
 				 "<input type=\"text\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
-				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('row"+(nextItem+1)+"');\">Remove Row</button></div></div> </div>"+
-				 "<div class=\"clearfix\"> </div></div>";
+				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('divrow"+(nextItem)+"');\">Remove Row</button></div></div> </div>"+
+				 "<div class=\"clearfix\"> </div></div><span id=\"row"+(nextItem+1)+"\"/>";
                 nextItem += 1;
-
+				$('.selectpicker').last().selectpicker({
+      			});
                 return false;
             };
 			function removeItemRow(rowID){
@@ -180,6 +170,13 @@ if (isset($_POST['submitEdit'])) {
 
 	<script src="js/jquery-1.10.2.min.js">
 	</script><!-- Placed js at the end of the document so the pages load faster -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+	<script type="text/javascript">
+		$('.selectpicker').selectpicker({
+		});
+	</script>
+
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
@@ -274,11 +271,8 @@ if (isset($_POST['submitEdit'])) {
 				$password = "";
 				$dbname = "fyp";
 				$con = new mysqli($servername, $username, $password, $dbname);
-
 				$sql = "SELECT a.*, b.* FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID' AND a.customerID = b.customerID";
-
 				$result = mysqli_query($con, $sql);
-
 				if (mysqli_num_rows($result) > 0){
 					$resultArray = mysqli_fetch_assoc($result);
 				?>
@@ -290,7 +284,6 @@ if (isset($_POST['submitEdit'])) {
 					$password = "";
 					$dbname = "fyp";
 					$con = new mysqli($servername, $username, $password, $dbname);
-
 					$sql = "SELECT * FROM customer";
 					$result = mysqli_query($con, $sql);
 					?>
@@ -336,16 +329,6 @@ if (isset($_POST['submitEdit'])) {
 					<!-- loop here -->
 					
 					<div id="items" class="form-group">
-							<datalist id="itemList">
-								<?php
-								$sql = "SELECT * FROM stock";
-								$result = mysqli_query($con, $sql);
-
-								while($row = mysqli_fetch_array($result)) { ?>
-									<option value="<?php echo $row['stockName']; ?>"><?php echo $row['stockName']; ?></option>
-								<?php } ?>
-							</datalist>
-
 							<?php
 						
 							$sqlgetItemList = "SELECT iit.*, stockName FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$inputtedID'";
@@ -360,7 +343,16 @@ if (isset($_POST['submitEdit'])) {
 										<input type="hidden" id="itemID[]" name="itemID[]" value="<?php echo $row['ID'] ?>" />
 										<div class="col-md-<?php if ($x == 0 ) { echo 10; } else { echo 8; }; ?> grid_box1">
 											<label>Item Name:</label>
-											<input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3" value="<?php echo $row['stockName'] ?>" />
+											<select required id="itemName[]" name="itemName[]" class="form-control selectpicker" data-live-search="true" >
+											<?php
+												$sql = "SELECT * FROM stock";
+												$result2 = mysqli_query($con, $sql);
+												$select_options = "";
+												while($row2 = mysqli_fetch_array($result2)) {
+													
+													echo "<option value=\"" . $row2['stockName'] . "\" ". ( $row['stockName'] == $row2['stockName'] ? "selected=\"selected\"" : "" ) . ">" . $row2['stockName'] . "</option>\n";
+											} ?>
+											</select>
 										</div>
 										<div class="col-md-2">
 											<label>Item Quantity:</label>
@@ -377,6 +369,7 @@ if (isset($_POST['submitEdit'])) {
 								$x += 1;
 								}
 							}?>
+							<span id="row<?php echo $x ?>"/>
 					</div>
 					
 					
