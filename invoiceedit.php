@@ -15,6 +15,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 	//$inputtedID = $_POST['INPUTTEDID'];
     $inputtedID = $_REQUEST['selectedID'];
 }
+
 /*Getting Existing Data*/
 $servername = "localhost";
 $username = "root";
@@ -24,6 +25,7 @@ $con = new mysqli($servername, $username, $password, $dbname);
 				
 $sqlcheck = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID'";
 $getquery = mysqli_query($con, $sqlcheck);
+
 if (mysqli_num_rows($getquery) > 0){
 	$resultArray = mysqli_fetch_assoc($getquery);
 	
@@ -33,7 +35,9 @@ if (mysqli_num_rows($getquery) > 0){
 	$purchaseOrderNoold = $resultArray['purchaseOrderNo'];
 	$miscNotesold = $resultArray['miscNotes'];
 }
+
 if (isset($_POST['submitEdit'])) {
+
 	$customerName = $_POST['customerName'];
 	$purchaseOrderNo = $_POST['purchaseOrderNo'];
 	$invoiceDate = $_POST['invoiceDate'];
@@ -47,7 +51,9 @@ if (isset($_POST['submitEdit'])) {
 		$resultArray = mysqli_fetch_assoc($runquery);
 		$customerID = $resultArray["customerID"];
 		$totalPrice = 0;
+
 		//Adding New Customer
+
 		//$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";
 		//$con -> query($sqlinsert);
 		
@@ -59,15 +65,20 @@ if (isset($_POST['submitEdit'])) {
 		//Wiping out the database list from invoiceitemlist
 		$deleteRecord = "DELETE FROM invoiceitemlist WHERE invoiceID = '$inputtedID'";
 		$con -> query($deleteRecord);
+
 		foreach($_POST['itemName'] as $index => $itemName ) {
 			if ($itemName){
 				$sqlcheckItemName = "SELECT stockID, price FROM stock WHERE stockName = '$itemName'";
 				$runquery2 = mysqli_query($con, $sqlcheckItemName);
+
 				if (mysqli_num_rows($runquery2) > 0){
 					$resultArray = mysqli_fetch_assoc($runquery2);
+
 					$stockID = $resultArray["stockID"];
 					$price = $resultArray["price"];
+
 					$itemQuantity = $_POST["itemQuantity"][$index];
+
 					$totalPrice += $price * $itemQuantity;
 					
 					$sqlinsert2 = "INSERT INTO invoiceitemlist(invoiceID, stockID, itemQty) VALUES ('$inputtedID', '$stockID', '$itemQuantity')";
@@ -84,7 +95,9 @@ if (isset($_POST['submitEdit'])) {
 		location.href='invoice.php';
 		</script>";
 	}
+
 }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -115,6 +128,7 @@ if (isset($_POST['submitEdit'])) {
 	</script>
 	<script>
 	        new WOW().init();
+
 			var nextItem = 0;
 			<?php
 				$sql = "SELECT * FROM stock";
@@ -131,6 +145,7 @@ if (isset($_POST['submitEdit'])) {
 				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('divrow"+(nextItem)+"');\">Remove Row</button></div></div> </div>"+
 				 "<div class=\"clearfix\"> </div></div><span id=\"row"+(nextItem+1)+"\"/>";
                 nextItem += 1;
+
 				$('.selectpicker').last().selectpicker({
       			});
                 return false;
@@ -271,8 +286,11 @@ if (isset($_POST['submitEdit'])) {
 				$password = "";
 				$dbname = "fyp";
 				$con = new mysqli($servername, $username, $password, $dbname);
+
 				$sql = "SELECT a.*, b.* FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID' AND a.customerID = b.customerID";
+
 				$result = mysqli_query($con, $sql);
+
 				if (mysqli_num_rows($result) > 0){
 					$resultArray = mysqli_fetch_assoc($result);
 				?>
@@ -284,6 +302,7 @@ if (isset($_POST['submitEdit'])) {
 					$password = "";
 					$dbname = "fyp";
 					$con = new mysqli($servername, $username, $password, $dbname);
+
 					$sql = "SELECT * FROM customer";
 					$result = mysqli_query($con, $sql);
 					?>
