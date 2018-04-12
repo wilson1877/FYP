@@ -39,7 +39,7 @@ if (isset($_POST['submitAdd'])) {
 				$customerAddress=$_POST['customerAddress'];
 
 				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
-
+				
 				$con -> query($sqlnewcustomerinsert);
 			}
 		}
@@ -53,7 +53,7 @@ if (isset($_POST['submitAdd'])) {
 			$totalPrice = 0;
 
 			//Adding New Customer
-
+			
 			$currentDate = date("Y/m/d");
 
 			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo, date) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo', '$currentDate')";
@@ -63,7 +63,7 @@ if (isset($_POST['submitAdd'])) {
 
 			foreach($_POST['itemName'] as $index => $itemName ) {
 				if ($itemName){
-					$sqlcheckItemName = "SELECT stockID, price FROM stock WHERE stockName = '$itemName'";
+					$sqlcheckItemName = "SELECT stockID, price, totalStock FROM stock WHERE stockName = '$itemName'";
 					$runquery2 = mysqli_query($con, $sqlcheckItemName);
 
 					//if ($runquery2 -> num_rows > 0){
@@ -72,11 +72,18 @@ if (isset($_POST['submitAdd'])) {
 
 						$stockID = $resultArray["stockID"];
 						$price = $resultArray["price"];
+						$totalStock = $resultArray["totalStock"];
 
 						/*var_dump($stockID);
 						var_dump($price);*/
+	
 
 						$itemQuantity = $_POST["itemQuantity"][$index];
+						
+						$updatedStock = $totalStock - $itemQuantity;
+						
+						$sqledit = "UPDATE stock SET totalStock = '$updatedStock' WHERE stockID = '$stockID'";
+						$con -> query($sqledit);
 
 						$totalPrice += $price * $itemQuantity;
 
@@ -112,10 +119,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
 	</script><!-- Bootstrap Core CSS -->
 	<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
@@ -134,16 +137,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	        new WOW().init();
 
 			var nextItem = 1;
-
+			<?php
+				$sql = "SELECT * FROM stock";
+				$result = mysqli_query($con, $sql);
+				$select_options = "";
+				while($row = mysqli_fetch_array($result)) {
+					$select_options .= "<option value=\"" . $row['stockName'] . "\">" . $row['stockName'] . "</option>\n";
+			} ?>
+															
 			function additem(){
-                document.getElementById("items").innerHTML += "<div class=\"row\" id=\"row"+(nextItem+1)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
-				 "<input type=\"text\" list=\"itemList\" name=\"itemName[]\" id=\"itemName[]\" class=\"form-control1 control3\" /> </div>" +
+                document.getElementById("row"+(nextItem)).innerHTML += "<div class=\"row\" id=\"divrow"+(nextItem)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
+				 "<select name=\"itemName[]\" id=\"itemName[]\" class=\"form-control selectpicker\" data-live-search=\"true\">" + `<?php echo $select_options; ?>` +"</select> </div>" +
 				 "<div class=\"col-md-2\"> <label>Item Quantity:</label>" +
 				 "<input type=\"text\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
-				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('row"+(nextItem+1)+"');\">Remove Row</button></div></div> </div>"+
-				 "<div class=\"clearfix\"> </div></div>";
+				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('divrow"+(nextItem)+"');\">Remove Row</button></div></div> </div>"+
+				 "<div class=\"clearfix\"> </div></div> <span id=\"row"+(nextItem+1)+"\"/>";
                 nextItem += 1;
-
+				$('.selectpicker').last().selectpicker({
+      			});
                 return false;
             };
 			function removeItemRow(rowID){
@@ -186,6 +197,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	<script src="js/jquery-1.10.2.min.js">
 	</script><!-- Placed js at the end of the document so the pages load faster -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+<script type="text/javascript">
+    $('.selectpicker').selectpicker({
+      });
+</script>
+
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
@@ -430,7 +451,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														<?php } ?>
 													</datalist>
 
-													<input type="text" required id="customerName" name="customerName" list="customerList" placeholder="Click on the drop down button to select existing customer" class="form-control1 control3">
+													<input type="text" required id="customerName" name="customerName" list="customerList" class="form-control1 control3">
 													<!-- Button to Add New Customer Here if doesn't exist-->
 													<!--More Customer Details
 													<label>Address: </label>
@@ -476,19 +497,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														<label>Item 1 Quantity:</label>
 														<input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">-->
 														<div class="row" id="row0">
-															<datalist id="itemList">
-															<?php
-															$sql = "SELECT * FROM stock";
-															$result = mysqli_query($con, $sql);
-
-															while($row = mysqli_fetch_array($result)) { ?>
-																<option value="<?php echo $row['stockName']; ?>"><?php echo $row['stockName']; ?></option>
-															<?php } ?>
-															</datalist>
 															<div class="col-md-10 grid_box1">
 																<label>Item Name</label>
 																<!--<input type="text" class="form-control1" placeholder=".col-md-10">-->
-																<input type="text" required id="itemName[]" name="itemName[]" list="itemList" placeholder="Click on the drop down button to select existing stock" class="form-control1 control3">
+																<select required id="itemName[]" name="itemName[]" class="form-control selectpicker" data-live-search="true">
+																	<?php echo $select_options; ?>
+																</select>
 															</div>
 															<div class="col-md-2">
 																<label>Item Quantity</label>
@@ -498,6 +512,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 															<!--<div class="col-md-2"><button class="btn btn-danger" onClick="removeItemRow('row0');">Remove Row</button></div>-->
 															<div class="clearfix"> </div>
 														</div>
+														<span id="row1" />
 													</div>
 													<button class="btn btn-normal" onclick="return additem()">Add Item</button>
 													<br>

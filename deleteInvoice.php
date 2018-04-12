@@ -26,7 +26,6 @@
   if (mysqli_affected_rows($con) > 0) {
 		echo
 		"<script>
-        alert('Data successfully removed!');
 		location.href='invoice.php';
 		</script>";
 	}

@@ -249,8 +249,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<?php } ?>
 				<center>
 					<a href="invoice.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
-					<a href="invoiceprint.php" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Invoice</a>
-          <a href="deliveryOrder.php" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Delivery Order</a>
+					<a onclick="invoicePrint()" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Invoice</a>
+					<a onclick="doPrint()" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Delivery Order</a>
+					
+					<script>
+					function invoicePrint() {
+						window.open("invoiceprint.php");
+					}
+					function doPrint() {
+						window.open("doprint.php");
+					}
+					</script>
 				</center>
 			</div>
 		</div>

@@ -60,7 +60,7 @@ $pdf->SetSubject('Invoice');
 $pdf->SetKeywords('invoice');
 
 // set default header data
-$pdf->SetHeaderData('logo.png', 40, 'Invoice - IBuzz system', "No 2754, 2nd floor, Jalan Chain Ferry Taman Inderawasih\nTEL/FAX: 03-5422 1231 || HP: 017-2123 5963\nE-Mail: iBuzzServices@gmail.com");
+$pdf->SetHeaderData('logo.png', 40, 'Delivery Order - IBuzz system', "No 2754, 2nd floor, Jalan Chain Ferry Taman Inderawasih\nTEL/FAX: 03-5422 1231 || HP: 017-2123 5963\nE-Mail: iBuzzServices@gmail.com");
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -116,7 +116,8 @@ $pdf->Ln(40);
 $printableItemsTable = createItemsTableFromDatabase($con, $inputtedID);
 
 $tbl = <<<EOD
-<table border="1" cellpadding="2"  nobr="true">
+<hr>
+<table border="1" cellpadding="2" nobr="true">
 $printableItemsTable
 </table>
 EOD;
@@ -124,7 +125,7 @@ EOD;
 $pdf->writeHTML($tbl, true, false, false, false, '');
 
 $txt = createPaymentMethod();
-$pdf->MultiCell(55, 1, $txt, 0, '', 0, 0, 140, 225, true, 0, true, true, 10, 'M', true);
+$pdf->MultiCell(80, 1, $txt, 0, '', 0, 0, 130, 225, true, 0, true, true, 10, 'M', true);
 
 $txt = createSignatureField();
 $pdf->MultiCell(55, 1, $txt, 0, '', 0, 0, 10, 225, true, 0, true, true, 10, 'M', true);
@@ -142,7 +143,6 @@ function createItemsTableFromDatabase($connection, $invoiceID){
 	$returnedTable = "";
 
 	$itemsRows = "\n";
-	$grandTotal = 0;
 	$sqlInvoiceItemsList = "SELECT iit.*, stockName, price FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$invoiceID'";
 	$result = mysqli_query($connection, $sqlInvoiceItemsList);
 
@@ -153,14 +153,13 @@ function createItemsTableFromDatabase($connection, $invoiceID){
 	while ($row = mysqli_fetch_assoc($result)){
 		$returnedTable .= createItemRowsFromDatabaseRow($rownum, $row);
 		$rownum += 1;
-		$grandTotal += $row["price"] * $row["itemQty"];
 	}
 
 	while ($rownum <= 17){
 		$returnedTable .= createEmptyRows($rownum, $row);
 		$rownum += 1;
 	}
-	$returnedTable .= createItemTableGrandTotal($grandTotal);
+	$returnedTable .= FooterReceiptNote();
 
 	return $returnedTable;
 }
@@ -169,24 +168,18 @@ function createItemTableHeader() {
 	return <<<EOD
 	<tr style="width:100%">
 	<th align="center" width="5%"><b>No.</b></th>
-	<th align="center" bgcolor="#d9d9d9" width="55%"><b>Item Description</b></th>
-	<th align="center" width="15%"><b>Unit Price</b></th>
-	<th align="center" bgcolor="#d9d9d9" width="10%"><b>Qty.</b></th>
-	<th align="center" bgcolor="#d9d9d9" width="15%"><b>Amount</b></th>
+	<th align="center" width="85%"><b>Item Description</b></th>
+	<th align="center" width="10%"><b>Qty.</b></th>
 	</tr>
 EOD;
 }
 
 function createItemRowsFromDatabaseRow($rowNumber, $row){
-	$amount = $row["price"] * $row["itemQty"];
-	$amountDecimal = number_format($amount,2);
 	return <<<EOD
 	    <tr>
 		<td width="5%" align="center">$rowNumber</td>
-		<td bgcolor="#d9d9d9" width="55%">{$row["stockName"]}</td>
-		<td width="15%" align="right">{$row["price"]}</td>
-		<td bgcolor="#d9d9d9" width="10%" align="right">{$row["itemQty"]}</td>
-		<td align="right" bgcolor="#d9d9d9" width="15%">{$amountDecimal}</td>
+		<td width="85%">{$row["stockName"]}</td>
+		<td width="10%" align="right">{$row["itemQty"]}</td>
 	</tr>
 EOD;
 }
@@ -195,23 +188,15 @@ function createEmptyRows($rowNumber, $row){
 	return <<<EOD
 	    <tr>
 		<td width="5%"></td>
-		<td bgcolor="#d9d9d9" width="55%"></td>
-		<td width="15%"></td>
-		<td bgcolor="#d9d9d9" width="10%"></td>
-		<td bgcolor="#d9d9d9" width="15%"></td>
+		<td width="85%"></td>
+		<td width="10%"></td>
 	</tr>
 EOD;
 }
 
-function createItemTableGrandTotal($grandTotal) {
-	$numberFormatTotal = number_format($grandTotal,2);
-	$convertedNum = convert_number_to_words($grandTotal);
-	$grandTotalText = strtoupper($convertedNum);
-
+function FooterReceiptNote() {
 	return <<<EOD
-	<tr>
-	<td width="100%" align="right"><span style="font-size:23px;"> Grand Total: RM {$numberFormatTotal}</span><br />(RINGGIT MALAYSIA: {$grandTotalText} ONLY)</td>
-	</tr>
+	Please acknowledge receipt of above goods are in good order and condition.
 EOD;
 }
 
@@ -219,12 +204,9 @@ EOD;
 function createRightInvoiceTable($resultArray){
 	return <<<EOD
 	<table>
-	<tr border="1" bgcolor="#d9d9d9"><th colspan="2" align="center"><b>INVOICE</b></th></tr>
-	<tr align="right"><td>Inv. Number:</td><td align="center">{$resultArray["invoiceID"]}</td></tr>
-	<tr align="right"><td>Inv. Date:</td><td align="center">{$resultArray["date"]}</td></tr>
-	<tr align="right"><td>P/O No:</td><td align="center">{$resultArray["purchaseOrderNo"]}</td></tr>
-	<tr align="right"><td>D/O No:</td><td align="center">{$resultArray["invoiceID"]}</td></tr>
-	<tr align="right"><td>Payment:</td><td align="center">30 Days</td></tr>
+	<tr border="1" bgcolor="#d9d9d9"><th colspan="2" align="center"><b>DELIVERY ORDER</b></th></tr>
+	<tr align="right"><td>D/O Number:</td><td align="center">{$resultArray["invoiceID"]}</td></tr>
+	<tr align="right"><td>D/O Date:</td><td align="center">{$resultArray["date"]}</td></tr>
 	</table>
 EOD;
 }
@@ -232,9 +214,8 @@ EOD;
 function createPaymentMethod(){
 	return <<<EOD
 	<table border="none" cellspacing="0" cellpadding="0">
-	<tr align="center"><td>Kindly Issue a Cheque to:</td></tr>
-	<tr align="center"><td><b>IBUZZ SERVICES</b></td></tr>
-	<tr align="center"><td><b>HLBB, 1310442123</b></td></tr>
+	<tr align="center"><td>..................................</td></tr>
+	<tr align="center"><td><b>SIGNATURE/COMPANY STAMP</b></td></tr>
 	</table>
 EOD;
 }

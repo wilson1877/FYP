@@ -113,9 +113,6 @@ if (isset($_POST['submitEdit'])) {
 	<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
 	<link href="css/font-awesome.css" rel="stylesheet"><!-- jQuery -->
@@ -133,16 +130,24 @@ if (isset($_POST['submitEdit'])) {
 	        new WOW().init();
 
 			var nextItem = 0;
-
+			<?php
+				$sql = "SELECT * FROM stock";
+				$result = mysqli_query($con, $sql);
+				$select_options = "";
+				while($row = mysqli_fetch_array($result)) {
+					$select_options .= "<option value=\"" . $row['stockName'] . "\">" . $row['stockName'] . "</option>\n";
+			} ?>
 			function additem(){
-                document.getElementById("items").innerHTML += "<div class=\"row\" id=\"row"+(nextItem+1)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
-				 "<input type=\"text\" list=\"itemList\" name=\"itemName[]\" id=\"itemName[]\" class=\"form-control1 control3\" /> </div>" +
+                document.getElementById("row"+(nextItem)).innerHTML += "<div class=\"row\" id=\"divrow"+(nextItem)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
+				 "<select name=\"itemName[]\" id=\"itemName[]\" class=\"form-control selectpicker\" data-live-search=\"true\">" + `<?php echo $select_options; ?>` +"</select> </div>" +
 				 "<div class=\"col-md-2\"> <label>Item Quantity:</label>" +
 				 "<input type=\"text\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
-				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('row"+(nextItem+1)+"');\">Remove Row</button></div></div> </div>"+
-				 "<div class=\"clearfix\"> </div></div>";
+				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('divrow"+(nextItem)+"');\">Remove Row</button></div></div> </div>"+
+				 "<div class=\"clearfix\"> </div></div><span id=\"row"+(nextItem+1)+"\"/>";
                 nextItem += 1;
 
+				$('.selectpicker').last().selectpicker({
+      			});
                 return false;
             };
 			function removeItemRow(rowID){
@@ -180,6 +185,13 @@ if (isset($_POST['submitEdit'])) {
 
 	<script src="js/jquery-1.10.2.min.js">
 	</script><!-- Placed js at the end of the document so the pages load faster -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+	<script type="text/javascript">
+		$('.selectpicker').selectpicker({
+		});
+	</script>
+
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
@@ -336,16 +348,6 @@ if (isset($_POST['submitEdit'])) {
 					<!-- loop here -->
 					
 					<div id="items" class="form-group">
-							<datalist id="itemList">
-								<?php
-								$sql = "SELECT * FROM stock";
-								$result = mysqli_query($con, $sql);
-
-								while($row = mysqli_fetch_array($result)) { ?>
-									<option value="<?php echo $row['stockName']; ?>"><?php echo $row['stockName']; ?></option>
-								<?php } ?>
-							</datalist>
-
 							<?php
 						
 							$sqlgetItemList = "SELECT iit.*, stockName FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$inputtedID'";
@@ -360,7 +362,16 @@ if (isset($_POST['submitEdit'])) {
 										<input type="hidden" id="itemID[]" name="itemID[]" value="<?php echo $row['ID'] ?>" />
 										<div class="col-md-<?php if ($x == 0 ) { echo 10; } else { echo 8; }; ?> grid_box1">
 											<label>Item Name:</label>
-											<input type="text" id="itemName[]" name="itemName[]" list="itemList" class="form-control1 control3" value="<?php echo $row['stockName'] ?>" />
+											<select required id="itemName[]" name="itemName[]" class="form-control selectpicker" data-live-search="true" >
+											<?php
+												$sql = "SELECT * FROM stock";
+												$result2 = mysqli_query($con, $sql);
+												$select_options = "";
+												while($row2 = mysqli_fetch_array($result2)) {
+													
+													echo "<option value=\"" . $row2['stockName'] . "\" ". ( $row['stockName'] == $row2['stockName'] ? "selected=\"selected\"" : "" ) . ">" . $row2['stockName'] . "</option>\n";
+											} ?>
+											</select>
 										</div>
 										<div class="col-md-2">
 											<label>Item Quantity:</label>
@@ -377,6 +388,7 @@ if (isset($_POST['submitEdit'])) {
 								$x += 1;
 								}
 							}?>
+							<span id="row<?php echo $x ?>"/>
 					</div>
 					
 					
