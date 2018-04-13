@@ -55,9 +55,9 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator('iBuzz');
 $pdf->SetAuthor('iBuzz');
-$pdf->SetTitle('Invoice Print');
-$pdf->SetSubject('Invoice');
-$pdf->SetKeywords('invoice');
+$pdf->SetTitle('Delivery Order Print');
+$pdf->SetSubject('DO');
+$pdf->SetKeywords('DO');
 
 // set default header data
 $pdf->SetHeaderData('logo.png', 40, 'Delivery Order - IBuzz system', "No 2754, 2nd floor, Jalan Chain Ferry Taman Inderawasih\nTEL/FAX: 03-5422 1231 || HP: 017-2123 5963\nE-Mail: iBuzzServices@gmail.com");
@@ -133,7 +133,7 @@ $pdf->MultiCell(55, 1, $txt, 0, '', 0, 0, 10, 225, true, 0, true, true, 10, 'M',
 // -----------------------------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('invoiceprint.php', 'I');
+$pdf->Output('doprint.php', 'I');
 }
 //============================================================+
 // END OF FILE
