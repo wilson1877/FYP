@@ -39,7 +39,7 @@ if (isset($_POST['submitAdd'])) {
 				$customerAddress=$_POST['customerAddress'];
 
 				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
-
+				
 				$con -> query($sqlnewcustomerinsert);
 			}
 		}
@@ -53,7 +53,7 @@ if (isset($_POST['submitAdd'])) {
 			$totalPrice = 0;
 
 			//Adding New Customer
-
+			
 			$currentDate = date("Y/m/d");
 
 			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo, date) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo', '$currentDate')";
@@ -76,12 +76,12 @@ if (isset($_POST['submitAdd'])) {
 
 						/*var_dump($stockID);
 						var_dump($price);*/
-
+	
 
 						$itemQuantity = $_POST["itemQuantity"][$index];
-
+						
 						$updatedStock = $totalStock - $itemQuantity;
-
+						
 						$sqledit = "UPDATE stock SET totalStock = '$updatedStock' WHERE stockID = '$stockID'";
 						$con -> query($sqledit);
 
@@ -144,12 +144,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				while($row = mysqli_fetch_array($result)) {
 					$select_options .= "<option value=\"" . $row['stockName'] . "\">" . $row['stockName'] . "</option>\n";
 			} ?>
-
+															
 			function additem(){
                 document.getElementById("row"+(nextItem)).innerHTML += "<div class=\"row\" id=\"divrow"+(nextItem)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
 				 "<select name=\"itemName[]\" id=\"itemName[]\" class=\"form-control selectpicker\" data-live-search=\"true\">" + `<?php echo $select_options; ?>` +"</select> </div>" +
 				 "<div class=\"col-md-2\"> <label>Item Quantity:</label>" +
-				 "<input type=\"text\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
+				 "<input type=\"number\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
 				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('divrow"+(nextItem)+"');\">Remove Row</button></div></div> </div>"+
 				 "<div class=\"clearfix\"> </div></div> <span id=\"row"+(nextItem+1)+"\"/>";
                 nextItem += 1;
@@ -352,12 +352,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								echo "0 results";
 								?>
 								<tr>
-									<td>No data</td>
-									<td>No data</td>
-                  <td>No data</td>
-                  <td>No data</td>
-                  <td>No data</td>
-                  <td>No data</td>
+									<td>Nope</td>
+									<td>Didn't work</td>
+									<td>Sorry Lol</td>
+									<td>K bye</td>
 								</tr><?php }?>
 							</tbody>
 						</table>
@@ -509,7 +507,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 															<div class="col-md-2">
 																<label>Item Quantity</label>
 																<!--<input type="text" class="form-control1" placeholder=".col-md-12">-->
-																<input type="text" required id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">
+																<input type="number" required id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3">
 															</div>
 															<!--<div class="col-md-2"><button class="btn btn-danger" onClick="removeItemRow('row0');">Remove Row</button></div>-->
 															<div class="clearfix"> </div>

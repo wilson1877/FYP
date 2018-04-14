@@ -141,7 +141,7 @@ if (isset($_POST['submitEdit'])) {
                 document.getElementById("row"+(nextItem)).innerHTML += "<div class=\"row\" id=\"divrow"+(nextItem)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
 				 "<select name=\"itemName[]\" id=\"itemName[]\" class=\"form-control selectpicker\" data-live-search=\"true\">" + `<?php echo $select_options; ?>` +"</select> </div>" +
 				 "<div class=\"col-md-2\"> <label>Item Quantity:</label>" +
-				 "<input type=\"text\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
+				 "<input type=\"number\" name=\"itemQuantity[]\" id=\"itemQuantity[]\" class=\"form-control1 control3\"/> </div>" +
 				 "<div class=\"col-md-2\"><div><div><button class=\"btn btn-danger invoice-padding\" onClick=\"return removeItemRow('divrow"+(nextItem)+"');\">Remove Row</button></div></div> </div>"+
 				 "<div class=\"clearfix\"> </div></div><span id=\"row"+(nextItem+1)+"\"/>";
                 nextItem += 1;
@@ -375,7 +375,7 @@ if (isset($_POST['submitEdit'])) {
 										</div>
 										<div class="col-md-2">
 											<label>Item Quantity:</label>
-											<input type="text" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3"  value="<?php echo $row['itemQty'] ?>" />
+											<input type="number" id="itemQuantity[]" name="itemQuantity[]" class="form-control1 control3"  value="<?php echo $row['itemQty'] ?>" />
 										</div>
 									<?php if ($x > 0 ) { ?>
 										<div class="col-md-2">
