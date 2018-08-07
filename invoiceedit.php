@@ -23,7 +23,7 @@ $password = "";
 $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
 				
-$sqlcheck = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID'";
+$sqlcheck = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID' AND a.customerID = b.customerID";
 $getquery = mysqli_query($con, $sqlcheck);
 
 if (mysqli_num_rows($getquery) > 0){
@@ -395,7 +395,7 @@ if (isset($_POST['submitEdit'])) {
 					<button class="btn btn-normal" onclick="return additem()">Add Item</button>
 					<br>
 					<label>Notes:</label>
-					<textarea class="form-control" value="<?php echo $miscNotesold ?>" rows="5" name="miscNotes" id="miscNotes"></textarea>
+					<textarea class="form-control" rows="5" name="miscNotes" id="miscNotes"><?php echo $miscNotesold ?></textarea>
 					<br>
 					<center>
 						<input class="btn btn-success" name="submitEdit" type="submit" value="Submit"> <input class="btn btn-info" name="reset" type="reset" value="Reset">
