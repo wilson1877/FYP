@@ -21,7 +21,11 @@ $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
 
 if (isset($_POST['submitAdd'])) {
+		if (isset($_POST['myCheck'])) {
 		$customerName = $_POST['customerName'];
+		}else{
+			$customerName = $_POST['customerNameDrop'];
+		}
 		$purchaseOrderNo = $_POST['purchaseOrderNo'];
 		$miscNotes = $_POST['miscNotes'];
 
@@ -89,11 +93,26 @@ if (isset($_POST['submitAdd'])) {
 
 						$sqlinsert2 = "INSERT INTO invoiceitemlist(invoiceID, stockID, itemQty) VALUES ('$invoiceID', '$stockID', '$itemQuantity')";
 						$con -> query($sqlinsert2);
+						
+						
 					}
 				}
 			}
 			$sqlUpdate = "UPDATE invoice SET totalPrice= '$totalPrice' WHERE invoiceID = '$invoiceID'";
 			$con -> query($sqlUpdate);
+			
+			//Adding into Debit Section for Audit Recording
+			//Debit = Add more money, Credit = Remove money
+			$sqlAudit = "INSERT INTO creditdebit(invoiceID, customerID, debit, date) VALUES ('$invoiceID', '$customerID', '$totalPrice', '$currentDate')";
+			$con -> query($sqlAudit);
+			
+			//$result = mysqli_query($con,$sqlAudit);
+			
+			/*
+			if (!$result) {
+				echo "<script type='text/javascript'>alert(mysqli_error($con));</script>";
+			exit();
+			}*/
 		}else{
 
 		}
@@ -131,6 +150,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script><!-- //chart -->
 	<!--animate-->
 	<link href="css/animate.css" media="all" rel="stylesheet" type="text/css">
+	<!-- Bootstrap Select -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+	
 	<script src="js/wow.min.js">
 	</script>
 	<script>
@@ -436,28 +458,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													</div>-->
 													<label>Customer Name: </label>
 													<?php
-													$servername = "localhost";
-													$username = "root";
-													$password = "";
-													$dbname = "fyp";
-													$con = new mysqli($servername, $username, $password, $dbname);
-
 													$sql = "SELECT * FROM customer";
 													$result = mysqli_query($con, $sql);
 													?>
+													<!--Dropdown list for Customer -->
+													<p id="text2">
+													<select class="selectpicker show-tick" data-live-search="true" name="customerNameDrop" id="customerNameDrop">
+													<?php while($row = mysqli_fetch_array($result)) { ?>
+														<option value="<?php echo $row['customerName']; ?>"><?php echo $row['customerName']; ?></option>
+													<?php } ?>
+													</select>
+													</p>
+													<p id="text3" style="display:none">
+													<input type="text" required id="customerName" name="customerName" class="form-control1 control3">
+													</p>
+													<!-- Old Customer List -->
+													<!--
 													<datalist id="customerList">
 														<?php while($row = mysqli_fetch_array($result)) { ?>
 															<option value="<?php echo $row['customerName']; ?>"><?php echo $row['customerName']; ?></option>
 														<?php } ?>
 													</datalist>
 
-													<input type="text" required id="customerName" name="customerName" list="customerList" class="form-control1 control3">
-													<!-- Button to Add New Customer Here if doesn't exist-->
-													<!--More Customer Details
-													<label>Address: </label>
-													<input type="text" class="form-control1 control3">
-													-->
-													<br>
+													<input type="text" required id="customerName" name="customerName" list="customerList" class="form-control1 control3">-->
 													<label>Customer is New: <input type="checkbox" name="myCheck" id="myCheck" onclick="myFunction()"> </label>
 													<br>
 													<p class="well" id="text" style="display:none">
@@ -478,10 +501,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													function myFunction() {
 														var checkBox = document.getElementById("myCheck");
 														var text = document.getElementById("text");
+														var text2 = document.getElementById("text2");
+														var text3 = document.getElementById("text3");
 														if (checkBox.checked == true){
 															text.style.display = "block";
+															text2.style.display = "none";
+															text3.style.display = "block";
 														} else {
 														   text.style.display = "none";
+														   text2.style.display = "block";
+															text3.style.display = "none";
 														}
 													}
 													</script>
