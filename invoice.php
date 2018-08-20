@@ -1,129 +1,7 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <?php
-session_start();
-if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
-    $userid=$_SESSION['userID'];
-    $usernamedisplay=$_SESSION['username'];
-    $firstName=$_SESSION['firstName'];
-    $isDriver = $_SESSION['isDriver'];
-    $firstname = $_SESSION['firstName'];
-}
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "fyp";
-$con = new mysqli($servername, $username, $password, $dbname);
-
-if (isset($_POST['submitAdd'])) {
-		if (isset($_POST['myCheck'])) {
-		$customerName = $_POST['customerName'];
-		}else{
-			$customerName = $_POST['customerNameDrop'];
-		}
-		$purchaseOrderNo = $_POST['purchaseOrderNo'];
-		$miscNotes = $_POST['miscNotes'];
-
-		if (isset($_POST['myCheck'])) {
-			//Checking the associated Customer with their ID via Name
-			$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
-			$runquery = mysqli_query($con, $sqlcheckidnumber);
-
-			if ($runquery -> num_rows <= 0) {
-				//It's a new customer! Adding to the DB!
-				$companyName=$_POST['companyName'];
-				$customerContactNo=$_POST['customerContactNo'];
-				$customerFaxNo=$_POST['customerFaxNo'];
-				$customerEmail=$_POST['customerEmail'];
-				$customerAddress=$_POST['customerAddress'];
-
-				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
-				
-				$con -> query($sqlnewcustomerinsert);
-			}
-		}
-
-		$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
-		$runquery = mysqli_query($con, $sqlcheckidnumber);
-		if ($runquery -> num_rows > 0) {
-			//Name found!
-			$resultArray = mysqli_fetch_assoc($runquery);
-			$customerID = $resultArray["customerID"];
-			$totalPrice = 0;
-
-			//Adding New Customer
-			
-			$currentDate = date("Y/m/d");
-
-			$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo, date) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo', '$currentDate')";
-			$con -> query($sqlinsert);
-
-			$invoiceID = $con->insert_id;
-
-			foreach($_POST['itemName'] as $index => $itemName ) {
-				if ($itemName){
-					$sqlcheckItemName = "SELECT stockID, price, totalStock FROM stock WHERE stockName = '$itemName'";
-					$runquery2 = mysqli_query($con, $sqlcheckItemName);
-
-					//if ($runquery2 -> num_rows > 0){
-					if (mysqli_num_rows($runquery2) > 0){
-						$resultArray = mysqli_fetch_assoc($runquery2);
-
-						$stockID = $resultArray["stockID"];
-						$price = $resultArray["price"];
-						$totalStock = $resultArray["totalStock"];
-
-						/*var_dump($stockID);
-						var_dump($price);*/
-	
-
-						$itemQuantity = $_POST["itemQuantity"][$index];
-						
-						$updatedStock = $totalStock - $itemQuantity;
-						
-						$sqledit = "UPDATE stock SET totalStock = '$updatedStock' WHERE stockID = '$stockID'";
-						$con -> query($sqledit);
-
-						$totalPrice += $price * $itemQuantity;
-
-						$sqlinsert2 = "INSERT INTO invoiceitemlist(invoiceID, stockID, itemQty) VALUES ('$invoiceID', '$stockID', '$itemQuantity')";
-						$con -> query($sqlinsert2);
-						
-						
-					}
-				}
-			}
-			$sqlUpdate = "UPDATE invoice SET totalPrice= '$totalPrice' WHERE invoiceID = '$invoiceID'";
-			$con -> query($sqlUpdate);
-			
-			//Adding into Debit Section for Audit Recording
-			//Debit = Add more money, Credit = Remove money
-			$sqlAudit = "INSERT INTO creditdebit(invoiceID, customerID, debit, date) VALUES ('$invoiceID', '$customerID', '$totalPrice', '$currentDate')";
-			$con -> query($sqlAudit);
-			
-			//$result = mysqli_query($con,$sqlAudit);
-			
-			/*
-			if (!$result) {
-				echo "<script type='text/javascript'>alert(mysqli_error($con));</script>";
-			exit();
-			}*/
-		}else{
-
-		}
-	}
-
-	if(isset($_POST['invoiceView'])){
-		$inputtedID = $_POST['inputtedID'];
-
-		$_SESSION['INPUTTEDID'] = $inputtedID;
-		header('location:invoiceview.php');
-	}
+//Invoice Function
+include "config.php";
+include "invoiceinner.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -139,9 +17,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script><!-- Bootstrap Core CSS -->
 	<!-- Latest compiled and minified CSS -->
 
+	
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
 	<link href="css/font-awesome.css" rel="stylesheet"><!-- jQuery -->
+	
+	<script src="js/jquery-1.10.2.min.js">
+	</script><!-- Placed js at the end of the document so the pages load faster -->
+	<script type="text/javascript" src="js/paginathing.js"></script>
 	<!-- lined-icons -->
 	<link href="css/icon-font.min.css" rel="stylesheet" type='text/css'><!-- //lined-icons -->
 	<!-- chart -->
@@ -157,6 +40,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<script>
 	        new WOW().init();
+			
+			jQuery(document).ready(function($){
+				$('.table tbody').paginathing({
+				  perPage: 10,
+				  insertAfter: '.table',
+				  pageNumbers: true
+				});
+			});
 
 			var nextItem = 1;
 			<?php
@@ -186,6 +77,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			}
 	</script>
 	<style>
+		.pagination{
+			display: flex;
+			justify-content: center;
+
+		}
 	   .activity_box{
 	       min-height: 285px;
 	   }
@@ -217,8 +113,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
 	<!-- Meters graphs -->
 
-	<script src="js/jquery-1.10.2.min.js">
-	</script><!-- Placed js at the end of the document so the pages load faster -->
+	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
@@ -470,7 +365,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													</select>
 													</p>
 													<p id="text3" style="display:none">
-													<input type="text" required id="customerName" name="customerName" class="form-control1 control3">
+													<input type="text" id="customerName" name="customerName" class="form-control1 control3">
 													</p>
 													<!-- Old Customer List -->
 													<!--
@@ -505,10 +400,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														var text3 = document.getElementById("text3");
 														if (checkBox.checked == true){
 															text.style.display = "block";
+															document.getElementById("customerName").setAttribute("required", "")
 															text2.style.display = "none";
 															text3.style.display = "block";
 														} else {
 														   text.style.display = "none";
+														   document.getElementById("customerName").removeAttribute("required", "")
 														   text2.style.display = "block";
 															text3.style.display = "none";
 														}
