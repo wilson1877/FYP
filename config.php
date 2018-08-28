@@ -8,7 +8,6 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
     $firstname = $_SESSION['firstName'];
 }
 
-
 $servername = "localhost";
 $username = "root";
 $password = "";

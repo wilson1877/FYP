@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2018 at 09:17 PM
+-- Generation Time: Aug 28, 2018 at 06:40 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 5.6.33
 
@@ -21,6 +21,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `fyp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `creditdebit`
+--
+
+CREATE TABLE `creditdebit` (
+  `ID` int(100) NOT NULL,
+  `invoiceID` int(100) NOT NULL,
+  `customerID` int(100) NOT NULL,
+  `credit` decimal(50,2) NOT NULL,
+  `debit` decimal(50,2) NOT NULL,
+  `date` date NOT NULL,
+  `notes` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `creditdebit`
+--
+
+INSERT INTO `creditdebit` (`ID`, `invoiceID`, `customerID`, `credit`, `debit`, `date`, `notes`) VALUES
+(1, 9, 2, '0.00', '10.00', '2018-08-15', ''),
+(2, 19, 3, '0.00', '50.00', '2018-08-18', ''),
+(3, 20, 3, '0.00', '1300.00', '2018-08-28', '');
 
 -- --------------------------------------------------------
 
@@ -43,11 +68,14 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customerID`, `customerName`, `companyName`, `contactNumber`, `faxNumber`, `emailAddress`, `address`) VALUES
-(1, 'Test Customer', 'CompanyTest', '03-65236558', '03-65236559', 'qwerty@test.com', '4 Goldfield Rd.\r\nHonolulu, HI 96815'),
-(2, 'MonikaCorp', 'Just Monika', '09-78631556', '09-78631558', '123@fas.com', '514 S. Magnolia St.\r\nOrlando, FL 32806'),
-(3, 'Sayori', 'SayoriTest', '09-78631554', '09-78631555', 'sayori@ddlc.com', '71 Pilgrim Avenue\r\nChevy Chase, MD 20815'),
-(5, 'Natsuki', 'Cupcake Club', '09-23242132', '09-23242133', 'natsuki@ddlc.dom', '7122 Kirkland Lane\r\nSanta Clara, CA 95050'),
-(6, 'Yuri', 'Knife Club', '03-122423112', '03-122423113', 'yuri@ddlc.com', 'wee\r\nTest');
+(1, 'Teoh', 'Maxta Trading', '0124773136', '045523198', 'maxta@maxta.com', '63, Lorong Alma Jaya 12, Kawasan \r\nIndustri Alma, 14000 Bukit Mertajam, \r\nPulau Pinang.'),
+(2, 'Natsuki', 'DDLC Club', '019-2231331', '019-2231332', 'natsuki@ddlc.dom', 'No 10 Street Shanghai,\r\n456 Book Road'),
+(3, 'Sayori', 'SayoriDDLC', '013-1421212', '013-1421213', 'sayori@ddlc.com', 'No 10 Bookyln Road,\r\nBook Road 23102'),
+(4, 'ete', '', '', '', '', ''),
+(5, 'test', '', '', '', '', ''),
+(6, 'Monn11', '1231', '241', '124', 'yur1@ddlc.com', '121'),
+(7, 'NewUserpls', '124', '1211-12112', '1', '', ''),
+(8, 'Moon Moon', '', '12-2322', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -98,11 +126,20 @@ CREATE TABLE `invoice` (
 --
 
 INSERT INTO `invoice` (`invoiceID`, `date`, `totalPrice`, `itemQuantity`, `customerID`, `miscNotes`, `purchaseOrderNo`) VALUES
-(1, '2018-03-12', '307.50', 0, 2, 'NotesTest', 'PO-12345'),
-(2, '2018-03-20', '55.00', 0, 1, '', '1111'),
-(3, '2018-03-28', '55.00', 0, 3, 'fgsd', '12'),
-(4, '2018-03-29', '672.00', 0, 1, '12321', '1231'),
-(5, '2018-04-09', '2622.50', 0, 5, 'Deliver ASAP', 'STBY-124');
+(1, '2018-04-12', '4700.00', 0, 1, 'Deliver on 1st April', 'PO-000567'),
+(3, '2018-04-12', '200.00', 0, 1, 'Test', 'PO-1111'),
+(4, '2018-04-15', '20.00', 0, 2, 'New Test', 'PO-2131'),
+(5, '2018-04-15', '350.00', 0, 3, '', 'PS-12111'),
+(9, '2018-08-15', '10.00', 0, 2, '', '1231'),
+(10, '2018-08-15', '160.00', 0, 4, '', 'tetet'),
+(11, '2018-08-15', '10.00', 0, 5, '', '1111'),
+(12, '2018-08-15', '10.00', 0, 6, '', '4124'),
+(13, '2018-08-15', '10.00', 0, 1, '121', '12'),
+(14, '2018-08-15', '10.00', 0, 7, '', '1111'),
+(15, '2018-08-17', '10.00', 0, 4, 'as', 'as'),
+(16, '2018-08-17', '10.00', 0, 2, '121421412', 'NAT-2124'),
+(19, '2018-08-18', '50.00', 0, 3, '', 'Sayoori-241'),
+(20, '2018-08-28', '1300.00', 0, 3, 'Hellooo', 'KEK-PLAS');
 
 -- --------------------------------------------------------
 
@@ -123,16 +160,24 @@ CREATE TABLE `invoiceitemlist` (
 --
 
 INSERT INTO `invoiceitemlist` (`itemListID`, `invoiceID`, `stockID`, `itemQty`, `notes`) VALUES
-(1, 1, 1, 10, ''),
-(2, 1, 2, 5, ''),
-(4, 3, 1, 10, ''),
-(5, 4, 1, 12, ''),
-(6, 4, 2, 12, ''),
-(26, 2, 1, 10, ''),
-(27, 5, 1, 10, ''),
-(28, 5, 2, 11, ''),
-(29, 5, 3, 20, ''),
-(30, 5, 4, 1, '');
+(6, 3, 1, 20, ''),
+(8, 5, 4, 1, ''),
+(9, 5, 2, 2, ''),
+(10, 1, 1, 10, ''),
+(11, 1, 2, 20, ''),
+(12, 1, 5, 10, ''),
+(14, 4, 1, 2, ''),
+(18, 9, 1, 1, ''),
+(19, 10, 5, 1, ''),
+(20, 11, 1, 1, ''),
+(21, 12, 1, 1, ''),
+(22, 13, 1, 1, ''),
+(23, 14, 1, 1, ''),
+(24, 15, 1, 1, ''),
+(25, 16, 1, 1, ''),
+(31, 19, 4, 1, ''),
+(32, 20, 4, 10, ''),
+(33, 20, 5, 5, '');
 
 -- --------------------------------------------------------
 
@@ -153,10 +198,11 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`stockID`, `stockImage`, `stockName`, `price`, `totalStock`) VALUES
-(1, 'null', 'StockName', '5.50', 100),
-(2, 'null', 'StockName 2', '50.50', 10),
-(3, 'image.png', 'Test', '100.00', 12),
-(4, 'image.png', '12', '12.00', 12);
+(1, 'images/stockUpload/Trade-Assurance-pine-wood-plank.jpg_350x350.jpg', 'Pine Wood', '10.00', 7),
+(2, 'images/stockUpload/dowel.png', 'Stainless Steel Bar', '150.00', 97),
+(3, 'images/stockUpload/nitrile-rubber-sheet.jpg', 'Rubber Sheet', '40.00', 65),
+(4, 'images/stockUpload/plastic-sheet-supplier.jpg', 'Plastic Sheet', '50.00', 37),
+(5, 'images/stockUpload/20170424042023_20130415045738floatglass.jpg', 'Glass Sheet', '160.00', 194);
 
 -- --------------------------------------------------------
 
@@ -181,12 +227,17 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `emailAddress`, `contactNumber`, `username`, `password`, `firstName`, `lastName`, `userImage`, `isDriver`) VALUES
-(1, 'admin@admin.com', 0, 'admin', 'admin123', 'Main', 'Admin', '', 0),
-(2, 'admin', 12, 'admin', 'password', 'Second Admin', 'LastName', '', 0);
+(1, 'admin@admin.com', 0, 'admin', 'admin123', 'admin', 'admin', '', 0);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `creditdebit`
+--
+ALTER TABLE `creditdebit`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `customer`
@@ -241,10 +292,16 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `creditdebit`
+--
+ALTER TABLE `creditdebit`
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `delivery`
@@ -256,25 +313,25 @@ ALTER TABLE `delivery`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `invoiceID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `invoiceID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `invoiceitemlist`
 --
 ALTER TABLE `invoiceitemlist`
-  MODIFY `itemListID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `itemListID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `stockID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `stockID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `userID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
