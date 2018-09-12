@@ -97,11 +97,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
-<script type="text/javascript">
-    $('.selectpicker').selectpicker({
-      });
-</script>
-
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
@@ -220,7 +215,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<tbody>
 								<?php
 								$oldCustomerID = "";
-								$sql = "SELECT * FROM creditdebit ORDER BY debit DESC";
+								$sql = "SELECT * FROM creditdebit ORDER BY customerID DESC";
 								$result = mysqli_query($con, $sql);
 								if ($result->num_rows > 0) {
 									while ($row = mysqli_fetch_assoc($result)){
@@ -231,12 +226,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											//Calculating Total Balance
 											$grandtotal = 0.00;
 											$cusID = $row["customerID"];
-											$sql2 = "SELECT debit FROM creditdebit WHERE customerID = '$cusID'";
+											$sql2 = "SELECT debit, credit FROM creditdebit WHERE customerID = '$cusID'";
 											$result2 = mysqli_query($con, $sql2);
 											if ($result2->num_rows > 0) {
 												while ($row2 = mysqli_fetch_assoc($result2)){
+													if ($row2["debit"] > 0){
 													$grandtotal += $row2["debit"];
 													//$grandtotal += 0.01;
+													}else{
+														$grandtotal -= $row2["credit"];
+													}
 												}
 											}
 											
@@ -251,6 +250,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												}
 											}
 									?>
+											
 											<tr onclick="selectInvoice(<?php echo $row["customerID"]?>)" id="Srow<?php echo $row["customerID"]?>">
 												<td><?php echo $row["ID"] ?></td>
 												<!--<td><?php echo $row["date"] ?></td>-->
