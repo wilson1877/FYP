@@ -12,7 +12,9 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
     $firstName=$_SESSION['firstName'];
     $isDriver = $_SESSION['isDriver'];
     $firstname = $_SESSION['firstName'];
-	$inputtedID = $_SESSION['INPUTTEDID'];
+    //$inputtedID = $_POST['INPUTTEDID'];
+    $inputtedID = $_REQUEST['selectedID'];
+	$_SESSION['inputtedID'] = $_REQUEST['selectedID'];
 }
 ?>
 <!DOCTYPE html>
@@ -189,7 +191,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<p><h2><b>Customer Name: <?php echo $resultArray["customerName"] ?></b></h2></p>
 					<p><h4><b>Company Name: </b> <?php echo $resultArray["companyName"] ?></h4></p>
 					<p><h4><b>Contact Number: </b> <?php echo $resultArray["contactNumber"] ?></h4></p>
-					<p><h4><b>Email Address: </b> <?php echo $resultArray["emailAddress"] ?></h4></p>
+					<p><h4><b>Fax Number: </b> <?php echo $resultArray["faxNumber"] ?></h4></p>
+                    <p><h4><b>Email Address: </b> <?php echo $resultArray["emailAddress"] ?></h4></p>
 					<p><h4><b>Delivery Address: </b> <?php echo $resultArray["address"] ?></h4></p>
 					</div>
 				<?php
@@ -201,8 +204,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          ?>
 				<center>
 					<a href="customerData.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
-          <a href="editCustomer.php" class="btn btn-default"><span class="glyphicon glyphicon-wrench"></span> Edit Record</a>
-          <a href="deleteCustomer.php" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Delete Record</a>
 				</center>
 			</div>
 		</div>

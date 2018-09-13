@@ -1,73 +1,8 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <?php
-session_start();
-if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
-    $userid=$_SESSION['userID'];
-    $usernamedisplay=$_SESSION['username'];
-    $firstName=$_SESSION['firstName'];
-    $isDriver = $_SESSION['isDriver'];
-    $firstname = $_SESSION['firstName'];
-}
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "fyp";
-$con = new mysqli($servername, $username, $password, $dbname);
-
-if (isset($_POST['submitAdd'])) {
-		$customerName = $_POST['customerName'];
-		$companyName=$_POST['companyName'];
-		$customerContactNo=$_POST['contactNumber'];
-		$customerEmail=$_POST['emailAddress'];
-		$customerAddress=$_POST['address'];
-		$customerFaxNo=$_POST['customerFaxNo'];
-
-		/*if (isset($_POST['myCheck'])) {
-			//Checking the associated Customer with their ID via Name
-			$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
-			$runquery = mysqli_query($con, $sqlcheckidnumber);
-
-			if ($runquery -> num_rows <= 0) {
-				//It's a new customer! Adding to the DB!
-				$companyName=$_POST['companyName'];
-				$customerContactNo=$_POST['customerContactNo'];
-				$customerEmail=$_POST['customerEmail'];
-				$customerAddress=$_POST['customerAddress'];
-
-				$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerEmail', '$customerAddress')";
-				$con -> query($sqlnewcustomerinsert);
-			}
-		}*/
-
-		$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
-		$runquery = mysqli_query($con, $sqlcheckidnumber);
-
-		if ($runquery -> num_rows <= 0) {
-			//Customer not found, proceed with adding
-			$resultArray = mysqli_fetch_assoc($runquery);
-			$customerID = $resultArray["customerID"];
-
-			$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
-			$con -> query($sqlnewcustomerinsert);
-		}else{
-			//Customer found, throw error
-		}
-	}
-
-if(isset($_POST['viewCustomer'])){
-	$inputtedID = $_POST['inputtedID'];
-
-	$_SESSION['INPUTTEDID'] = $inputtedID;
-	header('location:viewCustomerData.php');
-}
+//Invoice Function
+include "config.php";
+include "customerInner.php";
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,14 +16,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
 	</script><!-- Bootstrap Core CSS -->
 	<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
 	<link href="css/font-awesome.css" rel="stylesheet"><!-- jQuery -->
+
+	<script src="js/jquery-1.10.2.min.js">
+	</script><!-- Placed js at the end of the document so the pages load faster -->
+	<script type="text/javascript" src="js/paginathing.js"></script>
 	<!-- lined-icons -->
 	<link href="css/icon-font.min.css" rel="stylesheet" type='text/css'><!-- //lined-icons -->
 	<!-- chart -->
@@ -97,21 +33,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script><!-- //chart -->
 	<!--animate-->
 	<link href="css/animate.css" media="all" rel="stylesheet" type="text/css">
+	<!-- Bootstrap Select -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
 	<script src="js/wow.min.js">
 	</script>
 	<script>
 	        new WOW().init();
 
-			var nextItem = 1;
-
-			function additem(){
-                document.getElementById("items").innerHTML += "  <label>Item "+ (nextItem+1) +"\ Name:</label> <input type=\"text\" list=\"itemList\" name=\"itemName[" +nextItem+ "]\" id=\"itemName[" +nextItem+ "]\" class=\"form-control1 control3\">  <label>Item "+(nextItem+1)+"\ Quantity:</label> <input type=\"text\" name=\"itemQuantity[" +nextItem+ "]\" id=\"itemQuantity[" +nextItem+ "]\" class=\"form-control1 control3\">"
-                nextItem += 1;
-
-                return false;
-            };
+			jQuery(document).ready(function($){
+				$('.table tbody').paginathing({
+				  perPage: 10,
+				  insertAfter: '.table',
+				  pageNumbers: true
+				});
+			});
 	</script>
 	<style>
+		.pagination{
+			display: flex;
+			justify-content: center;
+
+		}
 	   .activity_box{
 	       min-height: 285px;
 	   }
@@ -122,7 +65,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	       height: 236px;
 	   }
 	   .thead-inverse th {
-	       background-color: #daf0ff;
+	       background-color: #e1ffda;
 	   }
 	   .btn-info {
 	       padding: 6px 12px;
@@ -130,13 +73,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	   textarea {
 			resize: none;
 	   }
+		.invoice-padding{
+			margin-top : 25px;
+		}
+
+		.selected {
+			background-color: brown;
+			color: #FFF;
+		}
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
 	<!-- Meters graphs -->
 
-	<script src="js/jquery-1.10.2.min.js">
-	</script><!-- Placed js at the end of the document so the pages load faster -->
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+<script type="text/javascript">
+    $('.selectpicker').selectpicker({
+      });
+</script>
+
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
@@ -208,7 +168,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    									</div>
    								</a>
    								<ul class="dropdown-menu drp-mnu">
-   									<li> <a href="profile.php"><i class="fa fa-user"></i>Profile</a> </li>
+   									<li> <a href="profile.php"><i class="fa fa-user"></i> Profile</a> </li>
    									<li> <a href="sign-out.php"><i class="fa fa-sign-out"></i> Logout</a> </li>
    								</ul>
    							</li>
@@ -226,18 +186,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<hr>
 				<div class="table-responsive">
 					<div class="grid_3 grid_4">
-						<table class="table table-striped table-bordered">
+						<script>
+							function selectCustomer(customerID){
+								var selectedIDInput = document.getElementById("selectedID");
+								var previously_selected = document.getElementById("Srow"+selectedIDInput.value);
+								if (previously_selected != null ){
+									previously_selected.style.backgroundColor = "";
+//									previously_selected.classList.remove("table-selected");
+								}
+								selectedIDInput.value = customerID;
+								document.getElementById("Srow"+customerID).style.backgroundColor = "lightcyan";
+							}
+						</script>
+						<table id="myTable" class="table table-striped table-bordered">
 							<!-- Incoming Table -->
 							<thead class="thead-inverse">
 								<tr>
-									<th>Customer ID</th>
+									<th>#</th>
 									<th>Customer Name</th>
 									<th>Company Name</th>
 									<th>Contact Number</th>
+                                    <th>Fax Number</th>
 									<th>Email Address</th>
 									<th>Delivery Address</th>
 								</tr>
 							</thead>
+							<form id="actionSender">
+								<input type="hidden" id="selectedID" name="selectedID" value="0"/>
+							</form>
 							<tbody>
 								<?php
 								$servername = "localhost";
@@ -245,42 +221,88 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								$password = "";
 								$dbname = "fyp";
 								$con = new mysqli($servername, $username, $password, $dbname);
-								$sql = "SELECT customerID, customerName, companyName, contactNumber, emailAddress, address FROM customer ORDER BY customerID DESC";
+								$sql = "SELECT customerID, customerName, companyName, contactNumber, faxNumber, emailAddress, address FROM customer ORDER BY customerID DESC";
 								$result = mysqli_query($con, $sql);
 								if ($result->num_rows > 0) {
 									while ($row = mysqli_fetch_assoc($result)){
 								?>
-								<tr>
+								<tr onclick="selectCustomer(<?php echo $row["customerID"]?>)" id="Srow<?php echo $row["customerID"]?>">
 									<td><?php echo $row["customerID"] ?></td>
 									<td><?php echo $row["customerName"] ?></td>
 									<td><?php echo $row["companyName"] ?></td>
-									<td><?php echo $row["contactNumber"] ?></td>
+                                    <td><?php echo $row["contactNumber"] ?></td>
+									<td><?php echo $row["faxNumber"] ?></td>
 									<td><?php echo $row["emailAddress"] ?></td>
 									<td><?php echo $row["address"] ?></td>
-								</tr><?php }
+								</tr>
+								<?php }
 								}
 								else{
-								echo "No results";
+								echo "0 results";
 								?>
 								<tr>
+                                    <td>No data</td>
 									<td>No data</td>
 									<td>No data</td>
 									<td>No data</td>
+                                    <td>No data</td>
 									<td>No data</td>
-                  <td>No data</td>
 									<td>No data</td>
 								</tr><?php }?>
 							</tbody>
 						</table>
 						<center>
-							<p><a class="btn btn-primary" data-toggle="modal" href="#addCustomer"><span class="glyphicon glyphicon-user"></span> Add Customer</a>
-							<a class="btn btn-info" data-toggle="modal" href="#viewCustomer"><span class="glyphicon glyphicon-search"></span> Edit Customer Info</a></p>
+							<p><a class="btn btn-primary" data-toggle="modal" href="#addCustomer">
+							<span class="glyphicon glyphicon-user"></span> Add Customer</a>
+							<a href="#" onClick="editCustomer()" class="btn btn-warning" contenteditable="false" name="editCustomer"><span class="glyphicon glyphicon-wrench"></span> Edit Customer</a>
+							<a href="#" onClick="removeCustomer()" class="btn btn-danger" contenteditable="false" name="removeCustomer"><span class="glyphicon glyphicon-remove"></span> Delete Customer</a>
+							<!--<a class="btn btn-info" data-toggle="modal" href="#viewInvoice"><span class="glyphicon glyphicon-search"></span> View Invoice</a></p>-->
+							<a href="#" onClick="viewCustomer()" class="btn btn-info" contenteditable="false" name="customerView"><span class="glyphicon glyphicon-search"></span> View Customer</a></p>
+
+							<script>
+							function editCustomer(){
+								if (document.getElementById("selectedID").value < 1 ){
+									alert("No customer selected");
+								}
+								else {
+									var theform = document.getElementById("actionSender");
+									theform.action="editCustomer.php";
+									theform.submit()
+								}
+							}
+
+							function removeCustomer(){
+								if (document.getElementById("selectedID").value < 1 ){
+									alert("No customer selected");
+								}
+								else {
+									if (confirm('Deleting Customer Record. Are you sure?')){
+										var theform = document.getElementById("actionSender");
+										theform.action="deleteCustomer.php";
+										theform.submit()
+									}
+								}
+							}
+
+							function viewCustomer(){
+								if (document.getElementById("selectedID").value < 1 ){
+									alert("No customer selected");
+								}
+								else {
+									var theform = document.getElementById("actionSender");
+									theform.action="viewCustomerData.php";
+									theform.submit()
+								}
+							}
+							</script>
+
+							<!--<button class="btn btn-success" contenteditable="false" name="invoiceView" style="margin-left: 43%;" type="submit">Submit</button>-->
 						</center>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-lg-12" style="height:10px"></div><!--Add Customer Modal-->
+		<div class="col-xs-12 col-sm-12 col-lg-12" style="height:10px"></div><!--Add Invoice Modal-->
 		<div class="container">
 			<!-- Trigger the modal with a button -->
 			<!-- Modal -->
@@ -298,7 +320,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<div class="panel-heading text-center" style="color: #fff; background-color: rgb(51, 122, 183);">
 													<span class="glyphicon glyphicon-user"></span><strong>&nbsp; Add Customer</strong>
 												</div>
-												<div class="panel-body">
+                                                <div class="panel-body">
 												<form action="" method="post">
                           <?php
 													$servername = "localhost";
@@ -332,6 +354,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												</div>
 											</div>
 										</div>
+
+
 									</form>
 								</div>
 							</div>
@@ -342,7 +366,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="viewCustomer" role="dialog">
+		<div class="col-xs-12 col-sm-12 col-lg-12" style="height:10px"></div><!--Edit Customer Modal-->
+		<div class="container">
+			<!-- Trigger the modal with a button -->
+			<!-- Modal -->
+			<div class="modal fade" id="editCustomer" role="dialog">
+				<div class="modal-dialog modal-lg">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<button class="close" data-dismiss="modal" type="button">&times;</button>
+						<div class="modal-body">
+							<!--Content-->
+							<div class="container" style="width: 100%">
+								<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
+									<div class="panel-group">
+										<div class="panel panel-default">
+											<div class="panel-heading text-center" style="color: #fff; background-color: #06d995;">
+												<span class="glyphicon glyphicon-wrench"></span><strong>&nbsp; Edit Customer</strong>
+											</div>
+											<div class="panel-body">
+												<center>
+													<input class="btn btn-success" name="submitEdit" type="submit" value="Submit"> <input class="btn btn-info" name="reset" type="reset" value="Reset">
+												</center>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="removeCustomer" role="dialog">
 			<div class="modal-dialog modal-md">
 				<!-- Modal content-->
 				<div class="modal-content">
@@ -353,18 +412,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
 								<div class="panel-group">
 									<div class="panel panel-default">
-										<div class="panel-heading text-center" style="color: #fff; background-color: #5bc0de;">
-											<span class="glyphicon glyphicon-search"></span><strong>&nbsp; Edit Customer Info</strong>
+										<div class="panel-heading text-center" style="color: #fff; background-color: #d9534f;">
+											<span class="glyphicon glyphicon-remove"></span><strong>&nbsp; Delete Customer</strong>
 										</div>
 										<div class="panel-body">
 											<div class="row form-group">
-												<form action="" method="post">
-													<label>Customer ID:</label>
-													<input type="text" id="inputtedID" name="inputtedID" class="form-control1 control3">
-
-													<button class="btn btn-success" contenteditable="false" name="viewCustomer" style="margin-left: 43%;" type="submit">Submit</button>
-												</form>
-											</div>
+												<!--Remove Customer-->
+											</div><!--Remove Submit Button-->
+											<button class="btn btn-danger" contenteditable="false" name="submitRemove" style="margin-left: 43%;" type="submit">Submit</button>
 										</div>
 									</div>
 								</div>
@@ -377,7 +432,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 			</div>
 		</div>
-		<!-- //switches -->
 		<div class="col_1">
 			<div class="clearfix"></div>
 		</div><!--body wrapper start-->
