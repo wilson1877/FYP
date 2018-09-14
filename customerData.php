@@ -1,5 +1,5 @@
 <?php
-//Invoice Function
+//Customer Function
 include "config.php";
 include "customerInner.php";
 ?>
