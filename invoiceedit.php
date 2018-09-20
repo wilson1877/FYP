@@ -38,15 +38,23 @@ if (mysqli_num_rows($getquery) > 0){
 
 if (isset($_POST['submitEdit'])) {
 
-	$customerName = $_POST['customerName'];
+	//if (isset($_POST['myCheck'])){ //Fill in the field with dropdown if checkbox is checked
+	//	$customerName = $_POST['customerName'];
+	//}else{
+		$customerName = $_POST['customerNameDrop'];
+	//}
+	
 	$purchaseOrderNo = $_POST['purchaseOrderNo'];
 	$invoiceDate = $_POST['invoiceDate'];
 	$miscNotes = $_POST['miscNotes'];
+
 	
-	//Copy Pasted from invoice, need to change
-	$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
+	
+	$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; 
 	$runquery = mysqli_query($con, $sqlcheckidnumber);
+		
 	if ($runquery -> num_rows > 0) {
+		
 		//Name found!
 		$resultArray = mysqli_fetch_assoc($runquery);
 		$customerID = $resultArray["customerID"];
@@ -296,25 +304,24 @@ if (isset($_POST['submitEdit'])) {
 				?>
 					<div class="grid_3 grid_4">
 					<label>Customer Name: </label>
+					
 					<?php
-					$servername = "localhost";
-					$username = "root";
-					$password = "";
-					$dbname = "fyp";
-					$con = new mysqli($servername, $username, $password, $dbname);
-
 					$sql = "SELECT * FROM customer";
 					$result = mysqli_query($con, $sql);
 					?>
-					<datalist id="customerList">
-						<?php while($row = mysqli_fetch_array($result)) { ?>
+					<!--Dropdown list for Customer -->
+					<p id="text2">
+					<select class="selectpicker show-tick" data-live-search="true" name="customerNameDrop" id="customerNameDrop">
+					<?php while($row = mysqli_fetch_array($result)) { 
+						if ($row['customerName'] == $customerNameold){?>
+							<option selected value="<?php echo $row['customerName']; ?>"><?php echo $row['customerName']; ?></option>
+						<?php }else{ ?>
 							<option value="<?php echo $row['customerName']; ?>"><?php echo $row['customerName']; ?></option>
-						<?php } ?>
-					</datalist>
-
-					<input type="text" value="<?php echo $customerNameold ?>" id="customerName" name="customerName" list="customerList" class="form-control1 control3">
-					<br>
-					<label>Customer is New: <input type="checkbox" name="myCheck" id="myCheck" onclick="myFunction()"> </label>
+						<?php }
+					} ?>
+					</select>
+					</p>
+					<!--<label>Customer is New: <input type="checkbox" name="myCheck" id="myCheck" onclick="myFunction()"> </label>-->
 					<br>
 					<p class="well" id="text" style="display:none">
 					<label>Company Name:</label>
@@ -327,17 +334,6 @@ if (isset($_POST['submitEdit'])) {
 					<input type="text" id="customerAddress" name="customerAddress" class="form-control1 control3">
 				<br>
 				</p>
-				<script>
-				function myFunction() {
-					var checkBox = document.getElementById("myCheck");
-					var text = document.getElementById("text");
-					if (checkBox.checked == true){
-						text.style.display = "block";
-					} else {
-					   text.style.display = "none";
-					}
-				}
-				</script>
 					<label>Purchase Order No:</label>
 					<input type="text" value="<?php echo $purchaseOrderNoold ?>" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
 					<hr>
