@@ -46,21 +46,30 @@ if (isset($_POST['submitEdit'])) {
 	$emailAddress = $_POST['emailAddress'];
     $address = $_POST['address'];
 
-	$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
-	$runquery = mysqli_query($con, $sqlcheckidnumber);
-	if ($runquery -> num_rows > 0) {
-		//Name found!
-		$resultArray = mysqli_fetch_assoc($runquery);
-		$customerID = $resultArray["customerID"];
+	// $sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; //Checking for duplicates
+	// $runquery = mysqli_query($con, $sqlcheckidnumber);
+	// if ($runquery -> num_rows > 0) {
+	// 	//Name found!
+	// 	$resultArray = mysqli_fetch_assoc($runquery);
+	// 	$customerID = $resultArray["customerID"];
+    //
+	// 	$sqledit = "UPDATE customer SET customerID = '$customerID', customerName = '$customerName', companyName = '$companyName', contactNumber = '$contactNumber', faxNumber = '$faxNumber', emailAddress = '$emailAddress', address = '$address' WHERE customerID = '$inputtedID'";
+	// 	$con -> query($sqledit);
+    //
+	// 	echo
+	// 	"<script>
+	// 	location.href='customerData.php';
+	// 	</script>";
+	// }
 
-		$sqledit = "UPDATE customer SET customerID = '$customerID', customerName = '$customerName', companyName = '$companyName', contactNumber = '$contactNumber', faxNumber = '$faxNumber', emailAddress = '$emailAddress', address = '$address' WHERE customerID = '$inputtedID'";
-		$con -> query($sqledit);
+    $customerID = $resultArray["customerID"];
+    $sqledit = "UPDATE customer SET customerID = '$customerID', customerName = '$customerName', companyName = '$companyName', contactNumber = '$contactNumber', faxNumber = '$faxNumber', emailAddress = '$emailAddress', address = '$address' WHERE customerID = '$inputtedID'";
+    $con -> query($sqledit);
 
-		echo
-		"<script>
-		location.href='customerData.php';
-		</script>";
-	}
+    echo
+    "<script>
+    location.href='customerData.php';
+    </script>";
 
 }
 
