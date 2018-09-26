@@ -9,7 +9,7 @@ include "invoiceinner.php";
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iBuzz - Audit List</title>
+	<title>iBuzz - Debtor Listing</title>
 	<link href="images/Icon.ico" rel="icon" type="image/x-icon">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><!--<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -182,7 +182,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Audit List</h3>
+				<h3 class="blank1">Debtor Listing</h3>
 				<hr>
 				<div class="table-responsive">
 					<div class="grid_3 grid_4">

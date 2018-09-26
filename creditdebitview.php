@@ -16,7 +16,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iBuzz - Audit View</title>
+	<title>iBuzz - Debtor View</title>
 	<link href="images/Icon.ico" rel="icon" type="image/x-icon">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 
@@ -229,7 +229,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Customer Audit Record: <?php 
+				<h3 class="blank1">Customer Debt Record: <?php 
 				$sql3 = "SELECT customerName, companyName FROM customer WHERE customerID = '$inputtedID'";
 				$result3 = mysqli_query($con, $sql3);
 				if ($result3->num_rows > 0) {
