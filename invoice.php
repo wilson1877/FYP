@@ -149,7 +149,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 					</li>
-					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
+					<li><a href="creditdebit.php"><i class="fa fa-usd"></i> <span>View Debtor Listing</span></a></li>
 					<li>
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
 					</li>

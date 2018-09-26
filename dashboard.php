@@ -6,13 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
 session_start();
-if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
-	$userid=$_SESSION['userID'];
-	$username=$_SESSION['username'];
-	$firstName=$_SESSION['firstName'];
-	$isDriver = $_SESSION['isDriver'];
-	$firstname = $_SESSION['firstName'];
-}
+include "config.php";
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -41,7 +35,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
 <script src="js/wow.min.js"></script>
 	<script>
-		 new WOW().init();
+		 //new WOW().init();
 	</script>
 	<style>
 	.activity_box{
@@ -94,7 +88,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<a href="invoice.php"><i class="lnr lnr-book"></i>
 								<span>Invoices</span></a>
 						</li>
-						<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
+						<li><a href="creditdebit.php"><i class="fa fa-usd"></i> <span>View Debtor Listing</span></a></li>
 						<li><a href="inventory.php"><i class="fa fa-inbox"></i>  <span>Inventory</span></a>
 						</li>
 						<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
@@ -122,7 +116,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<div class="profile_img">
 										<span style="background:url(images/1.jpg) no-repeat center"> </span>
 										 <div class="user-name">
-											<p><p><?php echo $username ;?><span>
+											<p><p><?php echo $usernamedisplay ;?><span>
 											<?php
 											if ($userid == 1){
 												echo 'Admin';
@@ -219,33 +213,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="activity_box">
 						<h3>Pending Deliveries</h3>
 						<div class="scrollbar scrollbar1" id="style-2">
+						<!-- Start of Row-->
+						<?php //Show only delivered invoices where delivered = 0. If it's 1, that means delivered already.
+						$sql = "SELECT a.invoiceID, b.address, a.date, b.customerName, b.companyName, a.purchaseOrderNo FROM invoice a, customer b WHERE a.customerID = b.customerID AND a.delivered = '0' ORDER BY a.invoiceID DESC";
+						$result = mysqli_query($con, $sql);
+						if ($result->num_rows > 0) {
+							while ($row = mysqli_fetch_assoc($result)){ ?>
 							<div class="activity-row">
+								
 								<!--<div class="col-xs-3 activity-img"><img src='images/1.png' class="img-responsive" alt=""/></div>-->
 								<div class="col-xs-10 activity-desc">
-									<h5><a href="#">Replace this with a table with Pending tasks</a></h5>
-									<p>Replace after delivery order function is done</p>
+									<h5><a href="#"><?php echo $row["invoiceID"] ?> - <?php echo $row["companyName"] ?> (<?php echo $row["customerName"] ?>)</a></h5>
+									<p><b>Location:</b> <?php echo $row["address"] ?></p>
+									<!--
+									<h5><a href="#">[Invoice No] - [Company Name] (Customer Name)</a></h5>
+									<p>Location: </p>-->
 								</div>
-								<div class="col-xs-2 activity-desc1"><h6>Pending</h6></div>
+								<div class="col-xs-2 activity-desc1"><h6><?php echo $row["date"] ?></h6></div>
 								<div class="clearfix"> </div>
 							</div>
-							<div class="activity-row">
-								<!--<div class="col-xs-3 activity-img"><img src='images/1.png' class="img-responsive" alt=""/></div>-->
-								<div class="col-xs-10 activity-desc">
-									<h5><a href="#">Replace this with a table with Pending tasks</a></h5>
-									<p>Replace after delivery order function is done</p>
-								</div>
-								<div class="col-xs-2 activity-desc1"><h6>Pending</h6></div>
-								<div class="clearfix"> </div>
-							</div>
-							<div class="activity-row">
-								<!--<div class="col-xs-3 activity-img"><img src='images/1.png' class="img-responsive" alt=""/></div>-->
-								<div class="col-xs-10 activity-desc">
-									<h5><a href="#">Wow look it's scrollable!</a></h5>
-									<p>You can check stuff here!</p>
-								</div>
-								<div class="col-xs-2 activity-desc1"><h6>Pending</h6></div>
-								<div class="clearfix"> </div>
-							</div>
+							<?php }
+								}?>
+							<!-- End of Row-->
 						</div>
 					</div>
 				</div>
@@ -254,8 +243,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<h3>iBuzz News</h3>
 							<div class="scrollbar" id="style-2">
 								<div class="activity-row activity-row1">
+									<b>24/9/18</b>
+									<p>It's been 2 weeks and I'm still looking up of videos of Spider-Man in PS4</p>
+									<div class="clearfix"> </div>
+								</div>
+								<div class="activity-row activity-row1">
 									<b>8/3/18</b>
-									<p>Launch of First website thing blabla</p>
+									<p>Launch of iBuzz! Pleasure to meet everyone!</p>
 								</div>
 							</div>
 					</div>

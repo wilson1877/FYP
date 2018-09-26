@@ -53,7 +53,8 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 							if(response == 1){ //Success! Refresh the page with the Selected ID!
 								//window.location = "creditdebitview.php";
 								
-							
+								document.getElementById("selectedID").value = inputtedID;
+								
 								var theform = document.getElementById("actionSender");
 								theform.action="creditdebitview.php";
 								theform.submit()
@@ -168,7 +169,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 					</li>
-					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
+					<li><a href="creditdebit.php"><i class="fa fa-usd"></i> <span>View Debtor Listing</span></a></li>
 					<li>
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
 					</li>
@@ -300,8 +301,9 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 										}
 									}
 									?>
-									<tr>
+
 										<?php if ($row["debit"] > 0){?>
+										<tr>
 											<td><?php echo $row["ID"] ?></td>
 											<td><?php echo $row["date"] ?></td>							
 											<td><?php echo $row["invoiceID"] ?></td>
@@ -310,6 +312,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 											<td><?php echo number_format ((float)$grandtotal, 2, '.', '') ?></td>
 											<td><?php echo $row["notes"] ?></td>
 										<?php }else if ($row["credit"] > 0){?>
+										<tr onclick="selectInvoice(<?php echo $row["ID"]?>)" id="Srow<?php echo $row["ID"]?>">
 											<td style="font-weight: bold;color:#0cb514"><?php echo $row["ID"] ?></td>
 											<td style="font-weight: bold;color:#0cb514"><?php echo $row["date"] ?></td>
 											<td style="font-weight: bold;color:#0cb514"></td>
@@ -340,8 +343,23 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 				<center>
 					<a class="btn btn-primary" data-toggle="modal" href="#addCredit">
 					<span class="glyphicon glyphicon-user"></span> Add Credit</a>
+					<a href="#" onClick="removeInvoice()" class="btn btn-danger" contenteditable="false" name="removeInvoice"><span class="glyphicon glyphicon-remove"></span> Delete Credit</a>
 					<a href="creditdebit.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
 				</center>
+				<script>
+				function removeInvoice(){
+					if (document.getElementById("selectedID").value < 1 ){
+						alert("No Invoice selected");
+					}
+					else {
+						if (confirm('Deleting Credit Row. Are you sure?')){
+							var theform = document.getElementById("actionSender");
+							theform.action="deletecreditdebit.php";
+							theform.submit()
+						}
+					}
+				}
+				</script>
 			</div>
 		</div>
 		<!-- //switches -->

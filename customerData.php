@@ -20,7 +20,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
 	<link href="css/style.css" rel='stylesheet' type='text/css'><!-- Graph CSS -->
-	<link href="css/font-awesome.css" rel="stylesheet"><!-- jQuery -->
+	<link href="css/font-awesome.css" rel="stylesheet">
 
 	<script src="js/jquery-1.10.2.min.js">
 	</script><!-- Placed js at the end of the document so the pages load faster -->
@@ -122,7 +122,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 					</li>
-					<li><a href="#"><i class="fa fa-clipboard"></i> <span>View Debtor List</span></a></li>
+					<li><a href="creditdebit.php"><i class="fa fa-usd"></i> <span>View Debtor Listing</span></a></li>
 					<li>
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
 					</li>
