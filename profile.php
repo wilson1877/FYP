@@ -13,7 +13,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
     $isDriver = $_SESSION['isDriver'];
     $firstname = $_SESSION['firstName'];
 	//$inputtedID = $_POST['INPUTTEDID'];
-    $inputtedID = $_REQUEST['selectedID'];
+    // $inputtedID = $_REQUEST['selectedID'];
 }
 
 /*Getting Existing Data*/
@@ -23,7 +23,7 @@ $password = "";
 $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
 
-$sqlcheck = "SELECT userID, emailAddress, contactNumber, username, password, firstName, lastName, userImage, isDriver FROM user WHERE userID = '$inputtedID'";
+$sqlcheck = "SELECT userID, emailAddress, contactNumber, username, password, firstName, lastName, userImage, isDriver FROM user WHERE userID = '$userid'";
 $getquery = mysqli_query($con, $sqlcheck);
 
 if (mysqli_num_rows($getquery) > 0){
@@ -57,7 +57,7 @@ if (isset($_POST['submitEdit'])) {
 		$resultArray = mysqli_fetch_assoc($runquery);
 		$userid = $resultArray["userID"];
 
-		$sqledit = "UPDATE user SET userID = '$userid', emailAddress = '$emailAddress', contactNumber = '$contactNumber', username = '$usernamedisplay', password = '$password', firstName = '$firstName', lastName = '$lastName', userImage = '$userImage', isDriver = '$isDriver' WHERE userID = '$inputtedID'";
+		$sqledit = "UPDATE user SET userID = '$userid', emailAddress = '$emailAddress', contactNumber = '$contactNumber', username = '$usernamedisplay', password = '$password', firstName = '$firstName', lastName = '$lastName', userImage = '$userImage', isDriver = '$isDriver' WHERE userID = '$userid'";
 		$con -> query($sqledit);
 
 		echo
@@ -220,7 +220,7 @@ if (isset($_POST['submitEdit'])) {
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Editing User #<?php echo $inputtedID ?> - <?php echo $firstNameOld ?> <?php echo $lastNameOld ?></h3>
+				<h3 class="blank1">Editing User #<?php echo $userid ?> - <?php echo $firstNameOld ?> <?php echo $lastNameOld ?></h3>
 				<hr>
 				<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
 				<?php
@@ -230,7 +230,7 @@ if (isset($_POST['submitEdit'])) {
 				$dbname = "fyp";
 				$con = new mysqli($servername, $username, $password, $dbname);
 
-				$sql = "SELECT * FROM user WHERE userID = '$inputtedID'";
+				$sql = "SELECT * FROM user WHERE userID = '$userid'";
 
 				$result = mysqli_query($con, $sql);
 
