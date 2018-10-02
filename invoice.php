@@ -51,7 +51,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 			var nextItem = 1;
 			<?php
-				$sql = "SELECT * FROM stock";
+				$sql = "SELECT * FROM stock ORDER BY stockName";
 				$result = mysqli_query($con, $sql);
 				$select_options = "";
 				while($row = mysqli_fetch_array($result)) {
@@ -353,14 +353,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 													</div>-->
 													<label>Customer Name: </label>
 													<?php
-													$sql = "SELECT * FROM customer";
+													$sql = "SELECT * FROM customer	";
 													$result = mysqli_query($con, $sql);
 													?>
 													<!--Dropdown list for Customer -->
 													<p id="text2">
 													<select class="selectpicker show-tick" data-live-search="true" name="customerNameDrop" id="customerNameDrop">
 													<?php while($row = mysqli_fetch_array($result)) { ?>
-														<option value="<?php echo $row['customerName']; ?>"><?php echo $row['customerName']; ?></option>
+														<option value="<?php echo $row['customerName']; ?>"><?php echo $row['customerName']; ?> [<?php echo $row['companyName']; ?>]</option>
 													<?php } ?>
 													</select>
 													</p>
