@@ -50,21 +50,31 @@ if (isset($_POST['submitEdit'])) {
     $userImage = $_POST['userImage'];
     $isDriver = $_POST['isDriver'];
 
-	$sqlcheckidnumber = "SELECT userID FROM user WHERE username = '$usernamedisplay'"; //Checking for duplicates
-	$runquery = mysqli_query($con, $sqlcheckidnumber);
-	if ($runquery -> num_rows > 0) {
-		//Name found!
-		$resultArray = mysqli_fetch_assoc($runquery);
-		$userid = $resultArray["userID"];
+	// $sqlcheckidnumber = "SELECT userID FROM user WHERE username = '$usernamedisplay'"; //Checking for duplicates
+	// $runquery = mysqli_query($con, $sqlcheckidnumber);
+	// if ($runquery -> num_rows > 0) {
+	// 	//Name found!
+	// 	$resultArray = mysqli_fetch_assoc($runquery);
+	// 	$userid = $resultArray["userID"];
+    //
+	// 	$sqledit = "UPDATE user SET userID = '$userid', emailAddress = '$emailAddress', contactNumber = '$contactNumber', username = '$usernamedisplay', password = '$password', firstName = '$firstName', lastName = '$lastName', userImage = '$userImage', isDriver = '$isDriver' WHERE userID = '$userid'";
+	// 	$con -> query($sqledit);
+    //
+	// 	echo
+	// 	"<script>
+	// 	location.href='dashboard.php';
+	// 	</script>";
+	// }
 
-		$sqledit = "UPDATE user SET userID = '$userid', emailAddress = '$emailAddress', contactNumber = '$contactNumber', username = '$usernamedisplay', password = '$password', firstName = '$firstName', lastName = '$lastName', userImage = '$userImage', isDriver = '$isDriver' WHERE userID = '$userid'";
-		$con -> query($sqledit);
+    $userid = $resultArray["userID"];
+    $sqledit = "UPDATE user SET userID = '$userid', emailAddress = '$emailAddress', contactNumber = '$contactNumber', username = '$usernamedisplay', password = '$password', firstName = '$firstName', lastName = '$lastName', userImage = '$userImage', isDriver = '$isDriver' WHERE userID = '$userid'";
+    $con -> query($sqledit);
 
-		echo
-		"<script>
-		location.href='dashboard.php';
-		</script>";
-	}
+    echo
+    "<script>
+    alert('Edit Success!');
+    location.href='dashboard.php';
+    </script>";
 
 }
 
@@ -257,9 +267,9 @@ if (isset($_POST['submitEdit'])) {
                     <label>Last Name: </label>
 					<input type="text" value="<?php echo $lastNameOld ?>" id="lastName" name="lastName" class="form-control1 control3">
 					<br>
-                    <label>Profile Picture: </label>
-					<input type="text" value="<?php echo $userImageOld ?>" id="userImage" name="userImage" class="form-control1 control3">
-					<br>
+                    <!-- <label>Profile Picture: </label>
+					<input type="file" value="<?php echo $userImageOld ?>" id="userImage" name="userImage" class="form-control1 control3">
+					<br> -->
                     <label>Occupation: </label>
 					<input type="text" value="<?php echo $isDriverOld ?>" id="isDriver" name="isDriver" class="form-control1 control3">
 					<br>
