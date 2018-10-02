@@ -47,6 +47,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	.scrollbar1{
 		height: 236px;
 	}
+
+	@media screen and (max-width: 768px) {
+            .menu-right{float: right !important;}
+        }
+
 	</style>
 <!--//end-animate-->
 <!----webfonts--->
@@ -220,7 +225,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						if ($result->num_rows > 0) {
 							while ($row = mysqli_fetch_assoc($result)){ ?>
 							<div class="activity-row">
-								
+
 								<!--<div class="col-xs-3 activity-img"><img src='images/1.png' class="img-responsive" alt=""/></div>-->
 								<div class="col-xs-10 activity-desc">
 									<h5><a href="#"><?php echo $row["invoiceID"] ?> - <?php echo $row["companyName"] ?> (<?php echo $row["customerName"] ?>)</a></h5>

@@ -53,6 +53,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	.scrollbar1{
 		height: 236px;
 	}
+
+	@media screen and (max-width: 768px) {
+            .menu-right{float: right !important;}
+        }
+		
 	</style>
 <!--//end-animate-->
 <!----webfonts--->
@@ -74,7 +79,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<h1><a href="dashboard.php">i <span>Buzz</span></a></h1>
 			</div>
 			<div class="logo-icon text-center">
-				<a href="dashboard.php"><i class="lnr lnr-home"></i> </a>
+				<a href="driver.php"><i class="lnr lnr-home"></i> </a>
 			</div>
 
 			<!--logo and iconic logo end-->
@@ -84,7 +89,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<ul class="nav nav-pills nav-stacked custom-nav">
             <li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Order</span></a></li>
 						<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
-						<li><a href="#"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>
+						<li><a href="#"><i class="fa fa-folder"></i> <span>View History</span></a></li>
 					</ul>
 				<!--sidebar nav end-->
 			</div>
@@ -208,8 +213,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="activity-row">
 								<!--<div class="col-xs-3 activity-img"><img src='images/1.png' class="img-responsive" alt=""/></div>-->
 								<div class="col-xs-10 activity-desc">
-									<h5><a href="#">Replace this with a table with Pending tasks</a></h5>
-									<p>Replace after delivery order function is done</p>
+									<h5><a href="#">Delivery #001</a></h5>
+									<p>Klang - 11am</p>
+								</div>
+								<div class="col-xs-2 activity-desc1"><h6>Completed</h6></div>
+								<div class="clearfix"> </div>
+							</div>
+							<div class="activity-row">
+								<!--<div class="col-xs-3 activity-img"><img src='images/1.png' class="img-responsive" alt=""/></div>-->
+								<div class="col-xs-10 activity-desc">
+									<h5><a href="#">Delivery #002</a></h5>
+									<p>Puchong - 2pm</p>
 								</div>
 								<div class="col-xs-2 activity-desc1"><h6>Pending</h6></div>
 								<div class="clearfix"> </div>
@@ -217,19 +231,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="activity-row">
 								<!--<div class="col-xs-3 activity-img"><img src='images/1.png' class="img-responsive" alt=""/></div>-->
 								<div class="col-xs-10 activity-desc">
-									<h5><a href="#">Replace this with a table with Pending tasks</a></h5>
-									<p>Replace after delivery order function is done</p>
+									<h5><a href="#">Delivery #003</a></h5>
+									<p>Shah Alam - 5pm</p>
 								</div>
-								<div class="col-xs-2 activity-desc1"><h6>Pending</h6></div>
-								<div class="clearfix"> </div>
-							</div>
-							<div class="activity-row">
-								<!--<div class="col-xs-3 activity-img"><img src='images/1.png' class="img-responsive" alt=""/></div>-->
-								<div class="col-xs-10 activity-desc">
-									<h5><a href="#">Wow look it's scrollable!</a></h5>
-									<p>You can check stuff here!</p>
-								</div>
-								<div class="col-xs-2 activity-desc1"><h6>Pending</h6></div>
+								<div class="col-xs-2 activity-desc1"><h6>Cancel</h6></div>
 								<div class="clearfix"> </div>
 							</div>
 						</div>
@@ -240,8 +245,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<h3>iBuzz News</h3>
 							<div class="scrollbar" id="style-2">
 								<div class="activity-row activity-row1">
-									<b>8/3/18</b>
-									<p>Launch of First website thing blabla</p>
+									<b>2/10/18</b>
+									<p>Customer request faster delivery</p>
 								</div>
 							</div>
 					</div>
