@@ -250,7 +250,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												}
 											}
 									?>
-											
+										<?php if ($grandtotal > 0){ ?>	
 											<tr onclick="selectInvoice(<?php echo $row["customerID"]?>)" id="Srow<?php echo $row["customerID"]?>">
 												<td><?php echo $row["ID"] ?></td>
 												<!--<td><?php echo $row["date"] ?></td>-->
@@ -259,6 +259,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<td><?php echo $contactNumber ?></td>
 												<td><?php echo number_format ((float)$grandtotal, 2, '.', '') ?></td>
 											</tr>
+										<?php } ?>
+											
 										<?php }
 										}
 								}

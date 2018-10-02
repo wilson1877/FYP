@@ -234,6 +234,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<th>Total Price</th><!--<th>Qty</th>-->
 									<!--Show Stock Details when choosing more information
                                     <th>Stock Name</th>-->
+									<th>Company Name</th>
 									<th>Customer Name</th>
 									<th>Purchase Order No</th>
 									<th>Misc. Notes</th>
@@ -249,7 +250,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								$password = "";
 								$dbname = "fyp";
 								$con = new mysqli($servername, $username, $password, $dbname);
-								$sql = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.customerID = b.customerID ORDER BY a.invoiceID DESC";
+								$sql = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, b.companyName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.customerID = b.customerID ORDER BY a.invoiceID DESC";
 								$result = mysqli_query($con, $sql);
 								if ($result->num_rows > 0) {
 									while ($row = mysqli_fetch_assoc($result)){
@@ -258,7 +259,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<td><?php echo $row["invoiceID"] ?></td>
 									<td><?php echo $row["date"] ?></td>
 									<td><?php echo $row["totalPrice"] ?></td>
-
+									<td><?php echo $row["companyName"] ?></td>
 									<td><?php echo $row["customerName"] ?></td>
 									<td><?php echo $row["purchaseOrderNo"] ?></td>
 									<td><?php echo $row["miscNotes"] ?></td>

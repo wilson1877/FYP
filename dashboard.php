@@ -215,7 +215,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="scrollbar scrollbar1" id="style-2">
 						<!-- Start of Row-->
 						<?php //Show only delivered invoices where delivered = 0. If it's 1, that means delivered already.
-						$sql = "SELECT a.invoiceID, b.address, a.date, b.customerName, b.companyName, a.purchaseOrderNo FROM invoice a, customer b WHERE a.customerID = b.customerID AND a.delivered = '0' ORDER BY a.invoiceID DESC";
+						$sql = "SELECT a.invoiceID, b.address, a.date, b.customerName, b.companyName, a.purchaseOrderNo FROM invoice a, customer b WHERE a.customerID = b.customerID AND a.delivered = '' ORDER BY a.invoiceID DESC";
 						$result = mysqli_query($con, $sql);
 						if ($result->num_rows > 0) {
 							while ($row = mysqli_fetch_assoc($result)){ ?>
