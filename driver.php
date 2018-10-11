@@ -13,6 +13,7 @@ if(isset($_SESSION["userID"]) && !empty($_SESSION["userID"])) {
 	$isDriver = $_SESSION['isDriver'];
 	$firstname = $_SESSION['firstName'];
 }
+include "include/navbar.php";
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -71,30 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
  <body class="sticky-header left-side-collapsed"  onload="initMap()">
     <section>
-    <!-- left side start-->
-		<div class="left-side sticky-left-side">
-
-			<!--logo and iconic logo start-->
-			<div class="logo">
-				<h1><a href="dashboard.php">i <span>Buzz</span></a></h1>
-			</div>
-			<div class="logo-icon text-center">
-				<a href="driver.php"><i class="lnr lnr-home"></i> </a>
-			</div>
-
-			<!--logo and iconic logo end-->
-			<div class="left-side-inner">
-				<!--sidebar nav start
-				https://linearicons.com/free#cheat-sheet-->
-					<ul class="nav nav-pills nav-stacked custom-nav">
-            <li><a href="#"><i class="lnr lnr-envelope"></i> <span>View Delivery Order</span></a></li>
-						<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
-						<li><a href="#"><i class="fa fa-folder"></i> <span>View History</span></a></li>
-					</ul>
-				<!--sidebar nav end-->
-			</div>
-		</div>
-		<!-- left side end-->
+    	<?php echo navbar() ?>
 
 		<!-- main content start-->
 		<div class="main-content">
