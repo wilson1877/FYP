@@ -316,6 +316,7 @@ include "include/navbar.php";
 					<a class="btn btn-primary" data-toggle="modal" href="#addCredit">
 					<span class="glyphicon glyphicon-user"></span> Add Credit</a>
 					<a href="#" onClick="removeInvoice()" class="btn btn-danger" contenteditable="false" name="removeInvoice"><span class="glyphicon glyphicon-remove"></span> Delete Credit</a>
+					<a onclick="debtRecordPrint()" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Debt Record</a>
 					<a href="creditdebit.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
 				</center>
 				<script>
@@ -330,6 +331,9 @@ include "include/navbar.php";
 							theform.submit()
 						}
 					}
+				}
+				function debtRecordPrint() {
+					window.open("debtrecordprint.php");
 				}
 				</script>
 			</div>
