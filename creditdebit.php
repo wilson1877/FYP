@@ -162,6 +162,7 @@ include "include/navbar.php";
 							<tbody>
 								<?php
 								$oldCustomerID = "";
+								$rowNumber = 1;
 								$sql = "SELECT * FROM creditdebit ORDER BY customerID DESC";
 								$result = mysqli_query($con, $sql);
 								if ($result->num_rows > 0) {
@@ -197,16 +198,18 @@ include "include/navbar.php";
 												}
 											}
 									?>
-										<?php if ($grandtotal > 0){ ?>	
+										<?php //if ($grandtotal > 0){ ?>	
 											<tr onclick="selectInvoice(<?php echo $row["customerID"]?>)" id="Srow<?php echo $row["customerID"]?>">
-												<td><?php echo $row["ID"] ?></td>
+												<td><?php echo $rowNumber ?></td>
 												<!--<td><?php echo $row["date"] ?></td>-->
 												<td><?php echo $customerName ?></td>
 												<td><?php echo $companyName ?></td>
 												<td><?php echo $contactNumber ?></td>
 												<td><?php echo number_format ((float)$grandtotal, 2, '.', '') ?></td>
 											</tr>
-										<?php } ?>
+										<?php //} 
+										$rowNumber++;									
+										?>
 											
 										<?php }
 										}
@@ -226,6 +229,7 @@ include "include/navbar.php";
 						<center>
 							<p><a href="#" onClick="editAudit()" class="btn btn-primary" contenteditable="false" name="editAudit">
 							<span class="glyphicon glyphicon-user"></span> View Details</a>
+							<a onclick="debtRecordPrint()" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Debt Record</a>
 							<script>
 							function editAudit(){
 								if (document.getElementById("selectedID").value < 1 ){
@@ -236,6 +240,9 @@ include "include/navbar.php";
 									theform.action="creditdebitview.php";
 									theform.submit()
 								}
+							}
+							function debtRecordPrint() {
+								window.open("creditdebitprint.php");
 							}
 							</script>
 
