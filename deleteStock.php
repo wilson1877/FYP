@@ -6,7 +6,7 @@
 		$firstName=$_SESSION['firstName'];
 		$isDriver = $_SESSION['isDriver'];
 		$firstname = $_SESSION['firstName'];
-		$inputtedID = $_REQUEST['INPUTTEDID'];
+		$inputtedID = $_SESSION['INPUTTEDID'];
 }
 
   $servername = "localhost";

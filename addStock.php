@@ -8,7 +8,7 @@
   $dbname = "fyp";
   $con = new mysqli($servername, $username, $password, $dbname);
 
-  $stockID = $_SESSION['stockID'];
+  // $stockID = $_SESSION['stockID'];
   //$folderName = array('', 'stockUpload');
 
   $target_dir = "images/stockUpload/";
@@ -33,8 +33,8 @@
         echo "Sorry, your file is too large.";
         $uploadOk = 0;
     }
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif"
+&& $imageFileType != "JPG" && $imageFileType != "PNG" && $imageFileType != "JPEG" && $imageFileType != "GIF" ) {
         echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
         $uploadOk = 0;
     }
@@ -53,7 +53,7 @@
     $image = $target_file;
 
     if ($uploadOk){
-      $sql2 = "INSERT INTO stock (stockName, price, totalStock, stockImage, stockID) VALUES('$stockName', '$price', '$totalStock', '$image', '$stockID')";
+      $sql2 = "INSERT INTO Stock (stockID, stockImage, stockName, price, totalStock) VALUES('0000', '$image', '$stockName', '$price', '$totalStock')";
       if (mysqli_query($con, $sql2)){
         header("location: inventory.php");
       } else {
