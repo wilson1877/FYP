@@ -28,7 +28,7 @@ function navbar(){
 					<li>
 						<a href="inventory.php"><i class="fa fa-inbox"></i> <span>Inventory</span></a>
 					</li>
-					<li><a href="#"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
+					<li><a href="onlineMap.php"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
 					<li><a href="delivery.php"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>
 				</ul><!--sidebar nav end-->
 			</div>
