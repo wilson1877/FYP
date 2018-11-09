@@ -1,4 +1,4 @@
-<?php 
+<?php
 	include "config.php";
 ?>
 <html>
@@ -22,5 +22,13 @@
 		}?>
     </tbody>
 </table>
+
+<form action="http://maps.google.com/maps" method="get" target="_blank">
+	Enter your starting address:
+	<input type="text" name="saddr" />
+	<input type="hidden" name="daddr" value="23, Jalan Anggerik Aranda C 31/C, Kota Kemuning, 40460 Shah Alam, Selangor" />
+	<input type="submit" value="Get directions" />
+</form>
+
 </body>
 </html>
