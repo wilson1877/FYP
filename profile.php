@@ -79,6 +79,7 @@ if (isset($_POST['submitEdit'])) {
 }
 
 include "include/navbar.php";
+include "profileButton.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -149,7 +150,19 @@ include "include/navbar.php";
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
-		<?php echo navbar() ?>
+        <?php
+        if ($userid == 1){
+            echo navbar();
+        }
+        else {
+            if ($isDriver == 0){
+                echo navbar();
+            }
+            else {
+                echo dribar();
+            }
+        }
+        ?>
 		<!-- main content start-->
 		<div class="main-content">
 			<!-- header-starts -->
@@ -258,7 +271,19 @@ include "include/navbar.php";
 					<p>Ensure that you wrote the ID properly!</p>
 				<?php } ?>
 				<center>
-					<a href="dashboard.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to go main page</a>
+                    <?php
+                        if ($userid == 1){
+                            echo staffBtn();
+                        }
+                        else {
+                            if ($isDriver == 0){
+                                echo staffBtn();
+                            }
+                            else {
+                                echo driverBtn();
+                            }
+                        }
+                    ?>
 				</center>
 			</div>
 		</div>
