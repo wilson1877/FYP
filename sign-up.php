@@ -78,13 +78,28 @@
     if ($passed){
       $sql2 = "INSERT INTO User (userID, emailAddress, contactNumber, username, password, firstName, lastName, isDriver) VALUES('0000', '$email', '$mobileNo', '$username', '$pass', '$fname', '$lname', '$isDriver')";
       if (mysqli_query($con, $sql2)){
-        header("location: sign-in.html");
+          echo
+          "<script>
+              alert('Registration successful. Re-enter your information to login.');
+              location.href='sign-in.html';
+          </script>";
+          exit();
       } else {
-        echo "Cannot perform query";
+          echo
+          "<script>
+              alert('Account not created');
+              location.href='sign-up.html';
+          </script>";
+          exit();
       }
     }
   } else {
-    echo "Fail";
+      echo
+      "<script>
+          alert('Registration failed');
+          location.href='sign-up.html';
+      </script>";
+      exit();
   }
 
   mysqli_close($con);
