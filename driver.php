@@ -58,7 +58,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	@media screen and (max-width: 768px) {
             .menu-right{float: right !important;}
         }
-		
+
 	</style>
 <!--//end-animate-->
 <!----webfonts--->
@@ -72,7 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
  <body class="sticky-header left-side-collapsed"  onload="initMap()">
     <section>
-    	<?php echo navbar() ?>
+    	<?php echo dribar() ?>
 
 		<!-- main content start-->
 		<div class="main-content">

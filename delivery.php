@@ -11,12 +11,12 @@ include "include/navbar.php";
 	<?php echo common_headers() ?>
 	<!-- Bootstrap Select -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-	
+
 	<script src="js/wow.min.js">
 	</script>
 	<script>
 	        new WOW().init();
-			
+
 			jQuery(document).ready(function($){
 				$('.table tbody').paginathing({
 				  perPage: 10,
@@ -64,7 +64,7 @@ include "include/navbar.php";
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
 	<!-- Meters graphs -->
 
-	
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
@@ -78,7 +78,19 @@ include "include/navbar.php";
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
-		<?php echo navbar() ?>
+		<?php
+        if ($userid == 1){
+            echo navbar();
+        }
+        else {
+            if ($isDriver == 0){
+                echo navbar();
+            }
+            else {
+                echo dribar();
+            }
+        }
+        ?>
 		<!-- main content start-->
 		<div class="main-content">
 			<!-- header-starts -->
