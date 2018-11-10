@@ -55,12 +55,39 @@
     if ($uploadOk){
       $sql2 = "INSERT INTO Stock (stockID, stockImage, stockName, price, totalStock) VALUES('0000', '$image', '$stockName', '$price', '$totalStock')";
       if (mysqli_query($con, $sql2)){
+          $file = 'userlog.log';
+          // The new person to add to the file
+          date_default_timezone_set("Asia/Kuala_Lumpur");
+          $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " successfully added stock " . $stockName . ".";
+          // Write the contents to the file,
+          // using the FILE_APPEND flag to append the content to the end of the file
+          // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+          file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
+
         header("location: inventory.php");
       } else {
+          $file = 'userlog.log';
+          // The new person to add to the file
+          date_default_timezone_set("Asia/Kuala_Lumpur");
+          $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " fail to add stock " . $stockName . ".";
+          // Write the contents to the file,
+          // using the FILE_APPEND flag to append the content to the end of the file
+          // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+          file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
+
         echo "Cannot perform query";
       }
     }
   } else {
+      $file = 'userlog.log';
+      // The new person to add to the file
+      date_default_timezone_set("Asia/Kuala_Lumpur");
+      $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " fail to add stock " . $stockName . ".";
+      // Write the contents to the file,
+      // using the FILE_APPEND flag to append the content to the end of the file
+      // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+      file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
+
     echo "Fail";
   }
 

@@ -22,13 +22,13 @@ $username = "root";
 $password = "";
 $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
-				
+
 $sqlcheck = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.invoiceID = '$inputtedID' AND a.customerID = b.customerID";
 $getquery = mysqli_query($con, $sqlcheck);
 
 if (mysqli_num_rows($getquery) > 0){
 	$resultArray = mysqli_fetch_assoc($getquery);
-	
+
 	$customerNameold = $resultArray['customerName'];
 	$dateold = $resultArray['date'];
 	$totalPriceold = $resultArray['totalPrice'];
@@ -43,18 +43,18 @@ if (isset($_POST['submitEdit'])) {
 	//}else{
 		$customerName = $_POST['customerNameDrop'];
 	//}
-	
+
 	$purchaseOrderNo = $_POST['purchaseOrderNo'];
 	$invoiceDate = $_POST['invoiceDate'];
 	$miscNotes = $_POST['miscNotes'];
 
-	
-	
-	$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'"; 
+
+
+	$sqlcheckidnumber = "SELECT customerID FROM customer WHERE customerName = '$customerName'";
 	$runquery = mysqli_query($con, $sqlcheckidnumber);
-		
+
 	if ($runquery -> num_rows > 0) {
-		
+
 		//Name found!
 		$resultArray = mysqli_fetch_assoc($runquery);
 		$customerID = $resultArray["customerID"];
@@ -64,15 +64,33 @@ if (isset($_POST['submitEdit'])) {
 
 		//$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";
 		//$con -> query($sqlinsert);
-		
+
 		$sqledit = "UPDATE invoice SET totalPrice = '$totalPrice', customerID = '$customerID', miscNotes = '$miscNotes', purchaseOrderNo = '$purchaseOrderNo' WHERE invoiceID = '$inputtedID'";
 		$con -> query($sqledit);
-		
+
+        $file = 'userlog.log';
+        // The new person to add to the file
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " successfully edit invoice " . $invoiceID . ".";
+        // Write the contents to the file,
+        // using the FILE_APPEND flag to append the content to the end of the file
+        // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+        file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
+
 		//$invoiceID = $con->insert_id;
-		
+
 		//Wiping out the database list from invoiceitemlist
 		$deleteRecord = "DELETE FROM invoiceitemlist WHERE invoiceID = '$inputtedID'";
 		$con -> query($deleteRecord);
+
+        $file = 'userlog.log';
+        // The new person to add to the file
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " successfully delete invoice " . $invoiceID . ".";
+        // Write the contents to the file,
+        // using the FILE_APPEND flag to append the content to the end of the file
+        // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+        file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
 
 		foreach($_POST['itemName'] as $index => $itemName ) {
 			if ($itemName){
@@ -88,16 +106,34 @@ if (isset($_POST['submitEdit'])) {
 					$itemQuantity = $_POST["itemQuantity"][$index];
 
 					$totalPrice += $price * $itemQuantity;
-					
+
 					$sqlinsert2 = "INSERT INTO invoiceitemlist(invoiceID, stockID, itemQty) VALUES ('$inputtedID', '$stockID', '$itemQuantity')";
 					$con -> query($sqlinsert2);
+
+                    $file = 'userlog.log';
+                    // The new person to add to the file
+                    date_default_timezone_set("Asia/Kuala_Lumpur");
+                    $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " successfully edit invoice " . $invoiceID . ".";
+                    // Write the contents to the file,
+                    // using the FILE_APPEND flag to append the content to the end of the file
+                    // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+                    file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
 				}
 			}
 		}
-		
+
 		$sqlUpdate = "UPDATE invoice SET totalPrice= '$totalPrice' WHERE invoiceID = '$inputtedID'";
 		$con -> query($sqlUpdate);
-		
+
+        $file = 'userlog.log';
+        // The new person to add to the file
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " successfully change invoice " . $invoiceID . "'s price to RM" . $totalPrice . ".";
+        // Write the contents to the file,
+        // using the FILE_APPEND flag to append the content to the end of the file
+        // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+        file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
+
 		echo
 		"<script>
 		location.href='invoice.php';
@@ -275,7 +311,7 @@ include "include/navbar.php";
 				?>
 					<div class="grid_3 grid_4">
 					<label>Customer Name: </label>
-					
+
 					<?php
 					$sql = "SELECT * FROM customer";
 					$result = mysqli_query($con, $sql);
@@ -283,7 +319,7 @@ include "include/navbar.php";
 					<!--Dropdown list for Customer -->
 					<p id="text2">
 					<select class="selectpicker show-tick" data-live-search="true" name="customerNameDrop" id="customerNameDrop">
-					<?php while($row = mysqli_fetch_array($result)) { 
+					<?php while($row = mysqli_fetch_array($result)) {
 						if ($row['customerName'] == $customerNameold){?>
 							<option selected value="<?php echo $row['customerName']; ?>"><?php echo $row['customerName']; ?></option>
 						<?php }else{ ?>
@@ -313,17 +349,17 @@ include "include/navbar.php";
 					<hr>
 					<p><h2>Items Ordered:</h2></p>
 					<!-- loop here -->
-					
+
 					<div id="items" class="form-group">
 							<?php
-						
+
 							$sqlgetItemList = "SELECT iit.*, stockName FROM invoiceitemlist iit INNER JOIN stock ON iit.stockID=stock.stockID WHERE invoiceID = '$inputtedID'";
 							$result = mysqli_query($con, $sqlgetItemList);
 							if ($result->num_rows > 0){
 								$x = 0;
 								echo "<script>window.nextItem = " . $result->num_rows . ";</script>";
-								
-								while ($row = mysqli_fetch_assoc($result)){ 
+
+								while ($row = mysqli_fetch_assoc($result)){
 								?>
 									<div class="row" id="row<?php echo $x; ?>">
 										<input type="hidden" id="itemID[]" name="itemID[]" value="<?php echo $row['ID'] ?>" />
@@ -335,7 +371,7 @@ include "include/navbar.php";
 												$result2 = mysqli_query($con, $sql);
 												$select_options = "";
 												while($row2 = mysqli_fetch_array($result2)) {
-													
+
 													echo "<option value=\"" . $row2['stockName'] . "\" ". ( $row['stockName'] == $row2['stockName'] ? "selected=\"selected\"" : "" ) . ">" . $row2['stockName'] . "</option>\n";
 											} ?>
 											</select>
@@ -351,14 +387,14 @@ include "include/navbar.php";
 									<?php } ?>
 										<div class="clearfix"> </div>
 									</div>
-							<?php 
+							<?php
 								$x += 1;
 								}
 							}?>
 							<span id="row<?php echo $x ?>"/>
 					</div>
-					
-					
+
+
 					<button class="btn btn-normal" onclick="return additem()">Add Item</button>
 					<br>
 					<label>Notes:</label>

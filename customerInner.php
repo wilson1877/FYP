@@ -34,6 +34,15 @@ if (isset($_POST['submitAdd'])) {
 
 			$sqlnewcustomerinsert = "INSERT INTO customer(customerName, companyName, contactNumber, faxNumber, emailAddress, address) VALUES ('$customerName', '$companyName', '$customerContactNo', '$customerFaxNo', '$customerEmail', '$customerAddress')";
 			$con -> query($sqlnewcustomerinsert);
+
+			$file = 'userlog.log';
+		    // The new person to add to the file
+		    date_default_timezone_set("Asia/Kuala_Lumpur");
+		    $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " successfully added customer " . $customerName . ".";
+		    // Write the contents to the file,
+		    // using the FILE_APPEND flag to append the content to the end of the file
+		    // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
+		    file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
 		}else{
 			//Customer found, throw error
 		}
