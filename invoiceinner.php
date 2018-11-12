@@ -53,7 +53,7 @@ if (isset($_POST['submitAdd'])) {
 
 		$currentDate = date("Y/m/d");
 
-		$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo, date) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo', '$currentDate')";
+		$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo, date, delivered) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo', '$currentDate', 0)";
 		$con -> query($sqlinsert);
 
 		$file = 'userlog.log';
