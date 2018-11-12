@@ -180,7 +180,7 @@ include "include/navbar.php";
                                     $password = "";
                                     $dbname = "fyp";
                                     $con = new mysqli($servername, $username, $password, $dbname);
-                                    $sql = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.customerID = b.customerID ORDER BY a.invoiceID DESC";
+                                    $sql = "SELECT a.invoiceID, a.date, a.totalPrice, b.customerName, a.purchaseOrderNo, a.miscNotes FROM invoice a, customer b WHERE a.customerID = b.customerID AND a.delivered = 0 ORDER BY a.invoiceID DESC";
                                     $result = mysqli_query($con, $sql);
                                     if ($result->num_rows > 0) {
                                         while ($row = mysqli_fetch_assoc($result)){
