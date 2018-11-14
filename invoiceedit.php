@@ -65,7 +65,7 @@ if (isset($_POST['submitEdit'])) {
 		//$sqlinsert = "INSERT INTO invoice(totalPrice, customerID, miscNotes, purchaseOrderNo) VALUES ('$totalPrice', '$customerID', '$miscNotes', '$purchaseOrderNo')";
 		//$con -> query($sqlinsert);
 
-		$sqledit = "UPDATE invoice SET totalPrice = '$totalPrice', customerID = '$customerID', miscNotes = '$miscNotes', purchaseOrderNo = '$purchaseOrderNo' WHERE invoiceID = '$inputtedID'";
+		$sqledit = "UPDATE invoice SET totalPrice = '$totalPrice', customerID = '$customerID', date = '$invoiceDate', miscNotes = '$miscNotes', purchaseOrderNo = '$purchaseOrderNo' WHERE invoiceID = '$inputtedID'";
 		$con -> query($sqledit);
 
         $file = 'userlog.log';
@@ -124,6 +124,9 @@ if (isset($_POST['submitEdit'])) {
 
 		$sqlUpdate = "UPDATE invoice SET totalPrice= '$totalPrice' WHERE invoiceID = '$inputtedID'";
 		$con -> query($sqlUpdate);
+		
+		$sqlUpdate2 = "UPDATE creditdebit SET date= '$invoiceDate' WHERE invoiceID = '$inputtedID'";
+		$con -> query($sqlUpdate2);
 
         $file = 'userlog.log';
         // The new person to add to the file
@@ -350,7 +353,9 @@ include "include/navbar.php";
 					<input type="text" value="<?php echo $purchaseOrderNoold ?>" id="purchaseOrderNo" name="purchaseOrderNo" class="form-control1 control3">
 					<hr>
 					<label>Invoice Date:</label>
-					<input type="text" value="<?php echo $dateold ?>" id="invoiceDate" name="invoiceDate" class="form-control1 control3">
+					
+					<!--<input type="text" value="<?php echo $dateold ?>" id="invoiceDate" name="invoiceDate" class="form-control1 control3">-->
+					<input type="date" value="<?php echo $dateold ?>" id="invoiceDate" name="invoiceDate" class="form-control1 control3">
 					<hr>
 					<p><h2>Items Ordered:</h2></p>
 					<!-- loop here -->

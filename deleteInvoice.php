@@ -22,6 +22,9 @@
 
   $sql2 = "DELETE FROM invoice WHERE invoiceID = '$inputtedID'";
   $con -> query($sql2);
+  
+  $sql3 = "DELETE FROM creditdebit WHERE invoiceID = '$inputtedID'";
+  $con -> query($sql3);
 
   if (mysqli_affected_rows($con) > 0) {
       $file = 'userlog.log';
