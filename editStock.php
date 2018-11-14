@@ -129,6 +129,11 @@ include "include/navbar.php";
 	   .invoice-padding{
 			margin-top : 25px;
 		}
+
+        @media screen and (max-width: 768px) {
+                .menu-right{float: right !important;}
+            }
+            
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->

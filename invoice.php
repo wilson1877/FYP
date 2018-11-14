@@ -12,12 +12,12 @@ include "include/navbar.php";
 	<?php echo common_headers() ?>
 	<!-- Bootstrap Select -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-	
+
 	<script src="js/wow.min.js">
 	</script>
 	<script>
 	        new WOW().init();
-			
+
 			jQuery(document).ready(function($){
 				$('.table tbody').paginathing({
 				  perPage: 10,
@@ -34,7 +34,7 @@ include "include/navbar.php";
 				while($row = mysqli_fetch_array($result)) {
 					$select_options .= "<option value=\"" . $row['stockName'] . "\">" . $row['stockName'] . "</option>\n";
 			} ?>
-															
+
 			function additem(){
                 document.getElementById("row"+(nextItem)).innerHTML += "<div class=\"row\" id=\"divrow"+(nextItem)+"\"> <div class=\"col-md-8 grid_box1\"> <label>Item Name:</label>" +
 				 "<select name=\"itemName[]\" id=\"itemName[]\" class=\"form-control selectpicker\" data-live-search=\"true\">" + `<?php echo $select_options; ?>` +"</select> </div>" +
@@ -85,12 +85,17 @@ include "include/navbar.php";
 			background-color: brown;
 			color: #FFF;
 		}
+
+		@media screen and (max-width: 768px) {
+	            .menu-right{float: right !important;}
+	        }
+			
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
 	<!-- Meters graphs -->
 
-	
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
 <!-- Latest compiled and minified JavaScript -->

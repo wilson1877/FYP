@@ -80,6 +80,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	   textarea {
 			resize: none;
 	   }
+
+       @media screen and (max-width: 768px) {
+               .menu-right{float: right !important;}
+           }
+           
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
@@ -187,7 +192,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						$itemPrice = $row["price"];
 						$individualPrice = $itemQty * $itemPrice;
 						$counter += 1;
-						
+
 						$individualPriceDecimal = number_format($individualPrice,2);
 						?>
 						<!--<p><h4><b>Item:</b> <?php echo $row["stockName"] ?></h4></p>
@@ -222,7 +227,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<a href="invoice.php" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span> Click here to return</a>
 					<a onclick="invoicePrint()" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Invoice</a>
 					<a onclick="doPrint()" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print Delivery Order</a>
-					
+
 					<script>
 					function invoicePrint() {
 						window.open("invoiceprint.php");

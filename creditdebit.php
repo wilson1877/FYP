@@ -15,12 +15,12 @@ include "include/navbar.php";
 	<?php echo common_headers() ?>
 	<!-- Bootstrap Select -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-	
+
 	<script src="js/wow.min.js">
 	</script>
 	<script>
 	        //new WOW().init();
-			
+
 			//Pagination
 			jQuery(document).ready(function($){
 				$('.table tbody').paginathing({
@@ -63,12 +63,17 @@ include "include/navbar.php";
 			background-color: brown;
 			color: #FFF;
 		}
+
+		@media screen and (max-width: 768px) {
+	            .menu-right{float: right !important;}
+	        }
+			
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
 	<!-- Meters graphs -->
 
-	
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
@@ -167,10 +172,10 @@ include "include/navbar.php";
 								$result = mysqli_query($con, $sql);
 								if ($result->num_rows > 0) {
 									while ($row = mysqli_fetch_assoc($result)){
-										
+
 										if ($oldCustomerID != $row["customerID"]){ //If the ID is different, run function
 											$oldCustomerID = $row["customerID"]; //Puts the existing Customer ID in
-								
+
 											//Calculating Total Balance
 											$grandtotal = 0.00;
 											$cusID = $row["customerID"];
@@ -186,7 +191,7 @@ include "include/navbar.php";
 													}
 												}
 											}
-											
+
 											//Retrieving Customer Details
 											$sql3 = "SELECT customerName, companyName, contactNumber FROM customer WHERE customerID = '$cusID'";
 											$result3 = mysqli_query($con, $sql3);
@@ -198,7 +203,7 @@ include "include/navbar.php";
 												}
 											}
 									?>
-										<?php //if ($grandtotal > 0){ ?>	
+										<?php //if ($grandtotal > 0){ ?>
 											<tr onclick="selectInvoice(<?php echo $row["customerID"]?>)" id="Srow<?php echo $row["customerID"]?>">
 												<td><?php echo $rowNumber ?></td>
 												<!--<td><?php echo $row["date"] ?></td>-->
@@ -207,10 +212,10 @@ include "include/navbar.php";
 												<td><?php echo $contactNumber ?></td>
 												<td><?php echo number_format ((float)$grandtotal, 2, '.', '') ?></td>
 											</tr>
-										<?php //} 
-										$rowNumber++;									
+										<?php //}
+										$rowNumber++;
 										?>
-											
+
 										<?php }
 										}
 								}
@@ -272,4 +277,3 @@ include "include/navbar.php";
 	</script>
 </body>
 </html>
-

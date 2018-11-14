@@ -1,34 +1,284 @@
 <?php
-	include "config.php";
+//Customer Function
+include "config.php";
+include "include/headers.php";
+include "include/navbar.php";
 ?>
+<!DOCTYPE html>
 <html>
-<body>
-<table border="solid">
-    <theader>
-        <tr><td colspan="2">Invoices to deliver</td></tr>
-        <tr><td></td><td>Invoice ID</td><td>Address</td></tr>
-    </theader>
-    <tbody>
+<head>
+	<title>iBuzz - Delivery Route</title>
+	<?php echo common_headers() ?>
+	<!-- Bootstrap Select -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+	<script src="js/wow.min.js">
+	</script>
+	<script>
+	        new WOW().init();
+
+			jQuery(document).ready(function($){
+				$('.table tbody').paginathing({
+				  perPage: 10,
+				  insertAfter: '.table',
+				  pageNumbers: true
+				});
+			});
+	</script>
+	<style>
+		.pagination{
+			display: flex;
+			justify-content: center;
+
+		}
+	   .activity_box{
+	       min-height: 285px;
+	   }
+	   .scrollbar{
+	       height: 236px;
+	   }
+	   .scrollbar1{
+	       height: 236px;
+	   }
+	   .thead-inverse th {
+	       background-color: #e1ffda;
+	   }
+	   .btn-info {
+	       padding: 6px 12px;
+	   }
+	   textarea {
+			resize: none;
+	   }
+		.invoice-padding{
+			margin-top : 25px;
+		}
+
+		.selected {
+			background-color: brown;
+			color: #FFF;
+		}
+
+		@media screen and (max-width: 768px) {
+	            .menu-right{float: right !important;}
+	        }
+
+		#map {
+        height: 100%;
+      }
+
+	  #floating-panel {
+        position: absolute;
+        top: 321px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+	  @media screen and (max-width: 768px) {
+              #floating-panel{top: 432px !important;}
+          }
+
+	</style><!--//end-animate-->
+	<!--==webfonts=-->
+	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
+	<!-- Meters graphs -->
+
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+<script type="text/javascript">
+    $('.selectpicker').selectpicker({
+      });
+</script>
+
+</head>
+<body class="sticky-header left-side-collapsed" onload="initMap()">
+	<section>
         <?php
-		foreach ($_REQUEST["invoice"] as $key => $value) {
-			$sql = "SELECT address FROM customer c INNER JOIN invoice i ON c.customerID=i.customerID WHERE invoiceID='$value'	";
-			$result = mysqli_query($con, $sql);
-			if ($result->num_rows > 0) {
-				while ($row = mysqli_fetch_assoc($result)){
-					$address = $row["address"];
-				}
-			}
-			echo "<tr><td>$key</td><td>$value</td><td>$address</td></tr>\n";
-		}?>
-    </tbody>
-</table>
+        if ($userid == 1){
+            echo navbar();
+        }
+        else {
+            if ($isDriver == 0){
+                echo navbar();
+            }
+            else {
+                echo dribar();
+            }
+        }
+        ?>
+		<!-- main content start-->
+		<div class="main-content">
+			<!-- header-starts -->
+			<div class="header-section">
+				<!--toggle button start-->
+				<a class="toggle-btn menu-collapsed"><i class="fa fa-bars"></i></a> <!--toggle button end-->
+				 <!--notification menu start -->
+         <div class="menu-right">
+   				<div class="user-panel-top">
+   					<div class="profile_details">
+   						<ul>
+   							<li class="dropdown profile_details_drop">
+   								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+   									<div class="profile_img">
+   										<span style="background:url(images/1.jpg) no-repeat center"> </span>
+   										 <div class="user-name">
+   											<p><p><?php echo $usernamedisplay ;?><span>
+   											<?php
+   											if ($userid == 1){
+   												echo 'Admin';
+   											}
+   											else {
+   												if ($isDriver == 0){
+   													echo 'Staff';
+   												}
+   												else {
+   													echo 'Driver';
+   												}
+   											}
+   											?></span></p>
+   										 </div>
+   										 <i class="lnr lnr-chevron-down"></i>
+   										 <i class="lnr lnr-chevron-up"></i>
+   										<div class="clearfix"></div>
+   									</div>
+   								</a>
+   								<ul class="dropdown-menu drp-mnu">
+   									<li> <a href="profile.php"><i class="fa fa-user"></i> Profile</a> </li>
+   									<li> <a href="sign-out.php"><i class="fa fa-sign-out"></i> Logout</a> </li>
+   								</ul>
+   							</li>
+   							<div class="clearfix"> </div>
+   						</ul>
+   					</div>
+   					<div class="social_icons">
+   					</div>
+   					<div class="clearfix"></div>
+   				</div>
+   			  </div><!--notification menu end -->
+			</div><!-- //header-ends -->
+			<div id="page-wrapper">
+				<h3 class="blank1">Delivery Route</h3>
+				<hr>
+				<div class="table-responsive">
+					<div class="grid_3 grid_4">
+						<table border="solid">
+						    <theader>
+						        <tr><td colspan="3">Invoices to deliver</td></tr>
+						        <tr><td>#</td><td>Invoice ID</td><td>Address</td></tr>
+						    </theader>
+						    <tbody>
+						        <?php
+								foreach ($_REQUEST["invoice"] as $key => $value) {
+									$sql = "SELECT address FROM customer c INNER JOIN invoice i ON c.customerID=i.customerID WHERE invoiceID='$value'	";
+									$result = mysqli_query($con, $sql);
+									if ($result->num_rows > 0) {
+										while ($row = mysqli_fetch_assoc($result)){
+											$address = $row["address"];
+										}
+									}
+									echo "<tr><td>$key</td><td>$value</td><td>$address</td></tr>\n";
+								}?>
+						    </tbody>
+						</table>
+						<hr />
+						<div id="floating-panel">
+							<b>Departure: </b>
+							<select id="start">
+								<option value="chicago, il">Chicago</option>
+								<option value="st louis, mo">St Louis</option>
+								<option value="joplin, mo">Joplin, MO</option>
+								<option value="oklahoma city, ok">Oklahoma City</option>
+								<option value="amarillo, tx">Amarillo</option>
+								<option value="gallup, nm">Gallup, NM</option>
+								<option value="flagstaff, az">Flagstaff, AZ</option>
+								<option value="winona, az">Winona</option>
+								<option value="kingman, az">Kingman</option>
+								<option value="barstow, ca">Barstow</option>
+								<option value="san bernardino, ca">San Bernardino</option>
+								<option value="los angeles, ca">Los Angeles</option>
+							</select>
+							<b>Destination: </b>
+							<select id="end">
+								<option value="chicago, il">Chicago</option>
+								<option value="st louis, mo">St Louis</option>
+								<option value="joplin, mo">Joplin, MO</option>
+								<option value="oklahoma city, ok">Oklahoma City</option>
+								<option value="amarillo, tx">Amarillo</option>
+								<option value="gallup, nm">Gallup, NM</option>
+								<option value="flagstaff, az">Flagstaff, AZ</option>
+								<option value="winona, az">Winona</option>
+								<option value="kingman, az">Kingman</option>
+								<option value="barstow, ca">Barstow</option>
+								<option value="san bernardino, ca">San Bernardino</option>
+								<option value="los angeles, ca">Los Angeles</option>
+							</select>
+						</div>
+						<div id="map"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col_1">
+			<div class="clearfix"></div>
+		</div><!--body wrapper start-->
+		<!--body wrapper end-->
+		<!--footer section start-->
+		<footer>
+			<p>Copyright © iBuzz 2018</p>
+		</footer><!--footer section end-->
+		<!-- main content end-->
+	</section>
+	<script src="js/jquery.nicescroll.js">
+	</script>
+	<script src="js/scripts.js">
+	</script> <!-- Bootstrap Core JavaScript -->
 
-<form action="http://maps.google.com/maps" method="get" target="_blank">
-	Enter your starting address:
-	<input type="text" name="saddr" />
-	<input type="hidden" name="daddr" value="23, Jalan Anggerik Aranda C 31/C, Kota Kemuning, 40460 Shah Alam, Selangor" />
-	<input type="submit" value="Get directions" />
-</form>
+	<script src="js/bootstrap.min.js">
+	</script>
+	<script>
+      function initMap() {
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 7,
+          center: {lat: 41.85, lng: -87.65}
+        });
+        directionsDisplay.setMap(map);
 
+        var onChangeHandler = function() {
+          calculateAndDisplayRoute(directionsService, directionsDisplay);
+        };
+        document.getElementById('start').addEventListener('change', onChangeHandler);
+        document.getElementById('end').addEventListener('change', onChangeHandler);
+      }
+
+      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        directionsService.route({
+          origin: document.getElementById('start').value,
+          destination: document.getElementById('end').value,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB06z0_vkU-VpoJg5be2C3iJwiscmMnQPg&callback=initMap">
+    </script>
 </body>
 </html>
+<!-- AIzaSyB06z0_vkU-VpoJg5be2C3iJwiscmMnQPg -->

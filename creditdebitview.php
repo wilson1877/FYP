@@ -25,16 +25,16 @@ include "include/navbar.php";
 	<script type="application/x-javascript">
 	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
 	</script><!-- Bootstrap Core CSS -->
-	
+
 	<script src="js/jquery-1.10.2.min.js">
 	</script>
-	
+
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-	
+
 	<script type="text/javascript">
 		//new WOW().init();
 		$(document).ready(function(){
@@ -43,9 +43,9 @@ include "include/navbar.php";
 				var creditAmt = $("#txt_creditAmt").val().trim();
 				var notes = $("#txt_notes").val().trim();
 				var inputtedID = $("#inputtedID").val().trim();
-		
+
 				if(creditAmt != "" && notes != "" ){
-					
+
 					$.ajax({ //Validation without requiring to refresh
 						url:'creditdebitviewinner.php',
 						type:'post',
@@ -54,9 +54,9 @@ include "include/navbar.php";
 							var msg = "";
 							if(response == 1){ //Success! Refresh the page with the Selected ID!
 								//window.location = "creditdebitview.php";
-								
+
 								document.getElementById("selectedID").value = inputtedID;
-								
+
 								var theform = document.getElementById("actionSender");
 								theform.action="creditdebitview.php";
 								theform.submit()
@@ -71,21 +71,21 @@ include "include/navbar.php";
 					$("#message").html(msg);
 				}
 			});
-			
+
 			//Don't allow Negative on Number Input
 			var number = document.getElementById('txt_creditAmt');
 
 			// Listen for input event on numInput.
 			number.onkeydown = function(e) {
 				if(!((e.keyCode > 95 && e.keyCode < 106)
-				  || (e.keyCode > 47 && e.keyCode < 58) 
+				  || (e.keyCode > 47 && e.keyCode < 58)
 				  || e.keyCode == 8)) {
 					return false;
 				}
 			}
 			});
-		
-		
+
+
 	</script>
 
 	<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'><!-- Custom CSS -->
@@ -140,12 +140,17 @@ include "include/navbar.php";
 			color:red;
 			padding-bottom:10px;
 		}
+
+		@media screen and (max-width: 768px) {
+	            .menu-right{float: right !important;}
+	        }
+			
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
 	<!-- Meters graphs -->
 
-	
+
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
@@ -201,7 +206,7 @@ include "include/navbar.php";
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Customer Debt Record: <?php 
+				<h3 class="blank1">Customer Debt Record: <?php
 				$sql3 = "SELECT customerName, companyName FROM customer WHERE customerID = '$inputtedID'";
 				$result3 = mysqli_query($con, $sql3);
 				if ($result3->num_rows > 0) {
@@ -249,18 +254,18 @@ include "include/navbar.php";
 								<input type="hidden" id="selectedID" name="selectedID" value="<?php echo $inputtedID ?>"/>
 								</form>
 									<input type="hidden" id="inputtedID" name="inputtedID" value="<?php echo $inputtedID ?>"/>
-								
+
 							<tbody>
 								<?php
 								$oldCustomerID = "";
 								$grandtotal = 0.00;
 								$sql = "SELECT * FROM creditdebit WHERE customerID = '$inputtedID'";
-								$result = mysqli_query($con, $sql); //Getting 
-								
+								$result = mysqli_query($con, $sql); //Getting
+
 								if ($result->num_rows > 0) {
 								while ($row = mysqli_fetch_assoc($result)){
 									$oldCustomerID = $row["customerID"]; //Puts the existing Customer ID in
-						
+
 									//Calculating Total Balance
 									$cusID = $row["customerID"];
 									$sql2 = "SELECT debit FROM creditdebit WHERE customerID = '$cusID'";
@@ -277,7 +282,7 @@ include "include/navbar.php";
 										<?php if ($row["debit"] > 0){?>
 										<tr>
 											<td><?php echo $row["ID"] ?></td>
-											<td><?php echo $row["date"] ?></td>							
+											<td><?php echo $row["date"] ?></td>
 											<td><?php echo $row["invoiceID"] ?></td>
 											<td><?php echo $row["debit"] ?></td>
 											<td></td>
@@ -294,7 +299,7 @@ include "include/navbar.php";
 											<td style="font-weight: bold;color:#0cb514"><?php echo $row["notes"] ?></td>
 										<?php }?>
 									</tr>
-									<?php 
+									<?php
 									}
 								}
 								else{
@@ -377,7 +382,7 @@ include "include/navbar.php";
 											</center>
 										</form>
 										</div>
-									
+
 								</div>
 						</div>
 						</form>
