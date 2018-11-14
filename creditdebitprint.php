@@ -1,9 +1,8 @@
 <?php
 // FYP Declaration Stuff
 include "config.php";
-$inputtedID = $_SESSION['inputtedID'];
 
-$sql = "SELECT a.*, b.* FROM creditdebit a, customer b WHERE a.customerID = '$inputtedID' AND b.customerID = '$inputtedID'";
+$sql = "SELECT a.*, b.* FROM creditdebit a, customer b";
 
 $result = mysqli_query($con, $sql);
 
@@ -73,7 +72,7 @@ $pdf->SetFont('helvetica', '', 12);
 $pdf->SetFillColor(255, 235, 235);
 // -----------------------------------------------------------------------------
 
-$printableItemsTable = createItemsTableFromDatabase($con, $inputtedID);
+$printableItemsTable = createItemsTableFromDatabase($con);
 
 $tbl = <<<EOD
 <table border="1" cellpadding="2"  nobr="true">
@@ -91,10 +90,9 @@ $pdf->Output('invoiceprint.php', 'I');
 // END OF FILE
 //============================================================+
 
-function createItemsTableFromDatabase($connection, $invoiceID){
+function createItemsTableFromDatabase($connection){
 	$returnedTable = "";
 	$oldCustomerID = "";
-	$inputtedID = $_SESSION['inputtedID'];
 	
 	$itemsRows = "\n";
 	

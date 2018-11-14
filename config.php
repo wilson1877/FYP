@@ -13,4 +13,6 @@ $username = "root";
 $password = "";
 $dbname = "fyp";
 $con = new mysqli($servername, $username, $password, $dbname);
+
+date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>

@@ -22,6 +22,9 @@ function navbar(){
 						<a href="customerData.php"><i class="fa fa-users"></i> <span>Customer Data</span></a>
 					</li>
 					<li>
+						<a href="prediction.php"><i class="fa fa-compass"></i> <span>Customer Prediction</span></a>
+					</li>
+					<li>
 						<a href="invoice.php"><i class="lnr lnr-book"></i> <span>Invoices</span></a>
 					</li>
 					<li><a href="creditdebit.php"><i class="fa fa-usd"></i> <span>View Debtor Listing</span></a></li>
