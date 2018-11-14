@@ -22,13 +22,13 @@ if (isset($_POST['submit'])) {
 	<?php echo common_headers() ?>
 	<!-- Bootstrap Select -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-	
+
 	<script src="js/wow.min.js">
 	</script>
 	<script>
 	/*
 	        new WOW().init();
-			
+
 			jQuery(document).ready(function($){
 				$('.table tbody').paginathing({
 				  perPage: 10,
@@ -70,12 +70,17 @@ if (isset($_POST['submit'])) {
 		.predictionSort{
 			display: inline;
 		}
+
+		@media screen and (max-width: 768px) {
+	            .menu-right{float: right !important;}
+	        }
+			
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
 	<!-- Meters graphs -->
 
-	
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
@@ -145,8 +150,8 @@ if (isset($_POST['submit'])) {
 				<hr>
 				<form action="" class="custom-form-horizontal" data-toggle="validator" method="post" role="form">
 					<!--<p>Current Date: <?php echo $currentDate ?></p>-->
-					
-					<?php 
+
+					<?php
 					$sqlDays = "SELECT predictionsetting FROM settings WHERE ID = '1'";
 					$result2 = mysqli_query($con, $sqlDays);
 					if ($result2->num_rows > 0) {
@@ -162,7 +167,7 @@ if (isset($_POST['submit'])) {
 					<p>Show prediction for the next <input type="number" id="daysField" name="daysField" min="1" max="50" class="col-10 form-control3" value="<?php echo $countDates?>" onfocusout="numberVerify()"> day(s)
 					<input class="btn btn-default" name="submit" type="submit" value="Submit"><!--<a href="#" onClick="predictionSort()" class="btn btn-default" contenteditable="false" name="predictionSort" id="predictionSort"> Submit</a>--></p>
 				</form>
-				<p>Show all data: <input type="checkbox" name="mycheckboxdiv" id="mycheckboxdiv" onclick="myFunction()"></p> 
+				<p>Show all data: <input type="checkbox" name="mycheckboxdiv" id="mycheckboxdiv" onclick="myFunction()"></p>
 					<br>
 				<script>
 				function myFunction() {
@@ -170,7 +175,7 @@ if (isset($_POST['submit'])) {
 					var table = document.getElementById("table");
 					var table2 = document.getElementById("table2");
 					if (checkBox.checked == true){
-						table.style.display = "block";	
+						table.style.display = "block";
 						table2.style.display = "none";
 					}else {
 					   table.style.display = "none";
@@ -202,10 +207,10 @@ if (isset($_POST['submit'])) {
                                     </tr>
                                 </thead>
                                 <tbody>
-									<?php 
+									<?php
 									$currentDate = date("Y-m-d");
 									$rowNumber = 1;
-									
+
 									$sql = "SELECT a.averageDays, a.averageQuantity, a.nextPurchase, b.customerName, c.stockName FROM prediction a, customer b, stock c WHERE a.customerID = b.customerID AND a.stockID = c.stockID ORDER BY a.nextPurchase DESC";
 									$result = mysqli_query($con, $sql);
 									if ($result->num_rows > 0) {
@@ -240,7 +245,7 @@ if (isset($_POST['submit'])) {
 										<td></td>
 										<td></td>
 										</tr>
-									<?php 
+									<?php
 									}
 									?>
                                 </tbody>
@@ -260,10 +265,10 @@ if (isset($_POST['submit'])) {
                                     </tr>
                                 </thead>
                                 <tbody>
-									<?php 
+									<?php
 									$currentDate = date("Y-m-d");
 									$rowNumber = 1;
-									
+
 									$sql = "SELECT a.averageDays, a.averageQuantity, a.nextPurchase, b.customerName, c.stockName FROM prediction a, customer b, stock c WHERE a.customerID = b.customerID AND a.stockID = c.stockID AND a.nextPurchase < '$revisedDate' ORDER BY a.nextPurchase DESC";
 									$result = mysqli_query($con, $sql);
 									if ($result->num_rows > 0) {
@@ -291,7 +296,7 @@ if (isset($_POST['submit'])) {
 										<td></td>
 										<td></td>
 										</tr>
-									<?php 
+									<?php
 									}
 									?>
                                 </tbody>
@@ -303,7 +308,7 @@ if (isset($_POST['submit'])) {
 							<!--<p>Rows marked in red are past the current date</p>-->
 							<hr>
 							</center>
-							
+
 					</div>
 				</div>
 			</div>
