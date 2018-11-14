@@ -194,34 +194,25 @@ include "include/navbar.php";
 						<div id="floating-panel">
 							<b>Departure: </b>
 							<select id="start">
-								<option value="chicago, il">Chicago</option>
-								<option value="st louis, mo">St Louis</option>
-								<option value="joplin, mo">Joplin, MO</option>
-								<option value="oklahoma city, ok">Oklahoma City</option>
-								<option value="amarillo, tx">Amarillo</option>
-								<option value="gallup, nm">Gallup, NM</option>
-								<option value="flagstaff, az">Flagstaff, AZ</option>
-								<option value="winona, az">Winona</option>
-								<option value="kingman, az">Kingman</option>
-								<option value="barstow, ca">Barstow</option>
-								<option value="san bernardino, ca">San Bernardino</option>
-								<option value="los angeles, ca">Los Angeles</option>
+								<option value="23, Jalan Anggerik Aranda C 31/C, Kota Kemuning, Shah Alam, Selangor">Powersaw Services</option>
 							</select>
 							<b>Destination: </b>
+							<?php
+							$servername = "localhost";
+							$username = "root";
+							$password = "";
+							$dbname = "fyp";
+							$con = new mysqli($servername, $username, $password, $dbname);
+							$sql = "SELECT b.address FROM invoice a, customer b WHERE a.customerID = b.customerID AND a.delivered = 0 AND a.invoiceID = '$value'";
+							$result = mysqli_query($con, $sql);
+							if ($result->num_rows > 0) {
+								while ($row = mysqli_fetch_assoc($result)){
+									$address = $row["address"];
+							?>
 							<select id="end">
-								<option value="chicago, il">Chicago</option>
-								<option value="st louis, mo">St Louis</option>
-								<option value="joplin, mo">Joplin, MO</option>
-								<option value="oklahoma city, ok">Oklahoma City</option>
-								<option value="amarillo, tx">Amarillo</option>
-								<option value="gallup, nm">Gallup, NM</option>
-								<option value="flagstaff, az">Flagstaff, AZ</option>
-								<option value="winona, az">Winona</option>
-								<option value="kingman, az">Kingman</option>
-								<option value="barstow, ca">Barstow</option>
-								<option value="san bernardino, ca">San Bernardino</option>
-								<option value="los angeles, ca">Los Angeles</option>
+								<option value=<?php echo $address ?>></option>
 							</select>
+						<?php } ?>
 						</div>
 						<div id="map"></div>
 					</div>
@@ -250,8 +241,8 @@ include "include/navbar.php";
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 7,
-          center: {lat: 41.85, lng: -87.65}
+			center: {lat: 3.168660, lng: 101.648532},
+  		  	zoom: 12
         });
         directionsDisplay.setMap(map);
 
@@ -281,4 +272,4 @@ include "include/navbar.php";
     </script>
 </body>
 </html>
-<!-- AIzaSyB06z0_vkU-VpoJg5be2C3iJwiscmMnQPg -->
+<!-- API key => AIzaSyB06z0_vkU-VpoJg5be2C3iJwiscmMnQPg -->

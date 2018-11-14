@@ -60,6 +60,7 @@ include "include/navbar.php";
 
 		@media screen and (max-width: 768px) {
 	            .menu-right{float: right !important;}
+				#floating-panel{top: 432px !important;}
 	        }
 
 		#map {
@@ -79,10 +80,6 @@ include "include/navbar.php";
         line-height: 30px;
         padding-left: 10px;
       }
-
-	  @media screen and (max-width: 768px) {
-              #floating-panel{top: 432px !important;}
-          }
 
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
@@ -172,11 +169,23 @@ include "include/navbar.php";
 					<div class="grid_3 grid_4">
                         <!-- <iframe src="https://goo.gl/pSdScm" width="100%" height="500px" frameborder="0" style="border:0"
                         allowfullscreen></iframe> -->
-						<!-- <div id="floating-panel">
-							<input id="address" type="textbox" value="">
-							<input id="submit" type="button" value="Geocode">
-						</div> -->
+						<?php
+						$servername = "localhost";
+						$username = "root";
+						$password = "";
+						$dbname = "fyp";
+						$con = new mysqli($servername, $username, $password, $dbname);
+						$sql = "SELECT b.address FROM invoice a, customer b WHERE a.customerID = b.customerID AND a.delivered = 0";
+						$result = mysqli_query($con, $sql);
+						if ($result->num_rows > 0) {
+							while ($row = mysqli_fetch_assoc($result)){
+						?>
+						<div id="floating-panel">
+							<!-- <input id="address" type="textbox" value=""> -->
+							<input id="submit" type="button" value="Reload Map">
+						</div>
 						<div id="map"></div>
+					<?php } ?>
                         <center style="padding-top: 25px;">
 							<a href="delivery.php" onClick="" class="btn btn-warning" contenteditable="false"
                             name="deliveryBtn"><span class="glyphicon  glyphicon-user"></span> Make Delivery</a>
@@ -205,8 +214,8 @@ include "include/navbar.php";
 	<script>
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 8,
-          center: {lat: -34.397, lng: 150.644}
+			enter: {lat: 3.168660, lng: 101.648532},
+  			zoom: 12
         });
         var geocoder = new google.maps.Geocoder();
 
