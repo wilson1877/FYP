@@ -56,7 +56,6 @@ function dribar(){
                     <li>
 						<a href="profile.php"><i class="lnr lnr-user"></i> <span>User Accounts</span></a>
 					</li>
-					<li><a href="onlineMap.php"><i class="lnr lnr-car"></i> <span>View Online Map</span></a></li>
 					<li><a href="delivery.php"><i class="fa fa-folder"></i> <span>View Deliveries</span></a></li>
 				</ul><!--sidebar nav end-->
 			</div>
