@@ -57,30 +57,6 @@ include "include/navbar.php";
 			background-color: brown;
 			color: #FFF;
 		}
-
-		@media screen and (max-width: 768px) {
-	            .menu-right{float: right !important;}
-				#floating-panel{top: 432px !important;}
-	        }
-
-		#map {
-        height: 100%;
-		}
-
-		#floating-panel {
-        position: absolute;
-        top: 321px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
-
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
@@ -96,6 +72,7 @@ include "include/navbar.php";
     $('.selectpicker').selectpicker({
       });
 </script>
+
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
@@ -167,29 +144,14 @@ include "include/navbar.php";
 				<hr>
 				<div class="table-responsive">
 					<div class="grid_3 grid_4">
-                        <!-- <iframe src="https://goo.gl/pSdScm" width="100%" height="500px" frameborder="0" style="border:0"
-                        allowfullscreen></iframe> -->
-						<?php
-						$servername = "localhost";
-						$username = "root";
-						$password = "";
-						$dbname = "fyp";
-						$con = new mysqli($servername, $username, $password, $dbname);
-						$sql = "SELECT b.address FROM invoice a, customer b WHERE a.customerID = b.customerID AND a.delivered = 0";
-						$result = mysqli_query($con, $sql);
-						if ($result->num_rows > 0) {
-							while ($row = mysqli_fetch_assoc($result)){
-						?>
-						<div id="floating-panel">
-							<!-- <input id="address" type="textbox" value=""> -->
-							<input id="submit" type="button" value="Reload Map">
-						</div>
-						<div id="map"></div>
-					<?php } ?>
+                        <iframe src="https://goo.gl/pSdScm" width="100%" height="500px" frameborder="0" style="border:0"
+                        allowfullscreen></iframe>
+
                         <center style="padding-top: 25px;">
 							<a href="delivery.php" onClick="" class="btn btn-warning" contenteditable="false"
                             name="deliveryBtn"><span class="glyphicon  glyphicon-user"></span> Make Delivery</a>
 						</center>
+
 					</div>
 				</div>
 			</div>
@@ -211,37 +173,5 @@ include "include/navbar.php";
 
 	<script src="js/bootstrap.min.js">
 	</script>
-	<script>
-      function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-			enter: {lat: 3.168660, lng: 101.648532},
-  			zoom: 12
-        });
-        var geocoder = new google.maps.Geocoder();
-
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
-      }
-
-      function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status === 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-            });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB06z0_vkU-VpoJg5be2C3iJwiscmMnQPg&callback=initMap">
-    </script>
 </body>
 </html>
-<!-- API key => AIzaSyB06z0_vkU-VpoJg5be2C3iJwiscmMnQPg -->

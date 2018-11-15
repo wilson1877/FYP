@@ -1,5 +1,5 @@
 <?php
-//Customer Function
+//Invoice Function
 include "config.php";
 include "include/headers.php";
 include "include/navbar.php";
@@ -7,7 +7,7 @@ include "include/navbar.php";
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iBuzz - Delivery Route</title>
+	<title>iBuzz - Delivery</title>
 	<?php echo common_headers() ?>
 	<!-- Bootstrap Select -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
@@ -24,6 +24,8 @@ include "include/navbar.php";
 				  pageNumbers: true
 				});
 			});
+
+			var nextItem = 1;
 	</script>
 	<style>
 		.pagination{
@@ -57,33 +59,6 @@ include "include/navbar.php";
 			background-color: brown;
 			color: #FFF;
 		}
-
-		@media screen and (max-width: 768px) {
-	            .menu-right{float: right !important;}
-	        }
-
-		#map {
-        height: 100%;
-      }
-
-	  #floating-panel {
-        position: absolute;
-        top: 321px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
-
-	  @media screen and (max-width: 768px) {
-              #floating-panel{top: 432px !important;}
-          }
-
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
@@ -103,7 +78,7 @@ include "include/navbar.php";
 </head>
 <body class="sticky-header left-side-collapsed" onload="initMap()">
 	<section>
-        <?php
+		<?php
         if ($userid == 1){
             echo navbar();
         }
@@ -167,58 +142,61 @@ include "include/navbar.php";
    			  </div><!--notification menu end -->
 			</div><!-- //header-ends -->
 			<div id="page-wrapper">
-				<h3 class="blank1">Delivery Route</h3>
+				<h3 class="blank1">Deliveries</h3>
 				<hr>
 				<div class="table-responsive">
 					<div class="grid_3 grid_4">
-						<table border="solid">
-						    <theader>
-						        <tr><td colspan="3">Invoices to deliver</td></tr>
-						        <tr><td>#</td><td>Invoice ID</td><td>Address</td></tr>
-						    </theader>
-						    <tbody>
-						        <?php
-								foreach ($_REQUEST["invoice"] as $key => $value) {
-									$sql = "SELECT address FROM customer c INNER JOIN invoice i ON c.customerID=i.customerID WHERE invoiceID='$value'	";
-									$result = mysqli_query($con, $sql);
-									if ($result->num_rows > 0) {
-										while ($row = mysqli_fetch_assoc($result)){
-											$address = $row["address"];
-										}
-									}
-									echo "<tr><td>$key</td><td>$value</td><td>$address</td></tr>\n";
-								}?>
-						    </tbody>
-						</table>
-						<hr />
-						<div id="floating-panel">
-							<b>Departure: </b>
-							<select id="start">
-								<option value="23, Jalan Anggerik Aranda C 31/C, Kota Kemuning, Shah Alam, Selangor">Powersaw Services</option>
-							</select>
-							<b>Destination: </b>
-							<?php
-							$servername = "localhost";
-							$username = "root";
-							$password = "";
-							$dbname = "fyp";
-							$con = new mysqli($servername, $username, $password, $dbname);
-							$sql = "SELECT b.address FROM invoice a, customer b WHERE a.customerID = b.customerID AND a.delivered = 0 AND a.invoiceID = '$value'";
-							$result = mysqli_query($con, $sql);
-							if ($result->num_rows > 0) {
-								while ($row = mysqli_fetch_assoc($result)){
-									$address = $row["address"];
-							?>
-							<select id="end">
-								<option value=<?php echo $address ?>></option>
-							</select>
-						<?php } ?>
-						</div>
-						<div id="map"></div>
+                        <form id="actionSender" method="post">
+                            <table id="myTable" class="table table-striped table-bordered">
+                                <!-- Incoming Table -->
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Invoice ID</th>
+                                        <th>Customer</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    		$waypoints = "";
+											$address = "";
+											$name = "";
+											foreach ($_REQUEST["invoice"] as $key => $value) {
+												$sql = "SELECT customername, address FROM customer c INNER JOIN invoice i ON c.customerID=i.customerID WHERE invoiceID='$value'	";
+												$result = mysqli_query($con, $sql);
+												if ($result->num_rows > 0) {
+													while ($row = mysqli_fetch_assoc($result)){
+														if ($address != "") {
+															$waypoints .= ($waypoints != "" ? "|" : "") . $address;
+															//when first address comes comes, waypoints is empty, and should not put a | before A
+														}
+														$address = preg_replace('/\n+/', '', $row["address"]);
+														$name = $row["customername"];
+													}
+												}
+												echo "<tr><td>$key</td><td>$value</td><td>$name</td><td>$address</td></tr>\n";
+											}?>
+									
+                                </tbody>
+                            </table>
+						</form>
+
+						<center>
+						<form action="http://maps.google.com/maps/dir/" method="get" target="_blank"> <!-- https://developers.google.com/maps/documentation/urls/guide#directions-action -->
+							Enter your starting address:
+							<input type="text" name="origin" placeholder="Current Location"/>
+							<input type="hidden" name="api" value="1" />
+							<input type="hidden" name="waypoints" value="<?php echo $waypoints; ?>" />
+							<input type="hidden" name="destination" value="<?php echo $address; ?>" />
+							<input type="submit" value="Get directions" />
+						</form>
+						</center>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!-- //switches -->
 		<div class="col_1">
 			<div class="clearfix"></div>
 		</div><!--body wrapper start-->
@@ -236,40 +214,5 @@ include "include/navbar.php";
 
 	<script src="js/bootstrap.min.js">
 	</script>
-	<script>
-      function initMap() {
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-        var map = new google.maps.Map(document.getElementById('map'), {
-			center: {lat: 3.168660, lng: 101.648532},
-  		  	zoom: 12
-        });
-        directionsDisplay.setMap(map);
-
-        var onChangeHandler = function() {
-          calculateAndDisplayRoute(directionsService, directionsDisplay);
-        };
-        document.getElementById('start').addEventListener('change', onChangeHandler);
-        document.getElementById('end').addEventListener('change', onChangeHandler);
-      }
-
-      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        directionsService.route({
-          origin: document.getElementById('start').value,
-          destination: document.getElementById('end').value,
-          travelMode: 'DRIVING'
-        }, function(response, status) {
-          if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB06z0_vkU-VpoJg5be2C3iJwiscmMnQPg&callback=initMap">
-    </script>
 </body>
 </html>
-<!-- API key => AIzaSyB06z0_vkU-VpoJg5be2C3iJwiscmMnQPg -->
