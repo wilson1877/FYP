@@ -210,9 +210,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="activity_box activity_box1">
 						<h3>iBuzz News</h3>
 							<div class="scrollbar" id="style-2">
-								<div class="activity-row activity-row1">
-									<b>24/9/18</b>
-									<p>It's been 2 weeks and I'm still looking up of videos of Spider-Man in PS4</p>
+							<div class="activity-row activity-row1">
+									<b>16/11/18</b>
+									<p>IBuzz version 1 created!</p>
 									<div class="clearfix"> </div>
 								</div>
 								<div class="activity-row activity-row1">
@@ -238,11 +238,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="switch-right-grid">
 						<div class="switch-right-grid1">
 							<h3>TODAY'S STATS</h3>
-							<p>Duis aute irure dolor in reprehenderit.</p>
 							<ul>
-								<li>Earning: $400 USD</li>
+								<li>Earning: $400</li>
 								<li>Items Sold: 20 Items</li>
-								<li>Last Hour Sales: $34 USD</li>
+								<li>Last Hour Sales: $34</li>
 							</ul>
 						</div>
 					</div>
@@ -270,11 +269,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="switch-right-grid">
 						<div class="switch-right-grid1">
 							<h3>MONTHLY STATS</h3>
-							<p>Duis aute irure dolor in reprehenderit.</p>
 							<ul>
-								<li>Earning: $5,000 USD</li>
+								<li>Earning: $5,000</li>
 								<li>Items Sold: 400 Items</li>
-								<li>Last Hour Sales: $2,434 USD</li>
+								<li>Last Hour Sales: $2,434</li>
 							</ul>
 						</div>
 					</div>
@@ -305,11 +303,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="switch-right-grid">
 						<div class="switch-right-grid1">
 							<h3>ALLTIME STATS</h3>
-							<p>Duis aute irure dolor in reprehenderit.</p>
 							<ul>
-								<li>Earning: $80,000 USD</li>
+								<li>Earning: $80,000</li>
 								<li>Items Sold: 8,000 Items</li>
-								<li>Last Hour Sales: $75,434 USD</li>
+								<li>Last Hour Sales: $75,434</li>
 							</ul>
 						</div>
 					</div>

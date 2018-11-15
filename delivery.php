@@ -59,11 +59,6 @@ include "include/navbar.php";
 			background-color: brown;
 			color: #FFF;
 		}
-
-		@media screen and (max-width: 768px) {
-	            .menu-right{float: right !important;}
-	        }
-			
 	</style><!--//end-animate-->
 	<!--==webfonts=-->
 	<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'><!---//webfonts=-->
@@ -213,13 +208,25 @@ include "include/navbar.php";
 
 						<center>
 							<p>
-							<a href="#" onClick="addDelivery()" class="btn btn-warning" contenteditable="false" name="editInvoice"><span class="glyphicon  glyphicon-user"></span> Make Delivery</a>
+							<a href="#" onClick="addDelivery()" class="btn btn-warning" contenteditable="false" name="addDelivery"><span class="lnr lnr-car"></span> Make Delivery</a>
 
 							<script>
 							function addDelivery(){
 									var theform = document.getElementById("actionSender");
 									theform.action="deliveryOrder.php";
 									theform.submit()
+							}
+							</script>
+
+							<a href="#" onClick="markDelivered()" class="btn btn-warning" contenteditable="false" name="markDelivered"><span class="glyphicon  glyphicon-ok"></span> Mark as Delivered</a>
+							<script>
+							function markDelivered(){
+								if(confirm("Are you sure you want to mark these invoices as delivered?\nThis process can't be undone!")){
+									var theform = document.getElementById("actionSender");
+									theform.action="deliveredOrder.php";
+									theform.method="post";
+									theform.submit()
+								}
 							}
 							</script>
 						</center>
