@@ -258,6 +258,7 @@ include "include/navbar.php";
 							<tbody>
 								<?php
 								$oldCustomerID = "";
+								$rowNumber = 1;
 								$grandtotal = 0.00;
 								$sql = "SELECT * FROM creditdebit WHERE customerID = '$inputtedID'";
 								$result = mysqli_query($con, $sql); //Getting
@@ -281,7 +282,8 @@ include "include/navbar.php";
 
 										<?php if ($row["debit"] > 0){?>
 										<tr>
-											<td><?php echo $row["ID"] ?></td>
+											<!--<td><?php echo $row["ID"] ?></td>-->
+											<td><?php echo $rowNumber ?></td>
 											<td><?php echo $row["date"] ?></td>
 											<td><?php echo $row["invoiceID"] ?></td>
 											<td><?php echo $row["debit"] ?></td>
@@ -290,7 +292,7 @@ include "include/navbar.php";
 											<td><?php echo $row["notes"] ?></td>
 										<?php }else if ($row["credit"] > 0){?>
 										<tr onclick="selectInvoice(<?php echo $row["ID"]?>)" id="Srow<?php echo $row["ID"]?>">
-											<td style="font-weight: bold;color:#0cb514"><?php echo $row["ID"] ?></td>
+											<td style="font-weight: bold;color:#0cb514"><?php echo $rowNumber ?></td>
 											<td style="font-weight: bold;color:#0cb514"><?php echo $row["date"] ?></td>
 											<td style="font-weight: bold;color:#0cb514"></td>
 											<td style="font-weight: bold;color:#0cb514"></td>
@@ -300,6 +302,7 @@ include "include/navbar.php";
 										<?php }?>
 									</tr>
 									<?php
+									$rowNumber++;
 									}
 								}
 								else{
@@ -327,7 +330,7 @@ include "include/navbar.php";
 				<script>
 				function removeInvoice(){
 					if (document.getElementById("selectedID").value < 1 ){
-						alert("No Invoice selected");
+						alert("No Credit Row selected");
 					}
 					else {
 						if (confirm('Deleting Credit Row. Are you sure?')){
