@@ -119,15 +119,6 @@ if (isset($_POST['submitAdd'])) {
 		$sqlUpdate = "UPDATE invoice SET totalPrice= '$totalPrice' WHERE invoiceID = '$invoiceID'";
 		$con -> query($sqlUpdate);
 
-		$file = 'userlog.log';
-	    // The new person to add to the file
-	    date_default_timezone_set("Asia/Kuala_Lumpur");
-	    $log = "\n" . date("d-m-Y h:i:sa") . " - User " . $_SESSION['username'] . " successfully change stock " . $stockName . "'s price to RM" . $totalPrice . ".";
-	    // Write the contents to the file,
-	    // using the FILE_APPEND flag to append the content to the end of the file
-	    // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
-	    file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
-
 		//Adding into Debit Section for Audit Recording
 		//Debit = Add more money, Credit = Remove money
 
@@ -142,6 +133,11 @@ if (isset($_POST['submitAdd'])) {
 	    // using the FILE_APPEND flag to append the content to the end of the file
 	    // and the LOCK_EX flag to prevent anyone else writing to the file at the same time
 	    file_put_contents($file, $log, FILE_APPEND | LOCK_EX);
+		
+		echo
+		"<script>
+		location.href='invoice.php';
+		</script>";
 	}
 }
 
